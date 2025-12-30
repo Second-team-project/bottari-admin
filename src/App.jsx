@@ -1,29 +1,16 @@
-import './App.css'
-
+import './App.css';
 import { Outlet } from 'react-router-dom';
-// import { useEffect } from 'react';
-// import axiosIns from './api/axiosInstance.js';
+import Menu from './components/common/Menu';
 
 function App() {
-
-  // 백엔드 연결 테스트
-  // useEffect(() => {
-  //   console.log('API URL:', import.meta.env.VITE_API_URL);
-  //   const test = async () => {
-  //     const res = await axiosIns.get('/test/success');
-  //     console.log(res.data);
-  //   };
-  //   test();
-  // }, []);
-
   return (
     <>
-      <div className='app-container'>
-        
+      <div className="app-container">
+        <Menu />
         <Outlet />
       </div>
     </>
   )
 }
 
-export default App
+export default App;

@@ -2,15 +2,15 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // 컴포넌트
 import App from "../App.jsx";
-import Main from "../components/main/Main.jsx";
+import Monitoring from "../components/monitoring/Monitoring.jsx";
 
 const router = createBrowserRouter([
   {
     element: <App />,
     children: [
       {
-        path: "/",
-        element: <Main />,
+        path: "/monitoring",
+        element: <Monitoring />,
       },
     ],
   },
