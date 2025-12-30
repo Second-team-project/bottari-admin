@@ -7,17 +7,21 @@
 .reservation-table-top {
   display: grid;
   grid-template-columns: repeat(13, 1fr);
-  background-color: #999999;
+  background-color: var(--bottari-grayfont);
+  color: #fff;
   text-align: center;
   align-items: center;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
 }
 
 .reservation-table-middle {
   display: grid;
   grid-template-columns: repeat(13, 1fr);
-  background-color: #FBEFEF;
+  background-color: #fff;
   text-align: center;
   align-items: center;
+  border-bottom: 1px solid #000;
 }
 
 .reservation-hr {

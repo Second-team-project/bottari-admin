@@ -1,18 +1,21 @@
 .menu-container {
+  padding: 5px 0;
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
   align-items: center;
+  background-color: var(--bottari-coolgray);
+  gap: 10px;
 }
 
-.menu-redirect-div {
-  width: 100%;
-  height: 90px;
-  line-height: 90px;
-  text-align: center;
-  font-size: 24px;
-  font-weight: 700;
+.redirect-menu {
+  padding: 15px 35px;
+  width: 170px;
+  font-size: 17px;
+  font-weight: 500;
 }
 
-.menu-redirect-div:hover {
+.redirect-menu:hover {
+  background-color: var(--bottari-darkslate);
+  color: #fff;
   cursor: pointer;
 }
