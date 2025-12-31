@@ -1,0 +1,57 @@
+.AnnouncementList-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.AnnouncementList {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0px auto;
+  margin-bottom: 24px;
+  flex: 1;
+  width: 1100px;
+  gap: 48px;
+}
+
+.recentlyAnnouncement {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 24px;
+}
+
+.recentlyAnnouncement h3{
+  padding-left: 40px;
+}
+
+.Announcement-button {
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  gap: 10px;
+}
+
+.editorButton {
+  text-align: center;
+  line-height: 50px;
+  width: 125px;
+  height: 50px;
+  border-radius: 5px;
+  background-color: #ACFFFF;
+}
+
+.deleteButton {
+  text-align: center;
+  line-height: 50px;
+  width: 125px;
+  height: 50px;
+  border-radius: 5px;
+  background-color: #ACFFFF;
+}
+
+.Announcement-hr {
+  width: 1100px;
+  margin: 0 auto;
+  border: 1px solid #000;
+}
