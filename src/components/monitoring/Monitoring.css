@@ -1,6 +1,5 @@
 .monitoring-container {
-  padding: 35px;
-  background-color: var(--bottari-offwhite);
+  padding: 0 35px 35px;
   display: flex;
   flex-direction: column;
   gap: 30px;

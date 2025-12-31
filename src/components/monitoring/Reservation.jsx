@@ -1,3 +1,4 @@
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import './Reservation.css';
 
 export default function Reservation() {
@@ -110,9 +111,15 @@ export default function Reservation() {
         <div className="reservation-empty5"></div>
         <div className="periodOfSignIn">신청일자</div>
        </div>
+
+        {/* 페이지 버튼 */}
+        <div className='pagenation-btn-container'>
+          <ChevronLeft className='pagenation-btn' color="#6B7280" size={22}/>
+          <p className='page-number'>1</p>
+          <ChevronRight className='pagenation-btn' color="#6B7280" size={22} />
+        </div>
       </div>
 
-      {/* TODO : 페이지 버튼 만들기 */}
     </>
   )
 }

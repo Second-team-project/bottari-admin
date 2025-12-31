@@ -1,0 +1,14 @@
+.reservation-list-container {
+  padding: 0 35px 35px;
+}
+
+.reservation-list-title {
+  margin-bottom: 20px;
+}
+
+.reservation-search-container {
+  width: 100%;
+  padding: 20px;
+  background-color: var(--bottari-grayfont);
+  border-radius: 10px;
+}
