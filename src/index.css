@@ -6,8 +6,9 @@
 
 #root {
   width: 1440px;
+  min-height: 100vh;
   margin: 0 auto;
-  background-color: var(--bottari-background);
+  background-color: var(--bottari-offwhite);
 }
 
 :root {
@@ -22,6 +23,11 @@
   --bottari-gray: #888888;
   --bottari-input: #EEEEEE;
   --bottari-placeholder: #777777;
+  --bottari-offwhite: #F9FAFB;
+  --bottari-coolgray: #E5E7EB;
+  --bottari-darkslate: #111827;
+  --bottari-grayfont: #6B7280;
+  --bottari-stealgray: #E5E7EB;
 }
 
 
