@@ -1,0 +1,100 @@
+/* FAQ 목록 페이지 */
+.faq-list-page {
+  padding: 35px;
+}
+
+.faq-list-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-add-faq {
+  background-color: var(--bottari-navy);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 테이블 */
+.faq-list-table {
+  width: 100%;
+  border: 1px solid var(--bottari-lightgray);
+  border-radius: 8px;
+}
+
+/* 헤더: 번호(60) 카테고리(100) 질문(1fr) 작성일(150) 관리(120) */
+.faq-list-header {
+  display: grid;
+  grid-template-columns: 60px 100px 1fr 150px 120px;
+  background-color: var(--bottari-grayfont);
+  color: #fff;
+  text-align: center;
+  align-items: center;
+  padding: 12px 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.faq-list-row {
+  display: grid;
+  grid-template-columns: 60px 100px 1fr 150px 120px;
+  background-color: #fff;
+  text-align: center;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--bottari-lightgray);
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 0.85rem;
+}
+
+.faq-list-row:hover {
+  background-color: #f9fafb;
+}
+
+/* 카테고리 배지 */
+.faq-list-col-category span {
+  background-color: #f3f4f6;
+  color: #4b5563;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* 제목 왼쪽 정렬 */
+.faq-list-col-question {
+  text-align: left;
+  padding-left: 20px;
+  font-weight: 500;
+  color: var(--bottari-darkslate);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.faq-list-col-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* 페이지네이션 */
+.faq-list-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 25px;
+  padding-bottom: 40px;
+}
