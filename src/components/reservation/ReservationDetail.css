@@ -1,0 +1,104 @@
+/* 사이드 패널 */
+.reservation-detail-panel {
+  width: 400px;
+  background-color: #fff;
+  border-left: 1px solid var(--bottari-lightgray);
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.3s ease;
+  flex-shrink: 0;
+  
+  /* 스크롤 시 화면에 고정 (Sticky) */
+  position: sticky;
+  top: 0;
+  height: 100vh; /* 화면 높이만큼 꽉 채움 */
+  overflow-y: auto; /* 내용이 많으면 패널 내부 스크롤 */
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.reservation-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid var(--bottari-lightgray);
+}
+
+.reservation-detail-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.reservation-detail-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--bottari-gray);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.reservation-detail-close:hover {
+  background-color: var(--bottari-lightgray);
+  color: var(--bottari-darkslate);
+}
+
+.reservation-detail-content {
+  flex: 1;
+  padding: 20px;
+  /* overflow-y: auto; -> 부모(panel)에서 스크롤 처리하므로 제거하거나 유지해도 됨 */
+}
+
+.reservation-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--bottari-lightgray);
+}
+
+.reservation-detail-label {
+  font-size: 0.85rem;
+  color: var(--bottari-gray);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.reservation-detail-value {
+  font-size: 0.9rem;
+  color: var(--bottari-darkslate);
+  text-align: right;
+  max-width: 65%;
+  word-break: break-all;
+}
+
+.reservation-detail-actions {
+  padding: 20px;
+  border-top: 1px solid var(--bottari-lightgray);
+  display: flex;
+  gap: 12px;
+  margin-top: auto; /* 내용이 적어도 버튼은 하단으로 */
+}
+
+.reservation-detail-actions .btn-edit,
+.reservation-detail-actions .btn-delete {
+  flex: 1;
+  padding: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
