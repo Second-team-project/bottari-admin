@@ -1,0 +1,121 @@
+/* 사이드 패널 */
+.driver-detail-panel {
+  width: 400px;
+  background-color: #fff;
+  border-left: 1px solid var(--bottari-lightgray);
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.3s ease;
+  flex-shrink: 0;
+  
+  /* 스크롤 시 화면에 고정 (Sticky) */
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.driver-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid var(--bottari-lightgray);
+}
+
+.driver-detail-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.driver-detail-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--bottari-gray);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.driver-detail-close:hover {
+  background-color: var(--bottari-lightgray);
+  color: var(--bottari-darkslate);
+}
+
+.driver-detail-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.driver-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--bottari-lightgray);
+}
+
+.driver-detail-label {
+  font-size: 0.85rem;
+  color: var(--bottari-gray);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.driver-detail-value {
+  font-size: 0.9rem;
+  color: var(--bottari-darkslate);
+  text-align: right;
+  max-width: 65%;
+  word-break: break-all;
+}
+
+/* 특이사항은 좀 더 크게 보여줄 수 있음 */
+.driver-detail-memo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--bottari-lightgray);
+}
+
+.driver-detail-memo .driver-detail-value {
+  text-align: left;
+  max-width: 100%;
+  background-color: #f9fafb;
+  padding: 10px;
+  border-radius: 4px;
+  min-height: 80px;
+}
+
+.driver-detail-actions {
+  padding: 20px;
+  border-top: 1px solid var(--bottari-lightgray);
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.driver-detail-actions .btn-edit,
+.driver-detail-actions .btn-delete {
+  flex: 1;
+  padding: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
