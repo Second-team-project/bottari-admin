@@ -1,0 +1,95 @@
+/* 보관소 목록 페이지 */
+.store-list-page {
+  padding: 35px;
+}
+
+.store-list-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-add-store {
+  background-color: var(--bottari-navy);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 테이블 */
+.store-list-table {
+  width: 100%;
+  border: 1px solid var(--bottari-lightgray);
+  border-radius: 8px;
+}
+
+/* 헤더: 번호(60) 코드(100) 이름(150) 연락처(150) 주소(1fr) 관리(120) */
+.store-list-header {
+  display: grid;
+  grid-template-columns: 60px 100px 150px 150px 1fr 120px;
+  background-color: var(--bottari-grayfont);
+  color: #fff;
+  text-align: center;
+  align-items: center;
+  padding: 12px 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.store-list-row {
+  display: grid;
+  grid-template-columns: 60px 100px 150px 150px 1fr 120px;
+  background-color: #fff;
+  text-align: center;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--bottari-lightgray);
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 0.85rem;
+}
+
+.store-list-row:hover {
+  background-color: #f9fafb;
+}
+
+/* 주소 왼쪽 정렬 */
+.store-list-col-addr {
+  text-align: left;
+  padding-left: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 코드 강조 */
+.store-list-col-code {
+  font-family: monospace;
+  font-weight: 600;
+  color: var(--bottari-navy);
+}
+
+.store-list-col-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* 페이지네이션 */
+.store-list-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 25px;
+  padding-bottom: 40px;
+}
