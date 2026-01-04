@@ -1,29 +1,30 @@
 /* 페이지 전체 레이아웃 */
-.reservation-list-page {
+.driver-list-page {
   display: flex;
-  align-items: flex-start; /* 높이를 꽉 채우지 않고 내용만큼만 */
+  align-items: flex-start;
   min-height: 100vh;
   position: relative;
 }
 
 /* 리스트 컨테이너 */
-.reservation-list-container {
-  flex: 1; /* 남은 공간 차지 */
+.driver-list-container {
+  flex: 1;
   padding: 35px;
   min-width: 0; 
 }
 
 /* 테이블 */
-.reservation-list-table {
+.driver-list-table {
   width: 100%;
   border: 1px solid var(--bottari-lightgray);
-  border-radius: 8px; /* overflow: hidden 없어도 border가 있으면 됨 */
+  border-radius: 8px;
 }
 
 /* 테이블 헤더 (Sticky) */
-.reservation-list-header {
+/* 번호(60) 이름(100) 연락처(150) 차량번호(120) 배송건수(100) 등록일(1fr) 관리(120) */
+.driver-list-header {
   display: grid;
-  grid-template-columns: 60px 80px 1fr 1fr 120px 100px 120px;
+  grid-template-columns: 60px 100px 150px 120px 100px 1fr 120px;
   background-color: var(--bottari-grayfont);
   color: #fff;
   text-align: center;
@@ -32,16 +33,15 @@
   font-weight: 600;
   font-size: 0.9rem;
   
-  /* 스티키 설정 (브라우저 전체 스크롤 기준) */
   position: sticky;
   top: 0; 
   z-index: 10;
 }
 
 /* 테이블 행 */
-.reservation-list-row {
+.driver-list-row {
   display: grid;
-  grid-template-columns: 60px 80px 1fr 1fr 120px 100px 120px;
+  grid-template-columns: 60px 100px 150px 120px 100px 1fr 120px;
   background-color: #fff;
   text-align: center;
   align-items: center;
@@ -52,31 +52,30 @@
   font-size: 0.85rem;
 }
 
-.reservation-list-row:hover {
+.driver-list-row:hover {
   background-color: #f9fafb;
 }
 
-.reservation-list-row.selected {
+.driver-list-row.selected {
   background-color: #e0f2fe;
 }
 
 /* 컬럼 스타일 */
-.reservation-list-col-no {
+.driver-list-col-no {
   color: var(--bottari-gray);
 }
 
-.reservation-list-col-type {
+.driver-list-col-name {
   font-weight: 500;
 }
 
-.reservation-list-col-actions {
+.driver-list-col-actions {
   display: flex;
   gap: 8px;
   justify-content: center;
 }
 
-/* 버튼 (공통 버튼이라 접두어 제외 가능하지만, 규칙대로라면 reservation-list-btn-edit) */
-/* 하지만 btn-edit 등은 공통 유틸 클래스일 수도 있으니 일단 유지하거나, 필요시 변경 */
+/* 버튼 (공통 사용) */
 .btn-edit,
 .btn-delete {
   padding: 4px 10px;
@@ -103,7 +102,7 @@
 }
 
 /* 페이지네이션 */
-.reservation-list-pagination {
+.driver-list-pagination {
   display: flex;
   justify-content: center;
   align-items: center;

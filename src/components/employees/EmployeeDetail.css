@@ -1,5 +1,5 @@
 /* 사이드 패널 */
-.reservation-detail-panel {
+.employee-detail-panel {
   width: 400px;
   background-color: #fff;
   border-left: 1px solid var(--bottari-lightgray);
@@ -8,11 +8,10 @@
   animation: slideIn 0.3s ease;
   flex-shrink: 0;
   
-  /* 스크롤 시 화면에 고정 (Sticky) */
   position: sticky;
   top: 0;
-  height: 100vh; /* 화면 높이만큼 꽉 채움 */
-  overflow-y: auto; /* 내용이 많으면 패널 내부 스크롤 */
+  height: 100vh;
+  overflow-y: auto;
 }
 
 @keyframes slideIn {
@@ -26,7 +25,7 @@
   }
 }
 
-.reservation-detail-header {
+.employee-detail-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -34,13 +33,13 @@
   border-bottom: 1px solid var(--bottari-lightgray);
 }
 
-.reservation-detail-header h3 {
+.employee-detail-header h3 {
   margin: 0;
   font-size: 1.1rem;
   font-weight: 600;
 }
 
-.reservation-detail-close {
+.employee-detail-close {
   background: none;
   border: none;
   cursor: pointer;
@@ -53,18 +52,17 @@
   transition: background-color 0.2s;
 }
 
-.reservation-detail-close:hover {
+.employee-detail-close:hover {
   background-color: var(--bottari-lightgray);
   color: var(--bottari-darkslate);
 }
 
-.reservation-detail-content {
+.employee-detail-content {
   flex: 1;
   padding: 20px;
-  /* overflow-y: auto; -> 부모(panel)에서 스크롤 처리하므로 제거하거나 유지해도 됨 */
 }
 
-.reservation-detail-row {
+.employee-detail-row {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -72,14 +70,14 @@
   border-bottom: 1px solid var(--bottari-lightgray);
 }
 
-.reservation-detail-label {
+.employee-detail-label {
   font-size: 0.85rem;
   color: var(--bottari-gray);
   font-weight: 500;
   white-space: nowrap;
 }
 
-.reservation-detail-value {
+.employee-detail-value {
   font-size: 0.9rem;
   color: var(--bottari-darkslate);
   text-align: right;
@@ -87,16 +85,16 @@
   word-break: break-all;
 }
 
-.reservation-detail-actions {
+.employee-detail-actions {
   padding: 20px;
   border-top: 1px solid var(--bottari-lightgray);
   display: flex;
   gap: 12px;
-  margin-top: auto; /* 내용이 적어도 버튼은 하단으로 */
+  margin-top: auto;
 }
 
-.reservation-detail-actions .btn-edit,
-.reservation-detail-actions .btn-delete {
+.employee-detail-actions .btn-edit,
+.employee-detail-actions .btn-delete {
   flex: 1;
   padding: 12px;
   font-size: 0.9rem;

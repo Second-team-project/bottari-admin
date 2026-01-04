@@ -21,13 +21,16 @@ export default function Menu() {
             <BottariLogo2 className='bottari-logo' width={130} height={80} />
             <nav className='redirect-menu-container'>
               <Link className="redirect-menu" to="/monitoring">통합 모니터링</Link>
-              <Link className="redirect-menu" to="/ReservationList">예약 관리</Link>
-              <Link className="redirect-menu">기사 관리</Link>
-              <Link className="redirect-menu">직원 관리</Link>
-              <Link className="redirect-menu">공지사항 관리</Link>
-              <Link className="redirect-menu">팝업 관리</Link>
-              <Link className="redirect-menu">요금 관리</Link>  
-              <Link className="redirect-menu">FAQ 관리</Link>
+              <Link className="redirect-menu" to="/reservations">예약 관리</Link>
+              <Link className="redirect-menu" to="/drivers">기사 관리</Link>
+              <Link className="redirect-menu" to="/employees">직원 관리</Link>
+              <Link className="redirect-menu" to="/users">회원 관리</Link>
+              <Link className="redirect-menu" to="/notice">공지사항 관리</Link>
+              <Link className="redirect-menu" to="/faq">FAQ 관리</Link>
+              <Link className="redirect-menu" to="/image">배너 관리</Link>
+              <Link className="redirect-menu" to="/pricing">요금 관리</Link>  
+              <Link className="redirect-menu" to="/store">보관소 관리</Link>  
+              {/* <Link className="redirect-menu" to="/reservation">팝업 관리</Link> */}
             </nav>
           </div>
         )
