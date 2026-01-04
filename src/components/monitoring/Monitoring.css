@@ -1,5 +1,5 @@
 .monitoring-container {
-  padding: 0 35px 35px;
+  padding: 35px;
   display: flex;
   flex-direction: column;
   gap: 30px;
