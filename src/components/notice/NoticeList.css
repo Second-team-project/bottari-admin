@@ -1,0 +1,91 @@
+/* 공지사항 목록 페이지 */
+.notice-list-page {
+  padding: 35px;
+}
+
+.notice-list-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-add-notice {
+  background-color: var(--bottari-navy);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 테이블 */
+.notice-list-table {
+  width: 100%;
+  border: 1px solid var(--bottari-lightgray);
+  border-radius: 8px;
+}
+
+/* 헤더: 번호(60) 제목(1fr) 작성자(120) 작성일(150) 관리(120) */
+.notice-list-header {
+  display: grid;
+  grid-template-columns: 60px 1fr 120px 150px 120px;
+  background-color: var(--bottari-grayfont);
+  color: #fff;
+  text-align: center;
+  align-items: center;
+  padding: 12px 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.notice-list-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 120px 150px 120px;
+  background-color: #fff;
+  text-align: center;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--bottari-lightgray);
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 0.85rem;
+}
+
+.notice-list-row:hover {
+  background-color: #f9fafb;
+}
+
+/* 제목 왼쪽 정렬 */
+.notice-list-col-title {
+  text-align: left;
+  padding-left: 20px;
+  font-weight: 500;
+  color: var(--bottari-darkslate);
+  /* 한 줄 말줄임 처리 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notice-list-col-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* 페이지네이션 */
+.notice-list-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 25px;
+  padding-bottom: 40px;
+}
