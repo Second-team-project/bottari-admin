@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import './MonthlyStats.css';
 import { useMemo } from 'react';
 
-export default function MonthlySummary() {
+export default function MonthlyStats() {
   const { monthlyStats } = useSelector((state) => state.stats);
 
   // 데이터 합계 계산 (useMemo를 써서 데이터가 바뀔 때만 재계산)

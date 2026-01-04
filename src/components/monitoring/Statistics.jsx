@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import './Statistics.css';
-import { getDailyStats } from '../../store/thunks/statsThunk.js';
+import { getDailyStatsThunk } from '../../store/thunks/statsThunk.js';
 import { useEffect } from 'react';
 
 export default function Statistics() {
@@ -8,7 +8,7 @@ export default function Statistics() {
   const { dailyStats, loading } = useSelector((state) => state.stats);
 
   useEffect(() => {
-    dispatch(getDailyStats());
+    dispatch(getDailyStatsThunk());
   }, []);
 
   // 데이터가 아직 없거나 로딩 중일 때 보여줄 임시 값

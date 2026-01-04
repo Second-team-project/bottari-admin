@@ -2,8 +2,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosIns from "../../api/axiosInstance.js";
 
 // 일별 통계
-export const getDailyStats = createAsyncThunk(
-  'stats/getDailyStats',
+export const getDailyStatsThunk = createAsyncThunk(
+  'stats/getDailyStatsThunk',
   async (_, { rejectWithValue }) => {
     try {
       // 주소: /api/admin/stats/daily
@@ -17,8 +17,8 @@ export const getDailyStats = createAsyncThunk(
 );
 
 // 월별 통계
-export const getMonthlyStats = createAsyncThunk(
-  'stats/getMonthlyStats',
+export const getMonthlyStatsThunk = createAsyncThunk(
+  'stats/getMonthlyStatsThunk',
   async (year, { rejectWithValue }) => {
     try {
       // 주소: /api/admin/stats/monthly?year=2024

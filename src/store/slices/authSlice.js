@@ -3,7 +3,7 @@ import { loginThunk, reissueThunk } from '../thunks/authThunk.js';
 
 const initialState = {
   accessToken: null,
-  user: null,
+  admin: null,
   isLoggedIn: false,
 }
 
@@ -13,22 +13,22 @@ const slice = createSlice({
   reducers: {
     clearAuth(state) {
       state.accessToken = null;
-      state.user = null;
+      state.admin = null;
       state.isLoggedIn = false;
     }
   },
   extraReducers: builder => {
     builder
       .addCase(loginThunk.fulfilled, (state, action) => {
-        const { accessToken, user } = action.payload.data;
+        const { accessToken, admin } = action.payload.data;
         state.accessToken = accessToken;
-        state.user = user;
+        state.admin = admin;
         state.isLoggedIn = true;
       })
       .addCase(reissueThunk.fulfilled, (state, action) => {
-        const { accessToken, user } = action.payload.data;
+        const { accessToken, admin } = action.payload.data;
         state.accessToken = accessToken;
-        state.user = user;
+        state.admin = admin;
         state.isLoggedIn = true;
       })
   }
