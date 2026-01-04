@@ -1,14 +1,122 @@
+/* 페이지 전체 레이아웃 */
+.reservation-list-page {
+  display: flex;
+  align-items: flex-start; /* 높이를 꽉 채우지 않고 내용만큼만 */
+  min-height: 100vh;
+  position: relative;
+}
+
+/* 리스트 컨테이너 */
 .reservation-list-container {
-  padding: 0 35px 35px;
+  flex: 1; /* 남은 공간 차지 */
+  padding: 35px;
+  min-width: 0; 
 }
 
-.reservation-list-title {
-  margin-bottom: 20px;
-}
-
-.reservation-search-container {
+/* 테이블 */
+.reservation-list-table {
   width: 100%;
-  padding: 20px;
+  border: 1px solid var(--bottari-lightgray);
+  border-radius: 8px; /* overflow: hidden 없어도 border가 있으면 됨 */
+}
+
+/* 테이블 헤더 (Sticky) */
+.reservation-list-header {
+  display: grid;
+  grid-template-columns: 60px 80px 1fr 1fr 120px 100px 120px;
   background-color: var(--bottari-grayfont);
-  border-radius: 10px;
+  color: #fff;
+  text-align: center;
+  align-items: center;
+  padding: 12px 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+  
+  /* 스티키 설정 (브라우저 전체 스크롤 기준) */
+  position: sticky;
+  top: 0; 
+  z-index: 10;
+}
+
+/* 테이블 행 */
+.reservation-list-row {
+  display: grid;
+  grid-template-columns: 60px 80px 1fr 1fr 120px 100px 120px;
+  background-color: #fff;
+  text-align: center;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--bottari-lightgray);
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 0.85rem;
+}
+
+.reservation-list-row:hover {
+  background-color: #f9fafb;
+}
+
+.reservation-list-row.selected {
+  background-color: #e0f2fe;
+}
+
+/* 컬럼 스타일 */
+.reservation-list-col-no {
+  color: var(--bottari-gray);
+}
+
+.reservation-list-col-type {
+  font-weight: 500;
+}
+
+.reservation-list-col-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* 버튼 (공통 버튼이라 접두어 제외 가능하지만, 규칙대로라면 reservation-list-btn-edit) */
+/* 하지만 btn-edit 등은 공통 유틸 클래스일 수도 있으니 일단 유지하거나, 필요시 변경 */
+.btn-edit,
+.btn-delete {
+  padding: 4px 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-edit {
+  background-color: var(--bottari-navy);
+  color: #fff;
+}
+
+.btn-delete {
+  background-color: var(--bottari-coolgray);
+  color: var(--bottari-darkslate);
+}
+
+.btn-edit:hover,
+.btn-delete:hover {
+  opacity: 0.8;
+}
+
+/* 페이지네이션 */
+.reservation-list-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+  padding-bottom: 30px;
+}
+
+.pagination-btn {
+  cursor: pointer;
+}
+
+.page-number {
+  font-weight: 600;
+  color: var(--bottari-darkslate);
 }
