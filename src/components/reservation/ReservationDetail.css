@@ -102,3 +102,36 @@
   font-size: 0.9rem;
   font-weight: 600;
 }
+
+.detail-input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--bottari-lightgray, #ddd); /* 변수 없으면 회색 */
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: var(--bottari-darkslate, #333);
+  background-color: #fff;
+}
+
+.detail-input:focus {
+  outline: none;
+  border-color: var(--bottari-navy, #333);
+}
+
+/* 상태 뱃지 */
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.status-badge.PENDING_PAYMENT {
+  background-color: #fff3cd; color: #856404;
+}
+.status-badge.RESERVED {
+  background-color: #d4edda; color: #155724;
+}
+.status-badge.CANCELLED {
+  background-color: #f8d7da; color: #721c24;
+}

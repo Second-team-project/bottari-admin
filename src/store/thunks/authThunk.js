@@ -5,14 +5,14 @@ export const loginThunk = createAsyncThunk(
   'auth/loginThunk',
   async (args, {rejectWithValue}) => {
     try {
-      const url = '/api/auth/login';
+      const url = '/api/admin/auth/login';
       const { accountId, password } = args;
       
       const response = await axiosIns.post(url, { accountId, password });
 
       return response.data;
     } catch(error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.response?.data);
     }
   }
 );
@@ -28,7 +28,7 @@ export const reissueThunk = createAsyncThunk(
 
       return response.data;
     } catch(error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.response?.data);
     }
   }
 )
@@ -44,7 +44,7 @@ export const logoutThunk = createAsyncThunk(
 
       return response.data;
     } catch(error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.response?.data);
     }
   }
 )

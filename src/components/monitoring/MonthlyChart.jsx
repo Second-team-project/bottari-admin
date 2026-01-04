@@ -28,6 +28,11 @@ ChartJS.register(
 export default function MonthlyChart() {
   const { monthlyStats } = useSelector((state) => state.stats);
 
+  // 데이터가 아직 없거나 비어있을 때
+  if (!monthlyStats || monthlyStats.length === 0) {
+    return <div className="monthly-chart-container">데이터 로딩 중...</div>;
+  }
+
   // 차트에 들어갈 데이터 가공
   // monthlyStats가 없으면 빈 배열로 처리해서 에러 방지
   const labels = monthlyStats.map((data) => {
@@ -39,17 +44,17 @@ export default function MonthlyChart() {
     labels,
     datasets: [
       {
-        type: 'line', // 선 그래프 (매출)
+        type: 'line', // 선 그래프(매출)
         label: '월 매출 (원)',
         data: monthlyStats.map((data) => data.totalRevenue),
-        borderColor: '#F59E0B', // 노란/골드색
+        borderColor: '#F59E0B', // 노란 골드색
         backgroundColor: '#F59E0B',
         yAxisID: 'y_revenue', // 오른쪽 축 사용
         tension: 0.3, // 곡선 부드럽게
         borderWidth: 2,
       },
       {
-        type: 'bar', // 막대 그래프 (배송)
+        type: 'bar', // 막대 그래프(배송)
         label: '배송 건수',
         data: monthlyStats.map((data) => data.totalDelivery),
         backgroundColor: '#3B82F6', // 파란색
@@ -57,7 +62,7 @@ export default function MonthlyChart() {
         yAxisID: 'y_count', // 왼쪽 축 사용
       },
       {
-        type: 'bar', // 막대 그래프 (보관)
+        type: 'bar', // 막대 그래프(보관)
         label: '보관 건수',
         data: monthlyStats.map((data) => data.totalStorage),
         backgroundColor: '#10B981', // 초록색
@@ -67,7 +72,7 @@ export default function MonthlyChart() {
     ],
   };
 
-  // 2. 차트 옵션 설정 (축, 툴팁 등)
+  // 차트 옵션 설정(축, 툴팁 등)
   const options = {
     responsive: true,
     maintainAspectRatio: false, // 컨테이너 크기에 맞춤
@@ -84,7 +89,7 @@ export default function MonthlyChart() {
       },
     },
     scales: {
-      // 왼쪽 축 (건수)
+      // 왼쪽 축(건수)
       y_count: {
         type: 'linear',
         display: true,
@@ -94,10 +99,10 @@ export default function MonthlyChart() {
           text: '예약 건수 (건)',
         },
         grid: {
-          display: false, // 격자 숨김 (깔끔하게)
+          display: false, // 격자 숨김
         },
       },
-      // 오른쪽 축 (매출)
+      // 오른쪽 축(매출)
       y_revenue: {
         type: 'linear',
         display: true,
@@ -110,8 +115,7 @@ export default function MonthlyChart() {
           drawOnChartArea: true, // 오른쪽 축 기준 격자 표시
         },
         ticks: {
-          // 축에 '원' 단위 붙이기 등 커스텀 가능
-          callback: function (value) {
+          callback: function(value) {
             return value.toLocaleString();
           },
         },
