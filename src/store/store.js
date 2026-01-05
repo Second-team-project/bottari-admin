@@ -5,6 +5,7 @@ import menuReducer from "./slices/menuSlice.js";
 import statsReducer from "./slices/statsSlice.js";
 import authReducer from "./slices/authSlice.js";
 import reservationReducer from "./slices/reservationSlice.js";
+import driverReducer from "./slices/driverSlice.js";
 
 export default configureStore({
   reducer: {
@@ -12,5 +13,6 @@ export default configureStore({
     stats: statsReducer,
     auth: authReducer,
     reservation: reservationReducer,
+    driver: driverReducer,
   }
 });
