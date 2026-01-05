@@ -1,13 +1,26 @@
 import './App.css';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Menu from './components/common/Menu';
+import Header from './components/common/Header.jsx';
 
 function App() {
+  const location = useLocation();
+
+  // 로그인 페이지인지 체크
+  const isLoginPage = location.pathname === '/login';
+
   return (
     <>
-      <div className="app-container">
+      <div className={isLoginPage ? "app-login-container" : "app-container"}>
         <Menu />
-        <Outlet />
+        {isLoginPage ? (
+            <Outlet />
+        ) : (
+            <div>
+              <Header />
+              <Outlet />
+            </div>
+        )}
       </div>
     </>
   )

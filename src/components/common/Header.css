@@ -1,0 +1,7 @@
+.header-container {
+  padding: 7px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  background-color: var(--bottari-grayfont);
+}
