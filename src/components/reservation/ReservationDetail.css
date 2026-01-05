@@ -87,6 +87,101 @@
   word-break: break-all;
 }
 
+.reservation-detail-row.request-row {
+  flex-direction: column;
+  gap: 10px;
+  border-bottom: none;
+}
+
+.reservation-detail-value.request-value {
+  width: 100%;
+  max-width: 100%;
+  text-align: left;
+}
+
+/* 짐 정보 입력 컨테이너 */
+.luggage-edit-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+/* 짐 정보 */
+.luggage-edit-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* 작은 입력창용 클래스 */
+.detail-input.sm {
+  padding: 4px;
+  font-size: 0.85rem;
+}
+
+/* select와 input 너비 조절 */
+.luggage-edit-row select.detail-input {
+  width: 80px;
+}
+.luggage-edit-row input.detail-input {
+  width: 50px; text-align: center;
+}
+
+/* 짐 추가 버튼 */
+.btn-add-item {
+  margin-top: 5px;
+  padding: 6px;
+  background-color: #f1f3f5;
+  border: 1px dashed #ced4da;
+  border-radius: 4px;
+  color: #495057;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.btn-add-item:hover { background-color: #e9ecef; }
+
+/* 짐 삭제 버튼(X) */
+.btn-remove-item {
+  background: none;
+  border: none;
+  color: #ff6b6b;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 5px;
+}
+.btn-remove-item:hover {
+  color: #fa5252;
+}
+
+/* 읽기 전용 모드일 때 텍스트 스타일 */
+.readonly-notes {
+  margin: 0;
+  white-space: pre-wrap; /* 줄바꿈 엔터 적용 */
+  color: var(--bottari-darkslate, #333);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+/* 수정 모드일 때 Textarea 스타일 */
+.detail-textarea {
+  width: 100%;
+  min-height: 100px; /* 기본 높이 확보 */
+  padding: 10px;
+  border: 1px solid var(--bottari-lightgray, #ddd);
+  border-radius: 4px;
+  resize: vertical; /* 세로로만 크기 조절 가능 */
+  font-family: inherit;
+}
+
+.detail-textarea:focus {
+  outline: none;
+  border-color: var(--bottari-navy, #333);
+}
+
 .reservation-detail-actions {
   padding: 20px;
   border-top: 1px solid var(--bottari-lightgray);
@@ -106,7 +201,7 @@
 .detail-input {
   width: 100%;
   padding: 6px 8px;
-  border: 1px solid var(--bottari-lightgray, #ddd); /* 변수 없으면 회색 */
+  border: 1px solid var(--bottari-lightgray, #ddd);
   border-radius: 4px;
   font-size: 0.9rem;
   color: var(--bottari-darkslate, #333);
