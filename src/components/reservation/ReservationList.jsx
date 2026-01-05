@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import { ChevronDown, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight, X, Plus, Search, RefreshCw } from 'lucide-react';
 import './ReservationList.css';
 import ReservationDetail from './ReservationDetail.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { reservationDestroyThunk, reservationIndexThunk } from '../../store/thunks/reservationThunk.js';
+import { openPanel } from '../../store/slices/reservationSlice.js';
 
 export default function ReservationList() {
   const dispatch = useDispatch();
   const { reservations, totalCount, loading, panel } = useSelector((state) => state.reservation);
-  const [selectedRow, setSelectedRow] = useState(null);
   // 검색 필터 상태 (로컬 관리)
   const [filters, setFilters] = useState({
     page: 1,
@@ -203,14 +203,10 @@ export default function ReservationList() {
           </button>
         </div>
       </div>
-
-      {/* 사이드 패널 
-        TODO : 추후 지우기
-        이제 selectedRow prop 대신 Redux의 panel 상태를 내부에서 구독하거나,
-        여기서 isOpen을 제어합니다. (다음 단계에서 이 컴포넌트 내부도 수정해드릴 겁니다!)
-      */}
       {panel.isOpen && (
-        <ReservationDetail />
+        <ReservationDetail 
+          key={panel.mode + (panel.selectedReservation?.id || '')} 
+        />
       )}
     </div>
   );

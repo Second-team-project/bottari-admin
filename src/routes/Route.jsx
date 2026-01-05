@@ -70,10 +70,6 @@ const router = createBrowserRouter([
         path: "/store",
         element: <StoreList />,
       },
-      {
-        path: "/announcement",
-        element: <AnnouncementAdmin />,
-      }
     ],
   },
 ]);
