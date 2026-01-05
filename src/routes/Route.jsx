@@ -7,7 +7,6 @@ import Login from "../components/auth/Login.jsx";
 import ReservationList from "../components/reservation/ReservationList.jsx";
 import DriverList from "../components/drivers/DriverList.jsx";
 import EmployeeList from "../components/employees/EmployeeList.jsx";
-import AnnouncementAdmin from "../components/Announcement/AnnouncementAdmin.jsx";
 import NoticeList from "../components/notice/NoticeList.jsx";
 import FaqList from "../components/faq/FaqList.jsx";
 import PricingPage from "../components/pricing/PricingPage.jsx";
