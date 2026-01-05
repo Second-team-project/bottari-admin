@@ -1,6 +1,6 @@
-import './Monitoring.css';
 import Reservation from './Reservation';
 import Statistics from './Statistics';
+import './Monitoring.css';
 
 export default function Monitoring() {
   return (

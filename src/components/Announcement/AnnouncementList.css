@@ -1,0 +1,55 @@
+.announcementAdmin-container {
+  background-color: #fff;
+  padding: 20px;
+}
+
+/* 타이틀 관련 */
+.announcementAdmin-title {
+  text-align: center;
+  padding: 30px 0;
+  font-size: 3rem;
+}
+
+/* 추가 섹션 관련 */
+.announcementAdmin-add-section {
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
+  padding: 10px 0;
+  display: flex;
+  justify-content: end;
+}
+
+/* 리스트 섹션 관련 */
+.announcementAdmin-list-section {
+  padding: 20px 0;
+  border-bottom: 2px solid #000;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 리스트 아이템 관련 */
+.announcementAdmin-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.announcementAdmin-item-btn-box {
+  display: flex;
+  gap: 10px;
+}
+
+/* 버튼 관련 */
+.announcementAdmin-btn {
+  text-align: center;
+  line-height: 50px;
+  width: 125px;
+  height: 50px;
+  border-radius: 5px;
+  background-color: #ACFFFF;
+  cursor: pointer;
+}
+
+.announcementAdmin-btn:hover {
+  background-color: #56a1a1;
+}
