@@ -1,0 +1,100 @@
+/* 요금 목록 페이지 */
+.basic-pricing-top {
+  margin-bottom: 25px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.basic-pricing-title {
+  color: var(--bottari-darkslate);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.basic-pricing-btn-add {
+  color: #fff;
+  font-weight: 600;
+
+  border: none;
+  border-radius: 6px;
+  background-color: var(--bottari-navy);
+  padding: 0.5rem 1rem;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  transition: filter 0.2s;
+  cursor: pointer;
+}
+.basic-pricing-btn-add:hover {
+  filter: brightness(1.2);
+}
+
+/* 테이블 */
+.basic-pricing-table {
+  width: 100%;
+  border: 1px solid var(--bottari-lightgray);
+}
+
+/* 헤더: 품목/크기(1.5fr) 무게(1fr) 가격(1fr) 관리(150px) */
+.basic-pricing-header {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: center;
+  
+  padding: 12px 0;
+
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 150px;
+  background-color: var(--bottari-grayfont);
+  align-items: center;
+  
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.basic-pricing-row {
+  font-size: 0.85rem;
+  background-color: #fff;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--bottari-lightgray);
+
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 150px;
+  text-align: center;
+  align-items: center;
+  
+  transition: background-color 0.2s;
+}
+
+.basic-pricing-row:hover {
+  background-color: var(--bottari-offwhite);
+}
+
+.basic-pricing-row:last-child {
+  border-bottom: none;
+}
+
+/* 품목명 강조 */
+.basic-pricing-col-name {
+  font-weight: 600;
+  color: var(--bottari-darkslate);
+  padding-left: 20px;
+}
+
+/* 가격 강조 */
+.basic-pricing-col-price {
+  font-weight: 700;
+  color: var(--bottari-navy);
+}
+
+.basic-pricing-col-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}

@@ -1,0 +1,98 @@
+/* 추가 요금 설정 페이지 */
+.additional-pricing-top {
+  margin-bottom: 25px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.additional-pricing-title {
+  color: var(--bottari-darkslate);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.additional-pricing-btn-add {
+  color: #fff;
+  font-weight: 600;
+
+  background-color: var(--bottari-navy);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  transition: filter 0.2s;
+  cursor: pointer;
+}
+.additional-pricing-btn-add:hover {
+  filter: brightness(1.2);
+}
+
+/* 테이블 */
+.additional-pricing-table {
+  width: 100%;
+  border: 1px solid var(--bottari-lightgray);
+}
+
+/* 헤더: 타입(1fr) 구간(1.5fr) 요율(1fr) 관리(150px) */
+.additional-pricing-header {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: center;
+
+  padding: 12px 0;
+
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr 150px;
+  background-color: var(--bottari-grayfont);
+  align-items: center;
+  
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.additional-pricing-row {
+  font-size: 0.85rem;
+  background-color: #fff;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--bottari-lightgray);
+  
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr 150px;
+  text-align: center;
+  align-items: center;
+
+  transition: background-color 0.2s;
+}
+
+.additional-pricing-row:hover {
+  background-color: var(--bottari-offwhite);
+}
+
+.additional-pricing-row:last-child {
+  border-bottom: none;
+}
+
+/* 텍스트 스타일 */
+.additional-pricing-col-type {
+  font-weight: 600;
+  color: var(--bottari-darkslate);
+}
+
+.additional-pricing-col-rate {
+  font-weight: 700;
+  color: var(--bottari-navy);
+}
+
+.additional-pricing-col-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
