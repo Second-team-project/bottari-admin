@@ -13,11 +13,107 @@
   min-width: 0; 
 }
 
+/* 상단 헤더 (제목 + 등록버튼 배치) */
+.list-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.create-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--bottari-navy, #2c3e50); /* 팀원이 쓴 색상변수 활용 추정 */
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.create-btn:hover {
+  opacity: 0.9;
+}
+
+/* 검색 바 컨테이너 */
+.reservation-search-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  align-items: center;
+  border: 1px solid var(--bottari-lightgray);
+}
+
+.search-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.search-group.right-align {
+  margin-left: auto; /* 검색창을 우측 끝으로 밀기 */
+}
+
 /* 테이블 */
 .reservation-list-table {
   width: 100%;
   border: 1px solid var(--bottari-lightgray);
   border-radius: 8px; /* overflow: hidden 없어도 border가 있으면 됨 */
+}
+
+/* 입력 필드 스타일 */
+.search-group input[type="date"],
+.search-group input[type="text"],
+.search-group select {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.search-icon-btn,
+.reset-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+.search-icon-btn:hover {
+  background-color: #eee;
+}
+
+/* 로딩/빈 데이터 메시지 */
+.loading-msg, .empty-msg {
+  padding: 50px;
+  text-align: center;
+  color: #666;
+  background: white;
+  border-bottom: 1px solid var(--bottari-lightgray);
+}
+
+/* 상태별 텍스트 색상 */
+.status-text.PENDING_PAYMENT {
+  color: #d97706; font-weight: bold;
+}
+.status-text.RESERVED {
+  color: #059669; font-weight: bold;
+}
+.status-text.CANCELLED {
+  color: #dc2626; font-weight: bold;
 }
 
 /* 테이블 헤더 (Sticky) */
@@ -36,7 +132,7 @@
   position: sticky;
   top: 0; 
   z-index: 10;
-}
+}  
 
 /* 테이블 행 */
 .reservation-list-row {
@@ -50,7 +146,7 @@
   cursor: pointer;
   transition: background-color 0.2s;
   font-size: 0.85rem;
-}
+}  
 
 .reservation-list-row:hover {
   background-color: #f9fafb;

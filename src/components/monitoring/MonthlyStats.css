@@ -1,0 +1,101 @@
+.monthly-stats-container {
+  background-color: var(--bottari-grayfont, #4B5563); /* 변수 없으면 회색 기본값 */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 15px;
+  color: #fff;
+}
+
+.monthly-stats-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-left: 5px;
+}
+
+.monthly-stats-hr {
+  margin: 5px 0 15px 0;
+  border: 0;
+  border-top: 1px solid #fff;
+  opacity: 0.5;
+}
+
+.monthly-stats-content-box {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* 카드 공통 스타일 */
+.monthly-card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+  color: #333;
+  flex: 1; /* 공간을 1:1:1로 나눠가짐 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+}
+
+.monthly-card-title {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+/* 1. 매출 카드 스타일 */
+.sales-card {
+  background-color: #fff;
+  border: 2px solid #fff;
+}
+.monthly-sales-total {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--bottari-grayfont, #333);
+}
+
+/* 2. 건수 카드 스타일 */
+.monthly-count-total {
+  font-size: 20px;
+  font-weight: 700;
+}
+.monthly-highlight {
+  font-size: 28px;
+  font-weight: 900;
+  color: #2563EB; /* 파란색 강조 */
+  margin-right: 5px;
+}
+
+/* 3. 배송/보관 분할 스타일 */
+.row-card {
+  flex-direction: row; /* 가로 배치 */
+  justify-content: space-around;
+}
+
+.monthly-sub-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.monthly-sub-title {
+  font-size: 14px;
+  color: #888;
+}
+
+.monthly-sub-count {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.monthly-line {
+  width: 1px;
+  height: 40px;
+  background-color: #ddd;
+}
