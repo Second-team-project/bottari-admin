@@ -13,6 +13,67 @@
   min-width: 0; 
 }
 
+/* 패널이 열렸을 때 컨테이너 */
+.driver-list-container.with-panel {
+  /* 필요시 여백 조정 */
+  padding-right: 20px; 
+}
+
+/* 상단 타이틀 및 검색, 버튼 */
+.driver-list-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.driver-list-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.search-form {
+  display: flex;
+  gap: 5px;
+}
+
+.search-input {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: var(--bottari-navy);
+}
+
+/* 상태 메시지 */
+.state-message {
+  padding: 40px;
+  text-align: center;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+/* 기사 등록 버튼(파란색 강조) */
+.btn-create {
+  background-color: #2563EB;
+  color: #fff;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  font-weight: 500;
+}
+
+.btn-create:hover {
+  opacity: 0.9;
+}
+
 /* 테이블 */
 .driver-list-table {
   width: 100%;
