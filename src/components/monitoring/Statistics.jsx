@@ -7,56 +7,56 @@ export default function Statistics() {
         <h2 className='statistics-title'>통합 모니터링</h2>
         <hr className='statistics-hr' />
         <div className="statistics-content-box">
-          <div className="statistics-content-item">
-            <h3 className='statistics-content-item-sub-title'>오늘의 신규예약</h3>
-            <div className='statistics-content-item-sub-contents'>
-              <div className="statistics-content-item-sub-contents-item">
-                <p className='statistics-content-item-sub-contents-item-title'>총 예약 건수</p>
-                <p className='statistics-content-item-sub-contents-item-value'>10건</p>
+          <div className="statistics-content-card">
+            <div className="today-order-total-container">
+              <div className="today-new-order-total-container">
+                <h3 className='today-order-title'>오늘의 신규예약</h3>
+                <p className='today-order-total'><span className="total-count">10</span>건</p>
               </div>
-              <div className="statistics-content-item-sub-contents-item">
-                <p className='statistics-content-item-sub-contents-item-title'>배송 건수</p>
-                <p className='statistics-content-item-sub-contents-item-value'>8건</p>
-              </div>
-              <div className="statistics-content-item-sub-contents-item">
-                <p className='statistics-content-item-sub-contents-item-title'>보관 건수</p>
-                <p className='statistics-content-item-sub-contents-item-value'>2건</p>
-              </div>
-            </div>
-          </div>
-          <div className="statistics-content-item">
-            <h3 className='statistics-content-item-sub-title'>오늘의 배송/보관</h3>
-            <div className='statistics-content-item-sub-contents'>
-              <div className="statistics-content-item-sub-contents-item">
-                <p className='statistics-content-item-sub-contents-item-title'>오늘 배송 완료된 건</p>
-                <p className='statistics-content-item-sub-contents-item-value'>10건</p>
-              </div>
-              <div className="statistics-content-item-sub-contents-item">
-                <p className='statistics-content-item-sub-contents-item-title'>오늘 픽업 완료된 보관 건</p>
-                <p className='statistics-content-item-sub-contents-item-value'>8건</p>
-              </div>
-              <div className="statistics-content-item-sub-contents-item">
-                <p className='statistics-content-item-sub-contents-item-title'>오늘 취소가 된 건</p>
-                <p className='statistics-content-item-sub-contents-item-value'>2건</p>
+              <div className="today-order-delivery-storage-container">
+                <div className="today-order-sub-container">
+                  <div className="today-order-sub-title-container">
+                    <p className='today-order-sub-title'>배송</p>
+                    <p className="today-order-sub-title-eng">delivery</p>
+                  </div>
+                  <p className='today-order-sub-total'>8건</p>
+                </div>
+                <div className="today-order-line"></div>
+                <div className="today-order-sub-container">
+                  <div className="today-order-sub-title-container">
+                    <p className='today-order-sub-title'>보관</p>
+                    <p className="today-order-sub-title-eng">storage</p>
+                  </div>
+                  <p className='today-order-sub-total'>2건</p>
+                </div>
               </div>
             </div>
           </div>
-          <div className="statistics-content-item">
-            <h3 className='statistics-content-item-sub-title'>오늘의 총 매출</h3>
-            <div className='statistics-content-item-sub-contents'>
-              <div className="statistics-content-item-sub-contents-item">
-                <p className='statistics-content-item-sub-contents-item-title'>총 매출</p>
-                <p className='statistics-content-item-sub-contents-item-value'>1,000,000원</p>
+          <div className="today-state-container">
+            <div className="today-state-dashbord">
+              <h3>오늘의 배송/보관 처리 현황</h3>
+              <p className="today-state-dashbord-total">20건</p>
+            </div>
+            <div className='today-state-sub-container'>
+              <div className="today-state-sub-card">
+                <p className="today-state-sub-title">배송 완료</p>
+                <p className="today-state-sub-total">10건</p>
               </div>
-              <div className="statistics-content-item-sub-contents-item">
-                <p className='statistics-content-item-sub-contents-item-title'>배송 매출</p>
-                <p className='statistics-content-item-sub-contents-item-value'>800,000원</p>
+              <div className="today-state-line"></div>
+              <div className="today-state-sub-card">
+                <p className="today-state-sub-title">보관 완료</p>
+                <p className="today-state-sub-total">8건</p>
               </div>
-              <div className="statistics-content-item-sub-contents-item">
-                <p className='statistics-content-item-sub-contents-item-title'>보관 매출</p>
-                <p className='statistics-content-item-sub-contents-item-value'>20,000원</p>
+              <div className="today-state-line"></div>
+              <div className="today-state-sub-card">
+                <p className="today-state-sub-title">취소</p>
+                <p className="today-state-sub-total">2건</p>
               </div>
             </div>
+          </div>
+          <div className="today-sales-container">
+            <h3>오늘의 총 매출</h3>
+            <p className='today-sales-total'>1,000,000원</p>
           </div>
         </div>
       </div>
