@@ -63,6 +63,7 @@
 /* 입력 행 스타일 */
 .adding-row, .editing-row {
   background-color: var(--bottari-coolgray);
+  border: 1px solid var(--bottari-navy);
 }
 
 /* Input 스타일 재사용 */
