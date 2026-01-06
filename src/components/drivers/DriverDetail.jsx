@@ -7,8 +7,9 @@ import { driverIndexThunk, driverStoreThunk, driverUpdateThunk } from '../../sto
 
 export default function DriverDetail() {
   const dispatch = useDispatch();
-  const { panel, currentPage } = useSelector((state) => state.driver);
-  const { mode, selectedData } = panel; // mode: 'store' | 'update'
+  const { panel, currentPage, selectedData } = useSelector((state) => state.driver);
+  const { mode } = panel; // mode: 'store' | 'update'
+
   // 초기값 설정
   // selectedData가 없으면 빈 문자열(등록 모드)
   const [formData, setFormData] = useState({
@@ -69,7 +70,7 @@ export default function DriverDetail() {
 
   return (
     <div className='driver-detail-panel'>
-      {/* 타이틀 & 닫기 버튼 */}
+      {/* 헤더 */}
       <div className='driver-detail-header'>
         <h3 className="detail-title">
           {mode === 'store' ? '기사 등록' : '기사 정보 수정'}
@@ -79,6 +80,7 @@ export default function DriverDetail() {
         </button>
       </div>
 
+      {/* 폼 태그 */}
       <form onSubmit={handleSubmit} className='driver-detail-content'>
         {/* ID (수정 모드일 때만 표시) */}
         {mode === 'update' && (
@@ -187,50 +189,50 @@ export default function DriverDetail() {
   );
 }
 
-      <div className='driver-detail-content'>
-        <div className='driver-detail-row'>
-          <span className='driver-detail-label'>번호</span>
-          <span className='driver-detail-value'>{selectedRow + 1}</span>
-        </div>
-        <div className='driver-detail-row'>
-          <span className='driver-detail-label'>이름</span>
-          <span className='driver-detail-value'>김기사</span>
-        </div>
-        <div className='driver-detail-row'>
-          <span className='driver-detail-label'>연락처</span>
-          <span className='driver-detail-value'>010-1234-5678</span>
-        </div>
-        <div className='driver-detail-row'>
-          <span className='driver-detail-label'>이메일</span>
-          <span className='driver-detail-value'>driver@bottari.com</span>
-        </div>
-        <div className='driver-detail-row'>
-          <span className='driver-detail-label'>차량번호</span>
-          <span className='driver-detail-value'>12가 3456</span>
-        </div>
-        <div className='driver-detail-row'>
-          <span className='driver-detail-label'>배송 건수</span>
-          <span className='driver-detail-value'>150건</span>
-        </div>
-        <div className='driver-detail-row'>
-          <span className='driver-detail-label'>등록일</span>
-          <span className='driver-detail-value'>2024.01.01</span>
-        </div>
+//       <div className='driver-detail-content'>
+//         <div className='driver-detail-row'>
+//           <span className='driver-detail-label'>번호</span>
+//           <span className='driver-detail-value'>{selectedRow + 1}</span>
+//         </div>
+//         <div className='driver-detail-row'>
+//           <span className='driver-detail-label'>이름</span>
+//           <span className='driver-detail-value'>김기사</span>
+//         </div>
+//         <div className='driver-detail-row'>
+//           <span className='driver-detail-label'>연락처</span>
+//           <span className='driver-detail-value'>010-1234-5678</span>
+//         </div>
+//         <div className='driver-detail-row'>
+//           <span className='driver-detail-label'>이메일</span>
+//           <span className='driver-detail-value'>driver@bottari.com</span>
+//         </div>
+//         <div className='driver-detail-row'>
+//           <span className='driver-detail-label'>차량번호</span>
+//           <span className='driver-detail-value'>12가 3456</span>
+//         </div>
+//         <div className='driver-detail-row'>
+//           <span className='driver-detail-label'>배송 건수</span>
+//           <span className='driver-detail-value'>150건</span>
+//         </div>
+//         <div className='driver-detail-row'>
+//           <span className='driver-detail-label'>등록일</span>
+//           <span className='driver-detail-value'>2024.01.01</span>
+//         </div>
         
-        {/* 특이사항 (메모) */}
-        <div className='driver-detail-memo'>
-          <span className='driver-detail-label'>특이사항</span>
-          <div className='driver-detail-value'>
-            서울 강남 지역 전문 기사님.<br/>
-            오전 시간대 선호하심.
-          </div>
-        </div>
-      </div>
+//         {/* 특이사항 (메모) */}
+//         <div className='driver-detail-memo'>
+//           <span className='driver-detail-label'>특이사항</span>
+//           <div className='driver-detail-value'>
+//             서울 강남 지역 전문 기사님.<br/>
+//             오전 시간대 선호하심.
+//           </div>
+//         </div>
+//       </div>
 
-      <div className='driver-detail-actions'>
-        <button className='btn-edit'>수정</button>
-        <button className='btn-delete'>삭제</button>
-      </div>
-    </div>
-  );
-}
+//       <div className='driver-detail-actions'>
+//         <button className='btn-edit'>수정</button>
+//         <button className='btn-delete'>삭제</button>
+//       </div>
+//     </div>
+//   );
+// }

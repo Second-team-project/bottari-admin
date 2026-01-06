@@ -11,13 +11,86 @@
   flex: 1;
   padding: 35px;
   min-width: 0; 
+  transition: width 0.3s ease; /* 패널 열릴 때 부드럽게 */
 }
 
-/* 제목 */
+/* 상단 타이틀, 컨트롤 */
+.employee-list-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-top: 10px;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--bottari-darkslate, #333);
+}
+
+/* 검색 + 버튼 */
+.employee-list-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* 검색 폼 */
+.search-form {
+  display: flex;
+  gap: 8px;
+}
+
+.search-input {
+  padding: 8px 12px;
+  border: 1px solid var(--bottari-lightgray, #ddd);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  width: 200px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--bottari-blue, #3b82f6);
+}
+
+/* 버튼 스타일 */
+.btn-search {
+  padding: 8px 16px;
+  background-color: var(--bottari-navy, #1e293b);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.btn-register {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background-color: #3b82f6; /* 파란색 강조 */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.btn-search:hover,
+.btn-register:hover {
+  opacity: 0.9;
+}
+
+/* 제목
 .employee-list-title {
   margin-bottom: 20px;
   padding-top: 20px;
-}
+} */
 
 /* 테이블 */
 .employee-list-table {
@@ -81,6 +154,13 @@
   justify-content: center;
 }
 
+/* 로딩/데이터 없음 메시지 */
+.state-message {
+  padding: 40px;
+  text-align: center;
+  color: #999;
+}
+
 /* 버튼 (공통 사용) */
 .btn-edit,
 .btn-delete {
@@ -119,6 +199,11 @@
 
 .pagination-btn {
   cursor: pointer;
+}
+
+.pagination-btn.disabled {
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 .page-number {
