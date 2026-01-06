@@ -2,6 +2,7 @@ import './App.css';
 import { Outlet, useLocation } from 'react-router-dom';
 import Menu from './components/common/Menu';
 import Header from './components/common/Header.jsx';
+import ProtectedRouter from './routes/ProtectedRouter.jsx';
 
 function App() {
   const location = useLocation();
@@ -14,11 +15,11 @@ function App() {
       <div className={isLoginPage ? "app-login-container" : "app-container"}>
         <Menu />
         {isLoginPage ? (
-            <Outlet />
+            <ProtectedRouter />
         ) : (
             <div>
               <Header />
-              <Outlet />
+              <ProtectedRouter />
             </div>
         )}
       </div>

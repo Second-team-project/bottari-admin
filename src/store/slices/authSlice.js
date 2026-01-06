@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loginThunk, reissueThunk } from '../thunks/authThunk.js';
+import { loginThunk, logoutThunk, reissueThunk } from '../thunks/authThunk.js';
 
 const initialState = {
   accessToken: null,
@@ -30,6 +30,11 @@ const slice = createSlice({
         state.accessToken = accessToken;
         state.admin = admin;
         state.isLoggedIn = true;
+      })
+      .addCase(logoutThunk.fulfilled, (state) => {
+        state.accessToken = null;
+        state.admin = null;
+        state.isLoggedIn = false;
       })
   }
 });
