@@ -9,14 +9,13 @@
 /* 리스트 컨테이너 */
 .user-list-container {
   flex: 1;
-  padding: 0 35px 35px;
+  padding: 35px;
   min-width: 0; 
 }
 
 /* 제목 */
 .user-list-title {
   margin-bottom: 20px;
-  padding-top: 20px;
 }
 
 /* 테이블 */
