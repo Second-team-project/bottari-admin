@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Plus, ChevronLeft, ChevronRight } from 'lucide-react';
 import './AdditionalPricing.css';
 
-export default function AdditionalPricing() {
+export default function AdditionalPricing({ data, onCreate, onUpdate, onDelete }) {
   
   // 임시 데이터
   const [data, setData] = useState([
@@ -117,7 +117,7 @@ export default function AdditionalPricing() {
               </div>
               <div className='additional-pricing-col-actions'>
                 <button className='btn-save' onClick={handleSave}>저장</button>
-                <button className='btn-cancel' onClick={handleCancel}>취소</button>
+                <button className='btn-delete' onClick={handleCancel}>취소</button>
               </div>
             </div>
           )}
@@ -161,7 +161,7 @@ export default function AdditionalPricing() {
                   </div>
                   <div className='additional-pricing-col-actions'>
                     <button className='btn-save' onClick={handleSave}>저장</button>
-                    <button className='btn-cancel' onClick={handleCancel}>취소</button>
+                    <button className='btn-delete' onClick={handleCancel}>취소</button>
                   </div>
                 </>
               ) : (

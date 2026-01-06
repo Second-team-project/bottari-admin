@@ -34,12 +34,12 @@
 
 .btn-delete {
   background-color: #fff;
-  color: var(--bottari-deeppink);
-  border: 1px solid var(--bottari-pink);
+  color: red;
+  border: 1px solid red;
 }
 
 .btn-save {
-  background-color: var(--bottari-blue);
+  background-color: var(--bottari-navy);
   color: #fff;
 }
 

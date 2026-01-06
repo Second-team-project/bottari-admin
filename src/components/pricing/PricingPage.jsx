@@ -1,11 +1,92 @@
-import { useState } from 'react';
 import './PricingPage.css';
-import BasicPricing from './BasicPricing';
-import AdditionalPricing from './AdditionalPricing';
+
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+import BasicPricing from './BasicPricing.jsx';
+import AdditionalPricing from './AdditionalPricing.jsx';
+
+import { createAdditionalPricingThunk, createPricingThunk, deleteAdditionalPricingThunk, deletePricingThunk, getAdditionalPricingThunk, getPricingThunk, updateAdditionalPricingThunk, updatePricingThunk } from '../../store/thunks/pricingThunk.js';
 
 export default function PricingPage() {
+  // ===== hooks
+  const dispatch = useDispatch();
+  // ===== local states
+  // 기본 요금 데이터
+  const [basePricing, setBasePricing] = useState([]);
+  // 추가 요금 데이터
+  const [additionalPricing, setAdditionalPricing] = useState([]);
   // activeTab: 'DELIVERY' | 'STORAGE' | 'ADDITIONAL'
   const [activeTab, setActiveTab] = useState('DELIVERY');
+
+  // 기본 가격 불러오기
+  const fetchBasePrice = async() => {
+    try {
+      const result = await dispatch(getPricingThunk()).unwrap()
+      
+      console.log('PricingPage: ', result)
+
+      setBasePricing(result)
+      
+    } catch (error) {
+      console.error('기본 요금 불러오기 실패: ', error)
+    }
+  }
+
+  // 추가 가격 불러오기
+  const fetchAdditionalPrice = async() => {
+    try {
+      const result = await dispatch(getAdditionalPricingThunk()).unwrap()
+      
+      console.log('fetchAdditionalPrice: ', result)
+
+      setAdditionalPricing(result)
+      
+    } catch (error) {
+      console.error('기본 요금 불러오기 실패: ', error)
+    }
+  }
+
+  // 마운트 시 가격 불러오기
+  useEffect(() => {
+    fetchBasePrice();
+    fetchAdditionalPrice();
+  }, [])
+
+  // ===== props 보낼 함수
+  // === 기본
+  // 생성
+  const handleCreate = async(item) => {
+    await dispatch(createPricingThunk(item)).unwrap();
+    fetchBasePrice();
+  }
+  // 수정
+  const handleUpdate = async(item) => {
+    await dispatch(updatePricingThunk(item)).unwrap();
+    fetchBasePrice();
+  }
+  // 삭제
+  const handleDelete = async(id) => {
+    await dispatch(deletePricingThunk(id)).unwrap();
+    fetchBasePrice();
+  }
+  // === 추가
+  // 생성
+  const handleCreateAdditional = async(item) => {
+    await dispatch(createAdditionalPricingThunk(item)).unwrap();
+    fetchBasePrice();
+  }
+  // 수정
+  const handleUpdateAdditional = async(item) => {
+    await dispatch(updateAdditionalPricingThunk(item)).unwrap();
+    fetchBasePrice();
+  }
+  // 삭제
+  const handleDeleteAdditional = async(id) => {
+    await dispatch(deleteAdditionalPricingThunk(id)).unwrap();
+    fetchBasePrice();
+  }
+
 
   return (
     <div className='pricing-page'>
@@ -35,9 +116,18 @@ export default function PricingPage() {
 
       {/* 탭 내용 영역 */}
       <div className='pricing-content'>
-        {activeTab === 'DELIVERY' && <BasicPricing type="DELIVERY" />}
-        {activeTab === 'STORAGE' && <BasicPricing type="STORAGE" />}
-        {activeTab === 'ADDITIONAL' && <AdditionalPricing />}
+        {activeTab === 'DELIVERY' && <BasicPricing type="D" 
+          data={basePricing.filter(data => data.serviceType === 'D')} 
+          onCreate={handleCreate} onUpdate={handleUpdate} onDelete={handleDelete}
+        />}
+        {activeTab === 'STORAGE' && <BasicPricing type="S" 
+          data={basePricing.filter(data => data.serviceType === 'S')} 
+          onCreate={handleCreate} onUpdate={handleUpdate} onDelete={handleDelete}
+        />}
+        {activeTab === 'ADDITIONAL' && <AdditionalPricing 
+          data={additionalPricing} 
+          onCreate={handleCreateAdditional} onUpdate={handleUpdateAdditional} onDelete={handleDeleteAdditional}
+        />}
       </div>
     </div>
   );
