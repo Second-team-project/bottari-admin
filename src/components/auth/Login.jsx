@@ -13,15 +13,16 @@ export default function Login() {
     password: '',
   });
 
-  const handleChange = (e) => {
-    const { value, placeholder } = e.target;
+  function handleChange(e) {
+    const { value } = e.target;
     setLoginData({
       ...loginData,
       [e.target.name]: value
     });
   };
 
-  const handleSubmit = async (e) => {
+  // 로그인 요청
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (!loginData.accountId || !loginData.password) {
@@ -30,12 +31,10 @@ export default function Login() {
     }
 
     try {
-      // unwrap()을 사용하면 createAsyncThunk의 결과를 바로 try-catch로 잡을 수 있습니다.
-      // 성공 시 result에 payload가 담기고, 실패 시 catch 블록으로 넘어갑니다.
       await dispatch(loginThunk(loginData)).unwrap();
       
       // 로그인 성공 시 모니터링 이동
-      navigate('/monitoring'); 
+      return navigate('/monitoring', { replace: true }); 
     } catch (error) {
       // 백엔드에서 보낸 에러 메시지 처리 (customError의 message)
       const errorMsg = error.response?.data?.message || '로그인에 실패했습니다.';
