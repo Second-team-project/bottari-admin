@@ -21,7 +21,7 @@ export default function DriverList() {
 
   // 행 클릭 - 상세/수정 패널 열기
   const handleRowClick = (driver) => {
-    dispatch(openPanel({ mode: 'update', data: driver }));
+    dispatch(openPanel({ mode: 'show', data: driver }));
   };
 
   // 등록 버튼 클릭(store 모드)
@@ -120,9 +120,9 @@ export default function DriverList() {
                   onClick={() => handleRowClick(driver)}
                 >
                   <div className='driver-list-col-no'>{driver.id}</div>
-                  <div className='driver-list-col-name'>{driver.name}</div>
+                  <div className='driver-list-col-name'>{driver.driverName}</div>
                   <div className='driver-list-col-phone'>{driver.phone}</div>
-                  <div className='driver-list-col-car'>{driver.license_number || '-'}</div>
+                  <div className='driver-list-col-car'>{driver.carNumber || '-'}</div>
                   <div className='driver-list-col-count'>{driver.deliveryCount || '-'}건</div> 
                   <div className='driver-list-col-date'>
                     {driver.createdAt ? new Date(driver.createdAt).toLocaleDateString() : '-'}
