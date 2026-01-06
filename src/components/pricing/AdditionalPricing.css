@@ -25,7 +25,7 @@
   transition: filter 0.2s;
 }
 .additional-pricing-btn-add:disabled {
-  background-color: #ccc;
+  background-color: var(--bottari-gray);
   cursor: not-allowed;
 }
 
@@ -75,7 +75,7 @@
   outline: none;
   background-color: #fff;
 }
-.pricing-input.small { width: 70px; text-align: center; }
+.pricing-input.small { width: 100px; text-align: center; }
 
 /* 범위 입력 (최소 ~ 최대) */
 .additional-pricing-col-range {
@@ -84,16 +84,17 @@
   align-items: center;
   gap: 8px;
 }
-.range-separator { font-weight: 600; color: #666; }
+.range-separator { font-weight: 600; color: var(--bottari-grayfont); }
 
 /* 요율 입력 */
 .additional-pricing-col-rate {
+  font-weight: 700;
+  color: var(--bottari-navy);
+
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 4px;
-  font-weight: 700;
-  color: var(--bottari-navy);
 }
 .unit { font-size: 0.9rem; color: var(--bottari-darkslate); }
 
