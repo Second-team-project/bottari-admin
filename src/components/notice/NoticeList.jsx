@@ -1,9 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 import './NoticeList.css';
 import NoticeModal from './NoticeModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { noticeIndexThunk } from '../../store/thunks/noticeThunk.js';
 
 export default function NoticeList() {
+  const dispatch = useDispatch();
+
+  const { notices, page, limit } = useSelector(state => state.notice)
+
   const [selectedItem, setSelectedItem] = useState(null);
 
   // 공지사항 클릭 시 모달 열기
@@ -15,6 +21,10 @@ export default function NoticeList() {
   function handleCloseModal() {
     setSelectedItem(null);
   }
+
+  useEffect(() => {
+    dispatch(noticeIndexThunk());
+  }, []);
 
   return(
     <div className='notice-list-page'>
@@ -38,16 +48,16 @@ export default function NoticeList() {
         </div>
 
         {/* 테이블 바디 - 더미 데이터 10개 */}
-        {[...Array(10)].map((_, index) => (
+        {notices.map((notice, index) => (
           <div
-            key={index}
+            key={notice.id}
             className='notice-list-row'
-            onClick={() => handleRowClick({ id: index + 1 })}
+            onClick={() => handleRowClick(notice)}
           >
-            <div className='notice-list-col-no'>{index + 1}</div>
-            <div className='notice-list-col-title'>[안내] 서비스 이용 약관 개정 안내 (2024년 2월 적용)</div>
-            <div className='notice-list-col-writer'>관리자</div>
-            <div className='notice-list-col-date'>2024.01.05</div>
+            <div className='notice-list-col-no'>{(page - 1) * limit + index + 1}</div>
+            <div className='notice-list-col-title'>{notice.title}</div>
+            <div className='notice-list-col-writer'>{notice.noticeAdmin.adminName}</div>
+            <div className='notice-list-col-date'>{notice.createdAt}</div>
             <div className='notice-list-col-actions'>
               <button className='btn-edit' onClick={(e) => e.stopPropagation()}>수정</button>
               <button className='btn-delete' onClick={(e) => e.stopPropagation()}>삭제</button>

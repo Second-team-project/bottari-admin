@@ -1,14 +1,14 @@
 import { X } from 'lucide-react';
-import './NoticeModal.css';
+import './NoticeCreateModal.css';
 
-export default function NoticeModal({ selectedItem, onClose }) {
+export default function NoticeCreateModal({ selectedItem, onClose }) {
   if (!selectedItem) return null;
 
   return (
     <div className='notice-modal-overlay' onClick={onClose}>
       <div className='notice-modal-container' onClick={(e) => e.stopPropagation()}>
         <div className='notice-modal-header'>
-          <h3>공지사항 상세</h3>
+          <h3>공지사항 등록</h3>
           <button className='notice-modal-close' onClick={onClose}>
             <X size={22} />
           </button>
