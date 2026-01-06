@@ -21,7 +21,7 @@ export default function BasicPricing({ type, data, onCreate, onUpdate, onDelete 
   const handleAddClick = () => {
     setIsAdding(true);
     setEditingId(null);
-    setEditValues({ itemType: 'CARRIER', itemSize: '', itemWeight: '', basePrice: '' });
+    setEditValues({ itemType: 'CARRIER', itemSize: '', itemWeight: '', basePrice: '', serviceType: type });
   };
 
   // [핸들러] 수정 버튼 클릭
@@ -40,10 +40,10 @@ export default function BasicPricing({ type, data, onCreate, onUpdate, onDelete 
   // [핸들러] 저장 (등록/수정 공통 - 실제론 API 호출)
   const handleSave = () => {
     if (isAdding) {
-      const newItem = { ...editValues, base_price: Number(editValues.basePrice) };
+      const newItem = { ...editValues, basePrice: Number(editValues.basePrice) };
       onCreate(newItem)
     } else {
-      const updateItem = { id:editingId, ...editValues, base_price: Number(editValues.basePrice) };
+      const updateItem = { id:editingId, ...editValues, basePrice: Number(editValues.basePrice) };
       onUpdate(updateItem)
     }
     handleCancel();
@@ -52,7 +52,7 @@ export default function BasicPricing({ type, data, onCreate, onUpdate, onDelete 
   // [핸들러] 삭제
   const handleDelete = (id) => {
     if (window.confirm('정말 삭제하시겠습니까?')) {
-      // setData(data.filter(item => item.id !== id));
+      onDelete(id);
     }
   };
 
@@ -63,7 +63,7 @@ export default function BasicPricing({ type, data, onCreate, onUpdate, onDelete 
 
         {/* 타이틀 */}
         <h2 className='basic-pricing-title'>
-          {type === 'DELIVERY' ? '배송' : '보관'} 기본 요금 설정
+          {type === 'D' ? '배송' : '보관'} 기본 요금 설정
         </h2>
 
         {/* 등록 버튼 */}
@@ -93,7 +93,7 @@ export default function BasicPricing({ type, data, onCreate, onUpdate, onDelete 
             <div className='basic-pricing-row adding-row'>
               <div>-</div>
               <div>
-                <select name="item_type" value={editValues.itemType} onChange={handleChange} className='pricing-input'>
+                <select name="itemType" value={editValues.itemType} onChange={handleChange} className='pricing-input'>
                   <option value="CARRIER">CARRIER</option>
                   <option value="BAG">BAG</option>
                   <option value="BOX">BOX</option>
@@ -102,15 +102,15 @@ export default function BasicPricing({ type, data, onCreate, onUpdate, onDelete 
               </div>
               <div>
                 <input 
-                  name="item_size" 
+                  name="itemSize" 
                   value={editValues.itemSize} 
                   onChange={handleChange} 
-                  placeholder="크기 : S, M, L, XL, 21, 24, 32, OVER 등" 
+                  placeholder="S, M, L, XL, 21, 24, 32, OVER 등" 
                   className='pricing-input'
                 />
               </div>
               <div>
-                <select name="item_weight" value={editValues.itemWeight} onChange={handleChange} className='pricing-input'>
+                <select name="itemWeight" value={editValues.itemWeight} onChange={handleChange} className='pricing-input'>
                   <option value="">선택</option>
                   <option value="~10kg">~10kg</option>
                   <option value="~20kg">~20kg</option>
@@ -121,12 +121,12 @@ export default function BasicPricing({ type, data, onCreate, onUpdate, onDelete 
               <div>
                 <input 
                   type="number"
-                  name="base_price" 
+                  name="basePrice" 
                   value={editValues.basePrice} 
                   onChange={handleChange} 
-                  placeholder="금액" 
+                  placeholder="금액 (숫자만 가능)" 
                   className='pricing-input'
-                />
+                /><span> 원</span>
               </div>
               <div className='basic-pricing-col-actions'>
                 <button className='btn-save' onClick={handleSave}>저장</button>
@@ -144,7 +144,7 @@ export default function BasicPricing({ type, data, onCreate, onUpdate, onDelete 
                   <div className='color-gray'>{index + 1}</div>
                   {/* 타입 선택 */}
                   <div>
-                    <select name="item_type" value={editValues.itemType} onChange={handleChange} className='pricing-input'>
+                    <select name="itemType" value={editValues.itemType} onChange={handleChange} className='pricing-input'>
                       <option value="CARRIER">CARRIER</option>
                       <option value="BAG">BAG</option>
                       <option value="BOX">BOX</option>
@@ -154,7 +154,7 @@ export default function BasicPricing({ type, data, onCreate, onUpdate, onDelete 
                   {/* 사이즈 인풋 */}
                   <div>
                     <input 
-                      name="item_size" 
+                      name="itemSize" 
                       value={editValues.itemSize} 
                       onChange={handleChange} 
                       className='pricing-input'
@@ -162,7 +162,7 @@ export default function BasicPricing({ type, data, onCreate, onUpdate, onDelete 
                   </div>
                   {/* 무게 인풋 */}
                   <div>
-                     <select name="item_weight" value={editValues.itemWeight} onChange={handleChange} className='pricing-input'>
+                     <select name="itemWeight" value={editValues.itemWeight} onChange={handleChange} className='pricing-input'>
                       <option value="~10kg">~10kg</option>
                       <option value="~20kg">~20kg</option>
                       <option value="~30kg">~30kg</option>
@@ -173,11 +173,11 @@ export default function BasicPricing({ type, data, onCreate, onUpdate, onDelete 
                   <div>
                     <input 
                       type="number"
-                      name="base_price" 
+                      name="basePrice" 
                       value={editValues.basePrice} 
                       onChange={handleChange} 
                       className='pricing-input'
-                    /><span>원</span>
+                    /><span> 원</span>
                   </div>
                   <div className='basic-pricing-col-actions'>
                     <button className='btn-save' onClick={handleSave}>저장</button>

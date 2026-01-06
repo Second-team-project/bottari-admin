@@ -25,7 +25,7 @@
   transition: filter 0.2s;
 }
 .basic-pricing-btn-add:disabled {
-  background-color: #ccc;
+  background-color: var(--bottari-gray);
   cursor: not-allowed;
 }
 

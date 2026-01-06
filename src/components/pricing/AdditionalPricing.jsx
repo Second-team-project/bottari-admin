@@ -1,22 +1,14 @@
 import { useState } from 'react';
 import { Plus, ChevronLeft, ChevronRight } from 'lucide-react';
 import './AdditionalPricing.css';
+import { toast } from 'sonner';
 
 export default function AdditionalPricing({ data, onCreate, onUpdate, onDelete }) {
-  
-  // 임시 데이터
-  const [data, setData] = useState([
-    { id: 1, service_type: 'STORAGE', min_value: 1, max_value: 3, rate: 100 },
-    { id: 2, service_type: 'STORAGE', min_value: 4, max_value: 7, rate: 85 },
-    { id: 3, service_type: 'STORAGE', min_value: 8, max_value: 15, rate: 75 },
-    { id: 4, service_type: 'STORAGE', min_value: 16, max_value: 30, rate: 65 },
-  ]);
-
   // 상태 관리
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [editValues, setEditValues] = useState({
-    service_type: 'STORAGE', min_value: '', max_value: '', rate: ''
+    serviceType: 'S', minValue: '', maxValue: '', rate: ''
   });
 
   // [핸들러]
@@ -28,7 +20,7 @@ export default function AdditionalPricing({ data, onCreate, onUpdate, onDelete }
   const handleAddClick = () => {
     setIsAdding(true);
     setEditingId(null);
-    setEditValues({ service_type: 'STORAGE', min_value: '', max_value: '', rate: '' });
+    setEditValues({ serviceType: 'S', minValue: '', maxValue: '', rate: '' });
   };
 
   const handleEditClick = (item) => {
@@ -43,18 +35,23 @@ export default function AdditionalPricing({ data, onCreate, onUpdate, onDelete }
   };
 
   const handleSave = () => {
+    if(parseInt(editValues.minValue) >= parseInt(editValues.maxValue)) {
+      toast.error('최대값은 최소값보다 커야합니다.')
+      return;
+    }
     if (isAdding) {
-      const newItem = { id: Date.now(), ...editValues };
-      setData([newItem, ...data]);
+      const newItem = { ...editValues };
+      onCreate(newItem)
     } else {
-      setData(data.map(item => item.id === editingId ? { ...item, ...editValues } : item));
+      const updateItem = { id:editingId, ...editValues }
+      onUpdate(updateItem)
     }
     handleCancel();
   };
 
   const handleDelete = (id) => {
     if (window.confirm('정말 삭제하시겠습니까?')) {
-      setData(data.filter(item => item.id !== id));
+      onDelete(id);
     }
   };
 
@@ -83,27 +80,27 @@ export default function AdditionalPricing({ data, onCreate, onUpdate, onDelete }
             <div className='additional-pricing-row adding-row'>
               <div>-</div>
               <div className='additional-pricing-col-type'>
-                <select name="service_type" value={editValues.service_type} onChange={handleChange} className='pricing-input'>
-                  <option value="STORAGE">보관</option>
-                  <option value="DELIVERY">배송</option>
+                <select name="serviceType" value={editValues.serviceType} onChange={handleChange} className='pricing-input'>
+                  <option value="S">보관</option>
+                  <option value="D">배송</option>
                 </select>
               </div>
               <div className='additional-pricing-col-range'>
                 <input 
-                  name="min_value" 
-                  value={editValues.min_value} 
+                  name="minValue" 
+                  value={editValues.minValue} 
                   onChange={handleChange} 
-                  placeholder="최소" 
+                  placeholder='최소 (숫자)'
                   className='pricing-input small'
-                />
+                /><span className="unit">{editValues.serviceType === 'S' ? '일' : 'km'}</span>
                 <span className='range-separator'>~</span>
                 <input 
-                  name="max_value" 
-                  value={editValues.max_value} 
+                  name="maxValue" 
+                  value={editValues.maxValue} 
                   onChange={handleChange} 
-                  placeholder="최대" 
+                  placeholder='최대 (숫자)'
                   className='pricing-input small'
-                />
+                /><span className="unit">{editValues.serviceType === 'S' ? '일' : 'km'}</span>
               </div>
               <div className='additional-pricing-col-rate'>
                 <input 
@@ -111,7 +108,7 @@ export default function AdditionalPricing({ data, onCreate, onUpdate, onDelete }
                   name="rate" 
                   value={editValues.rate} 
                   onChange={handleChange} 
-                  placeholder="%" 
+                  placeholder="% (숫자)" 
                   className='pricing-input small'
                 /> <span className="unit">%</span>
               </div>
@@ -130,25 +127,25 @@ export default function AdditionalPricing({ data, onCreate, onUpdate, onDelete }
                 <>
                   <div className='color-gray'>{index + 1}</div>
                   <div className='additional-pricing-col-type'>
-                    <select name="service_type" value={editValues.service_type} onChange={handleChange} className='pricing-input'>
-                      <option value="STORAGE">보관</option>
-                      <option value="DELIVERY">배송</option>
+                    <select name="serviceType" value={editValues.serviceType} onChange={handleChange} className='pricing-input'>
+                      <option value="S">보관</option>
+                      <option value="D">배송</option>
                     </select>
                   </div>
                   <div className='additional-pricing-col-range'>
                     <input 
-                      name="min_value" 
-                      value={editValues.min_value} 
+                      name="minValue" 
+                      value={editValues.minValue} 
                       onChange={handleChange} 
                       className='pricing-input small'
-                    />
+                    /><span className="unit">{editValues.serviceType === 'S' ? '일' : 'km'}</span>
                     <span className='range-separator'>~</span>
                     <input 
-                      name="max_value" 
-                      value={editValues.max_value} 
+                      name="maxValue" 
+                      value={editValues.maxValue} 
                       onChange={handleChange} 
                       className='pricing-input small'
-                    />
+                    /><span className="unit">{editValues.serviceType === 'S' ? '일' : 'km'}</span>
                   </div>
                   <div className='additional-pricing-col-rate'>
                     <input 
@@ -169,10 +166,10 @@ export default function AdditionalPricing({ data, onCreate, onUpdate, onDelete }
                 <>
                   <div className='color-gray'>{index + 1}</div>
                   <div className='additional-pricing-col-type'>
-                    {item.service_type === 'STORAGE' ? '보관' : '배송'}
+                    {item.serviceType === 'S' ? '보관' : '배송'}
                   </div>
                   <div className='additional-pricing-col-range'>
-                    {item.min_value} ~ {item.max_value}
+                    {item.minValue} ~ {item.maxValue}
                   </div>
                   <div className='additional-pricing-col-rate'>
                     {item.rate}%
