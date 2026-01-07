@@ -7,8 +7,9 @@ import { driverIndexThunk, driverStoreThunk, driverUpdateThunk } from '../../sto
 
 export default function DriverDetail() {
   const dispatch = useDispatch();
-  const { panel, currentPage } = useSelector((state) => state.driver);
-  const { mode, selectedData } = panel; // mode: 'store' | 'update'
+  const { panel, currentPage, selectedData } = useSelector((state) => state.driver);
+  const { mode } = panel; // mode: 'store' | 'update'
+
   // 초기값 설정
   // selectedData가 없으면 빈 문자열(등록 모드)
   const [formData, setFormData] = useState({
@@ -20,7 +21,7 @@ export default function DriverDetail() {
   });
 
   // 입력값 변경 핸들러
-  const handleChange = (e) => {
+  function handleChange(e) {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -28,13 +29,8 @@ export default function DriverDetail() {
     }));
   };
 
-  // 닫기 핸들러
-  const handleClose = () => {
-    dispatch(closePanel());
-  };
-
   // 저장(등록/수정) 핸들러
-  const handleSubmit = async (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     // 유효성 검사
@@ -52,7 +48,7 @@ export default function DriverDetail() {
         alert('기사가 등록되었습니다.');
         // 등록 후 목록 갱신
         dispatch(driverIndexThunk({ page: 1 }));
-      } else {
+      } else if(mode === 'update') {
         // 수정 로직
         await dispatch(driverUpdateThunk({ id: selectedData.id, data: formData })).unwrap();
         alert('기사 정보가 수정되었습니다.');
@@ -67,18 +63,21 @@ export default function DriverDetail() {
     }
   };
 
+  const isEditMode = mode === 'store' || mode === 'update';
+
   return (
     <div className='driver-detail-panel'>
-      {/* 타이틀 & 닫기 버튼 */}
+      {/* 헤더 */}
       <div className='driver-detail-header'>
         <h3 className="detail-title">
           {mode === 'store' ? '기사 등록' : '기사 정보 수정'}
         </h3>
-        <button type="button" className="btn-close" onClick={handleClose}>
+        <button type="button" className="btn-close" onClick={() =>dispatch(closePanel())}>
           <X size={24} />
         </button>
       </div>
 
+      {/* 폼 태그 */}
       <form onSubmit={handleSubmit} className='driver-detail-content'>
         {/* ID (수정 모드일 때만 표시) */}
         {mode === 'update' && (
@@ -91,57 +90,73 @@ export default function DriverDetail() {
         {/* 이름 */}
         <div className='driver-detail-row'>
           <label htmlFor='name' className='driver-detail-label'>이름 <span className='required'>*</span></label>
-          <input 
-            type="text" 
-            id="name"
-            name="name" 
-            className='driver-detail-input'
-            value={formData.name} 
-            onChange={handleChange}
-            placeholder="이름 입력"
-          />
+          {isEditMode ? (
+            <input 
+              type="text" 
+              id="name"
+              name="name" 
+              className='driver-detail-input'
+              value={formData.name} 
+              onChange={handleChange}
+              placeholder="이름 입력"
+            />
+          ) : (
+            <span className="read-only-text">{formData.name}</span>
+          )}
         </div>
 
         {/* 연락처 */}
         <div className='driver-detail-row'>
           <label htmlFor='phone' className='driver-detail-label'>연락처 <span className='required'>*</span></label>
-          <input 
-            type="text" 
-            id="phone"
-            name="phone" 
-            className='driver-detail-input'
-            value={formData.phone} 
-            onChange={handleChange}
-            placeholder="010-0000-0000"
-          />
+          {isEditMode ? (
+            <input 
+              type="text" 
+              id="phone"
+              name="phone" 
+              className='driver-detail-input'
+              value={formData.phone} 
+              onChange={handleChange}
+              placeholder="010-0000-0000"
+            />
+          ) : (
+            <span className="read-only-text">{formData.phone}</span>
+          )}
         </div>
 
         {/* 이메일 */}
         <div className='driver-detail-row'>
           <label htmlFor='email' className='driver-detail-label'>이메일</label>
-          <input 
-            type="email" 
-            id="email"
-            name="email" 
-            className='driver-detail-input'
-            value={formData.email} 
-            onChange={handleChange}
-            placeholder="user@example.com"
-          />
+          {isEditMode ? (
+            <input 
+              type="email" 
+              id="email"
+              name="email" 
+              className='driver-detail-input'
+              value={formData.email} 
+              onChange={handleChange}
+              placeholder="user@example.com"
+            />
+          ) : (
+            <span className="read-only-text">{formData.email}</span>
+          )}
         </div>
 
         {/* 차량번호 */}
         <div className='driver-detail-row'>
           <label htmlFor='car_number' className='driver-detail-label'>차량번호</label>
-          <input 
-            type="text" 
-            id="car_number"
-            name="car_number" 
-            className='driver-detail-input'
-            value={formData.carNumber} 
-            onChange={handleChange}
-            placeholder="예: 12가 3456"
-          />
+          {isEditMode ? (
+            <input 
+              type="text" 
+              id="car_number"
+              name="car_number" 
+              className='driver-detail-input'
+              value={formData.carNumber} 
+              onChange={handleChange}
+              placeholder="예: 12가 3456"
+            />
+            ) : (
+              <span className="read-only-text">{formData.carNumber}</span>
+            )}
         </div>
 
         {/* 배송 건수 / 등록일(수정 모드에서만 보이는 읽기 전용 정보) */}
@@ -163,19 +178,23 @@ export default function DriverDetail() {
         {/* 특이사항(메모) */}
         <div className='driver-detail-memo'>
           <label htmlFor='memo' className='driver-detail-label'>특이사항</label>
-          <textarea 
-            id="memo"
-            name="memo"
-            className='driver-detail-textarea'
-            value={formData.memo}
-            onChange={handleChange}
-            placeholder="특이사항을 입력하세요."
-          />
+          {isEditMode ? (
+            <textarea 
+              id="memo"
+              name="memo"
+              className='driver-detail-textarea'
+              value={formData.memo}
+              onChange={handleChange}
+              placeholder="특이사항을 입력하세요."
+            />
+            ) : (
+              <span className="read-only-text">{formData.memo}</span>
+            )}
         </div>
 
         <div className='driver-detail-actions'>
           {/* 취소 버튼은 패널 닫기 */}
-          <button type="button" className='btn-cancel' onClick={handleClose}>
+          <button type="button" className='btn-cancel' onClick={() => dispatch(closePanel())}>
             취소
           </button>
           <button type="submit" className='btn-save'>
