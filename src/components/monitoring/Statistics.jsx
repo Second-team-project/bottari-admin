@@ -7,10 +7,7 @@ export default function Statistics() {
   const dispatch = useDispatch();
   const { dailyStats, loading } = useSelector((state) => state.stats);
 
-  useEffect(() => {
-    dispatch(getDailyStatsThunk());
-  }, []);
-
+  
   // 데이터가 아직 없거나 로딩 중일 때 보여줄 임시 값
   // 하루 통계 변수
   const data = dailyStats || {
@@ -22,17 +19,21 @@ export default function Statistics() {
     completedStorage: 0,
     cancelledReservations: 0,
   };
-
+  
   // 하루 처리 현황 총합 계산 (완료 + 취소)
   const totalProcessed = (data.completedDelivery || 0) 
-                       + (data.completedStorage || 0) 
-                       + (data.cancelledReservations || 0);
+  + (data.completedStorage || 0) 
+  + (data.cancelledReservations || 0);
+  
+  useEffect(() => {
+    dispatch(getDailyStatsThunk());
+  }, []);
 
   // 로딩 처리
   if (loading && !dailyStats) {
-      return <div className="statistics-container">로딩 중...</div>;
-    }
-
+    return <div className="statistics-container">로딩 중...</div>;
+  }
+  
   return (
     <>
       <div className="statistics-container">
