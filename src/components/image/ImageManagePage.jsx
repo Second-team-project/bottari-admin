@@ -1,10 +1,109 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { toast } from 'sonner';
+
 import './ImageManagePage.css';
-import ImageItem from './ImageItem';
+import SingleImageManager from './SingleImageManager';
+import MultiImageManager from './MultiImageManager';
+import { createGuideImgThunk, deleteGuideImgThunk, getGuideImgThunk, updateGuideImgThunk, updateGuideImgOrderThunk } from '../../store/thunks/guideImgThunk';
 
 export default function ImageManagePage() {
-  // activeTab: 'MAIN' | 'EVENT' | 'INTRO' | 'GUIDE' | 'PRICE'
-  const [activeTab, setActiveTab] = useState('MAIN');
+  // ===== hooks
+  const dispatch = useDispatch();
+
+  // ===== local states
+  const [images, setImages] = useState([]);
+  const [activeTab, setActiveTab] = useState('BANNER');
+
+  // 이미지 데이터 불러오기
+  const fetchImages = async () => {
+    try {
+      const result = await dispatch(getGuideImgThunk()).unwrap();
+      setImages(result);
+
+      console.log('guideImg-Page-fetch: ', result);
+    } catch (error) {
+      toast.error('이미지를 불러오는데 실패했습니다.');
+      console.error('이미지 불러오기 실패:', error);
+    }
+  };
+
+  // 마운트 시 데이터 불러오기
+  useEffect(() => {
+    fetchImages();
+  }, []);
+
+  // ===== 타입별 데이터 필터링
+  const mainBanner = images.find(img => img.type === 'BANNER') || null;
+  const eventBanners = images.filter(img => img.type === 'EVENT').sort((a, b) => a.sortOrder - b.sortOrder);
+  const serviceIntro = images.find(img => img.type === 'SERVICE') || null;
+  const usageGuide = images.find(img => img.type === 'USAGE') || null;
+  const priceGuide = images.find(img => img.type === 'PRICE') || null;
+
+  // ===== 핸들러 함수
+  // 생성
+  const handleCreate = async (formData) => {
+    try {
+      await dispatch(createGuideImgThunk(formData)).unwrap();
+      fetchImages();
+
+      console.log('handleCreate: ', formData);
+      toast.success('이미지가 등록되었습니다.');
+    } catch (error) {
+      toast.error(error.message || '이미지 등록에 실패했습니다.');
+    }
+  };
+
+  // 수정
+  const handleUpdate = async (id, formData) => {
+    try {
+      await dispatch(updateGuideImgThunk({ id, formData })).unwrap();
+      fetchImages();
+
+      console.log('handleUpdate: ', id, formData);
+      toast.success('이미지가 수정되었습니다.');
+    } catch (error) {
+      toast.error(error.message || '이미지 수정에 실패했습니다.');
+    }
+  };
+
+  // 삭제
+  const handleDelete = async (id) => {
+    try {
+      await dispatch(deleteGuideImgThunk(id)).unwrap();
+      fetchImages();
+
+      console.log('handleDelete: ', id);
+      toast.success('이미지가 삭제되었습니다.');
+    } catch (error) {
+      toast.error(error.message || '이미지 삭제에 실패했습니다.');
+    }
+  };
+
+  // 순서 변경 (이벤트 배너용)
+  const handleReorder = async (id, direction) => {
+    try {
+      // 현재 아이템 인덱스 찾기
+      const currentIndex = eventBanners.findIndex(img => img.id === id);
+      const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
+
+      // 범위 체크
+      if (targetIndex < 0 || targetIndex >= eventBanners.length) return;
+
+      const current = eventBanners[currentIndex];
+      const target = eventBanners[targetIndex];
+
+      // 두 아이템의 sortOrder 교환 (PATCH 2번 호출)
+      await Promise.all([
+        dispatch(updateGuideImgOrderThunk({ id: current.id, sortOrder: target.sortOrder })).unwrap(),
+        dispatch(updateGuideImgOrderThunk({ id: target.id, sortOrder: current.sortOrder })).unwrap()
+      ]);
+
+      fetchImages();
+    } catch (error) {
+      toast.error('순서 변경에 실패했습니다.');
+    }
+  };
 
   return (
     <div className='image-manage-page'>
@@ -12,31 +111,31 @@ export default function ImageManagePage() {
 
       {/* 탭 버튼 영역 */}
       <div className='image-manage-tabs'>
-        <button 
-          className={`image-manage-tab-btn ${activeTab === 'MAIN' ? 'active' : ''}`}
-          onClick={() => setActiveTab('MAIN')}
+        <button
+          className={`image-manage-tab-btn ${activeTab === 'BANNER' ? 'active' : ''}`}
+          onClick={() => setActiveTab('BANNER')}
         >
           메인 배너
         </button>
-        <button 
+        <button
           className={`image-manage-tab-btn ${activeTab === 'EVENT' ? 'active' : ''}`}
           onClick={() => setActiveTab('EVENT')}
         >
           이벤트 배너
         </button>
-        <button 
-          className={`image-manage-tab-btn ${activeTab === 'INTRO' ? 'active' : ''}`}
-          onClick={() => setActiveTab('INTRO')}
+        <button
+          className={`image-manage-tab-btn ${activeTab === 'SERVICE' ? 'active' : ''}`}
+          onClick={() => setActiveTab('SERVICE')}
         >
           서비스 소개
         </button>
-        <button 
-          className={`image-manage-tab-btn ${activeTab === 'GUIDE' ? 'active' : ''}`}
-          onClick={() => setActiveTab('GUIDE')}
+        <button
+          className={`image-manage-tab-btn ${activeTab === 'USAGE' ? 'active' : ''}`}
+          onClick={() => setActiveTab('USAGE')}
         >
           이용 안내
         </button>
-        <button 
+        <button
           className={`image-manage-tab-btn ${activeTab === 'PRICE' ? 'active' : ''}`}
           onClick={() => setActiveTab('PRICE')}
         >
@@ -46,11 +145,57 @@ export default function ImageManagePage() {
 
       {/* 탭 내용 영역 */}
       <div className='image-manage-content'>
-        {activeTab === 'MAIN' && <ImageItem category="메인 배너" />}
-        {activeTab === 'EVENT' && <ImageItem category="이벤트 배너" />}
-        {activeTab === 'INTRO' && <ImageItem category="서비스 소개" />}
-        {activeTab === 'GUIDE' && <ImageItem category="이용 안내" />}
-        {activeTab === 'PRICE' && <ImageItem category="요금 안내" />}
+        {activeTab === 'BANNER' && (
+          <SingleImageManager
+            title="메인 배너 이미지"
+            type="BANNER"
+            data={mainBanner}
+            onCreate={handleCreate}
+            onUpdate={handleUpdate}
+            onDelete={handleDelete}
+          />
+        )}
+        {activeTab === 'EVENT' && (
+          <MultiImageManager
+            title="이벤트 배너 이미지"
+            type="EVENT"
+            data={eventBanners}
+            onCreate={handleCreate}
+            onUpdate={handleUpdate}
+            onDelete={handleDelete}
+            onReorder={handleReorder}
+          />
+        )}
+        {activeTab === 'SERVICE' && (
+          <SingleImageManager
+            title="서비스 소개 이미지"
+            type="SERVICE"
+            data={serviceIntro}
+            onCreate={handleCreate}
+            onUpdate={handleUpdate}
+            onDelete={handleDelete}
+          />
+        )}
+        {activeTab === 'USAGE' && (
+          <SingleImageManager
+            title="이용 안내 이미지"
+            type="USAGE"
+            data={usageGuide}
+            onCreate={handleCreate}
+            onUpdate={handleUpdate}
+            onDelete={handleDelete}
+          />
+        )}
+        {activeTab === 'PRICE' && (
+          <SingleImageManager
+            title="요금 안내 이미지"
+            type="PRICE"
+            data={priceGuide}
+            onCreate={handleCreate}
+            onUpdate={handleUpdate}
+            onDelete={handleDelete}
+          />
+        )}
       </div>
     </div>
   );

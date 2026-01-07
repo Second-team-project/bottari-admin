@@ -1,0 +1,325 @@
+.multi-image-manager {
+  width: 100%;
+}
+
+/* 헤더 */
+.multi-image-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.multi-image-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--bottari-darkslate);
+}
+
+.multi-image-btn-add {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background-color: var(--bottari-navy);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.multi-image-btn-add:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.multi-image-btn-add:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 컨텐츠 */
+.multi-image-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 빈 상태 */
+.multi-image-empty {
+  background: #fff;
+  border: 1px dashed var(--bottari-lightgray);
+  border-radius: 8px;
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--bottari-gray);
+}
+
+/* 폼 카드 */
+.multi-image-form-card {
+  background: #fff;
+  border: 1px solid var(--bottari-lightgray);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.multi-image-form-card.editing {
+  border-color: var(--bottari-navy);
+}
+
+.multi-image-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f9fafb;
+  border-bottom: 1px solid var(--bottari-lightgray);
+  font-weight: 500;
+  color: var(--bottari-darkslate);
+}
+
+.btn-close {
+  padding: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--bottari-gray);
+  display: flex;
+  align-items: center;
+}
+
+.btn-close:hover {
+  color: var(--bottari-darkslate);
+}
+
+.multi-image-form-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 업로드 영역 */
+.multi-image-upload-area {
+  width: 100%;
+  height: 180px;
+  border: 2px dashed var(--bottari-lightgray);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+  overflow: hidden;
+}
+
+.multi-image-upload-area:hover {
+  border-color: var(--bottari-navy);
+  background-color: #f8fafc;
+}
+
+.multi-image-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #9CA3AF;
+  font-size: 0.9rem;
+}
+
+.multi-image-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 입력 필드 */
+.multi-image-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.multi-image-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--bottari-lightgray);
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.multi-image-input:focus {
+  outline: none;
+  border-color: var(--bottari-navy);
+}
+
+.multi-image-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border: 1px solid var(--bottari-lightgray);
+  border-radius: 6px;
+}
+
+.multi-image-input-wrapper .multi-image-input {
+  border: none;
+  padding-left: 0;
+}
+
+.multi-image-input-wrapper .multi-image-input:focus {
+  border: none;
+}
+
+/* 폼 액션 */
+.multi-image-form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.multi-image-form-actions button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+/* .btn-save {
+  background-color: var(--bottari-navy);
+  color: #fff;
+  border: none;
+}
+
+.btn-save:hover {
+  opacity: 0.9;
+}
+
+.btn-cancel {
+  background-color: #fff;
+  color: var(--bottari-gray);
+  border: 1px solid var(--bottari-lightgray);
+}
+
+.btn-cancel:hover {
+  background-color: #f9fafb;
+} */
+
+/* 이미지 리스트 */
+.multi-image-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 이미지 카드 */
+.multi-image-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid var(--bottari-lightgray);
+  border-radius: 8px;
+}
+
+/* 순서 버튼 */
+.multi-image-order-btns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.btn-order {
+  color: var(--bottari-gray);
+
+  background: var(--bottari-offwhite);
+  border: 1px solid var(--bottari-coolgray);
+  border-radius: 4px;
+  padding: 4px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.btn-order:hover:not(:disabled) {
+  background: var(--bottari-navy);
+  border-color: var(--bottari-navy);
+  color: #fff;
+}
+
+.btn-order:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.order-number {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--bottari-navy);
+  padding: 4px 0;
+}
+
+/* 썸네일 */
+.multi-image-thumbnail {
+  width: 40%;
+  height: 80px;
+  
+  background: #f9fafb;
+  border-radius: 6px;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.multi-image-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 정보 */
+.multi-image-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.multi-image-name {
+  font-weight: 500;
+  color: var(--bottari-darkslate);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.multi-image-link {
+  font-size: 0.85rem;
+  color: var(--bottari-navy);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.multi-image-date {
+  font-size: 0.8rem;
+  color: var(--bottari-gray);
+}
+
+/* 액션 버튼 */
+.multi-image-actions {
+  display: flex;
+  gap: 8px;
+}

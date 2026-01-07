@@ -67,7 +67,7 @@ export const deleteStoreThunk = createAsyncThunk(
     try {
       const url = `/api/admin/store/${id}`;
       const response = await axiosIns.delete(url)
-      console.log('deletePricingThunk: ', response.data.data)
+      console.log('deleteStoreThunk: ', response.data.data)
 
       return response.data.data;
 

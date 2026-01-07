@@ -161,32 +161,6 @@
   color: #999;
 }
 
-/* 버튼 (공통 사용) */
-.btn-edit,
-.btn-delete {
-  padding: 4px 10px;
-  border: none;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.btn-edit {
-  background-color: var(--bottari-navy);
-  color: #fff;
-}
-
-.btn-delete {
-  background-color: var(--bottari-coolgray);
-  color: var(--bottari-darkslate);
-}
-
-.btn-edit:hover,
-.btn-delete:hover {
-  opacity: 0.8;
-}
-
 /* 페이지네이션 */
 .employee-list-pagination {
   display: flex;
