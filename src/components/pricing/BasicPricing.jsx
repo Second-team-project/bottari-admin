@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Plus, ChevronLeft, ChevronRight } from 'lucide-react';
 import './BasicPricing.css';
+import { toast } from 'sonner';
 
 export default function BasicPricing({ type, data, onCreate, onUpdate, onDelete }) {
 
@@ -37,8 +38,19 @@ export default function BasicPricing({ type, data, onCreate, onUpdate, onDelete 
     setEditingId(null);
   };
 
-  // [핸들러] 저장 (등록/수정 공통 - 실제론 API 호출)
+  // [핸들러] 저장 (등록/수정 공통 - 실제론 API 각각 호출)
   const handleSave = () => {
+    // 유효성 검사
+    if(!editValues.itemType.trim()) {
+      return toast.error('품목 타입을 입력해 주세요.')
+    }
+    if(!editValues.itemWeight.trim()) {
+      return toast.error('품목 무게를 입력해 주세요.')
+    }
+    if(!editValues.basePrice.trim() || Number(editValues.basePrice) <= 0 ) {
+      return toast.error('기본 가격을 입력해 주세요.')
+    }
+
     if (isAdding) {
       const newItem = { ...editValues, basePrice: Number(editValues.basePrice) };
       onCreate(newItem)
