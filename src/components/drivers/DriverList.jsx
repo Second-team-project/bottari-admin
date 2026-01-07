@@ -12,32 +12,31 @@ export default function DriverList() {
   const [searchTerm, setSearchTerm] = useState(''); // 검색창 입력값
 
   // 검색 핸들러
-  const handleSearch = (e) => {
+  function handleSearch(e) {
     e.preventDefault();
     // 검색 시 1페이지로 초기화 후 검색
     dispatch(setPage(1));
     dispatch(driverIndexThunk({ page: 1, name: searchTerm }));
   };
 
-  // 행 클릭 - 상세/수정 패널 열기
-  const handleRowClick = (driver) => {
+  // 행 클릭 - 상세 패널 열기
+  function handleRowClick(driver) {
     dispatch(openPanel({ mode: 'show', data: driver }));
   };
 
   // 등록 버튼 클릭(store 모드)
-  const handleOpenCreate = () => {
+  function handleOpenCreate() {
     dispatch(openPanel({ mode: 'store', data: null }));
   };
 
   // 삭제 핸들러
   const handleDelete = (e, id) => {
     e.stopPropagation(); // 부모의 클릭 이벤트(상세 열기) 방지
-    if (window.confirm('정말 이 기사 정보를 삭제하시겠습니까?')) {
-      dispatch(driverDestroyThunk(id))
-        .unwrap()
+    if(window.confirm('정말 이 기사 정보를 삭제하시겠습니까?')) {
+      dispatch(driverDestroyThunk(id)).unwrap()
         .then(() => {
           alert('삭제되었습니다.');
-          // 삭제 후 데이터 갱신 (현재 페이지 유지 or 1페이지 이동)
+          // 삭제 후 데이터 갱신(현재 페이지 유지)
           dispatch(driverIndexThunk({ page: currentPage, name: searchTerm }));
         })
         .catch((err) => {
@@ -49,15 +48,15 @@ export default function DriverList() {
   // 페이지네이션 핸들러
   const totalPages = Math.ceil(totalCount / 10);
   
-  const handlePrevPage = () => {
+  function handlePrevPage() {
     if(currentPage > 1) {
-      return dispatch(setPage(currentPage - 1));
+      dispatch(setPage(currentPage - 1));
     }
   };
 
-  const handleNextPage = () => {
+  function handleNextPage() {
     if(currentPage < totalPages) {
-      return dispatch(setPage(currentPage + 1));
+      dispatch(setPage(currentPage + 1));
     }
   };
 
@@ -130,7 +129,7 @@ export default function DriverList() {
                   <div className='driver-list-col-actions'>
                     <button className='btn-edit' onClick={(e) => {
                         e.stopPropagation();
-                        handleRowClick(driver); // 수정 버튼 클릭 시에도 동일하게 패널 열기
+                        dispatch(openPanel({ mode: 'update', data: driver }));
                       }}>수정</button>
                     <button className='btn-delete' onClick={(e) => handleDelete(e, driver.id)}>삭제</button>
                   </div>
