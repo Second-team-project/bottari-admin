@@ -1,0 +1,118 @@
+.additional-pricing-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.additional-pricing-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--bottari-darkslate);
+}
+
+.additional-pricing-btn-add {
+  background-color: var(--bottari-navy);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: filter 0.2s;
+}
+.additional-pricing-btn-add:disabled {
+  background-color: var(--bottari-gray);
+  cursor: not-allowed;
+}
+
+/* 테이블 */
+.additional-pricing-table {
+  width: 100%;
+  border: 1px solid var(--bottari-lightgray);
+}
+
+/* 헤더: No(60px) 타입(1fr) 구간(1.5fr) 요율(1fr) 관리(150px) */
+.additional-pricing-header {
+  display: grid;
+  grid-template-columns: 60px 1fr 1.5fr 1fr 150px;
+  background-color: var(--bottari-grayfont);
+  color: #fff;
+  text-align: center;
+  align-items: center;
+  padding: 12px 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.additional-pricing-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 1.5fr 1fr 150px;
+  background-color: #fff;
+  text-align: center;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--bottari-lightgray);
+  font-size: 0.85rem;
+}
+.additional-pricing-row:last-child { border-bottom: none; }
+
+/* 입력 행 스타일 */
+.adding-row, .editing-row {
+  background-color: var(--bottari-coolgray);
+  border: 1px solid var(--bottari-navy);
+}
+
+/* Input 스타일 재사용 */
+.pricing-input {
+  padding: 6px 8px;
+  border: 1px solid var(--bottari-offwhite);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  outline: none;
+  background-color: #fff;
+}
+.pricing-input.small { width: 100px; text-align: center; }
+
+/* 범위 입력 (최소 ~ 최대) */
+.additional-pricing-col-range {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+.range-separator { font-weight: 600; color: var(--bottari-grayfont); }
+
+/* 요율 입력 */
+.additional-pricing-col-rate {
+  font-weight: 700;
+  color: var(--bottari-navy);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+.unit { font-size: 0.9rem; color: var(--bottari-darkslate); }
+
+/* 버튼 스타일 (BasicPricing의 클래스 활용 가능) */
+.additional-pricing-col-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+/* 페이지네이션 */
+.additional-pricing-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 25px;
+  padding-bottom: 40px;
+}
+.pagination-btn { cursor: pointer; }
+.page-number { font-weight: 600; }
