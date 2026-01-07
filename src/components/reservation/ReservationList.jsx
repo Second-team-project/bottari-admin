@@ -8,45 +8,72 @@ import { openPanel } from '../../store/slices/reservationSlice.js';
 
 export default function ReservationList() {
   const dispatch = useDispatch();
-  const { reservations, totalCount, loading, panel } = useSelector((state) => state.reservation);
+  const { reservations, loading, panel } = useSelector((state) => state.reservation);
+
+  // 기간 설정 함수(지난달 ~ 이번달)
+  function defaultPeriod() {
+    const today = new Date();
+    
+    // 시작일: 지난달 1일
+    // getMonth()는 0부터 시작하므로 -1을 하면 지난달이 됨
+    const start = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+    
+    // 종료일: 이번달 마지막 날
+    // 다음달(getMonth() + 1)의 0일은 '이번달 말일'을 의미함
+    const end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+    // YYYY-MM-DD 형식으로 변환
+    const format = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+
+    return { 
+      startDate: format(start), 
+      endDate: format(end) 
+    };
+  }
+
   // 검색 필터 상태 (로컬 관리)
   const [filters, setFilters] = useState({
     page: 1,
-    state: '',
-    searchType: 'userName',
-    keyword: '',
-    startDate: '',
-    endDate: '',
+    state: '', // 예약 상태
+    searchType: 'userName', // 'userName', 'code'
+    keyword: '', // 검색어
+    startDate: defaultPeriod.startDate,
+    endDate: defaultPeriod.endDate,
   });
 
   // 검색 핸들러
-  const handleSearch = () => {
+  function handleSearch() {
     setFilters({ ...filters, page: 1 });
     dispatch(reservationIndexThunk({ ...filters, page: 1 }));
   };
 
   // 엔터키 처리
-  const handleKeyDown = (e) => {
+  function handleKeyDown(e) {
     if(e.key === 'Enter') {
       return handleSearch();
     }
   };
 
   // 입력값 변경 핸들러
-  const handleChange = (e) => {
+  function handleChange(e) {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
   // 상태(Select) 변경 시 즉시 검색
-  const handleStateChange = (e) => {
+  function handleStateChange(e) {
     const newState = e.target.value;
     setFilters((prev) => ({ ...prev, state: newState, page: 1 }));
     dispatch(reservationIndexThunk({ ...filters, state: newState, page: 1 }));
   };
 
   // 삭제 핸들러
-  const handleDelete = async (id) => {
+  async function handleDelete(id) {
     if (window.confirm('정말 이 예약을 삭제하시겠습니까?')) {
       await dispatch(reservationDestroyThunk(id));
       // 삭제 후 목록이 줄어드니 필요하면 재조회 로직 추가 가능(현재는 리덕스에서 자동 제거됨)
@@ -55,7 +82,7 @@ export default function ReservationList() {
 
   useEffect(() => {
     dispatch(reservationIndexThunk(filters));
-  }, [dispatch, filters.page]);
+  }, [filters.page]);
 
   return(
     <div className='reservation-list-page'>
@@ -117,7 +144,7 @@ export default function ReservationList() {
         <div className='reservation-list-table'>
           {/* 테이블 헤더 */}
           <div className='reservation-list-header'>
-            <div className='reservation-list-col-no'>No</div>
+            <div className='reservation-list-col-no'>번호</div>
             <div className='reservation-list-col-type'>예약코드</div>
             <div className='reservation-list-col-name'>예약자명</div>
             <div className='reservation-list-col-phone'>연락처</div>
