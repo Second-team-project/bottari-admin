@@ -14,6 +14,50 @@
   margin-bottom: 20px;
 }
 
+/* 버튼 */
+.btn-edit,
+.btn-save,
+.btn-cancel,
+.btn-delete {
+  padding: 4px 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-edit {
+  background-color: var(--bottari-navy);
+  color: #fff;
+}
+
+.btn-delete {
+  background-color: #fff;
+  color: red;
+  border: 1px solid red;
+}
+
+.btn-save {
+  background-color: var(--bottari-navy);
+  color: #fff;
+}
+
+.btn-cancel {
+  background-color: var(--bottari-coolgray);
+  color: var(--bottari-darkslate);
+}
+
+.btn-edit:hover,
+.btn-delete:hover {
+  opacity: 0.8;
+}
+
+/* 색상 */
+.color-gray {
+  color: var(--bottari-gray);
+}
+
 @keyframes flutter-ribbon-left {
   0%, 100% { transform: rotate(0deg) skewX(0deg); }
   30% { transform: rotate(-3deg) skewX(-2deg); }

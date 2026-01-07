@@ -1,8 +1,12 @@
 import './App.css';
+
 import { Outlet, useLocation } from 'react-router-dom';
-import Menu from './components/common/Menu';
+
+import Menu from './components/common/Menu.jsx';
 import Header from './components/common/Header.jsx';
 import ProtectedRouter from './routes/ProtectedRouter.jsx';
+
+import { Toaster } from 'sonner';
 
 function App() {
   const location = useLocation();
@@ -12,6 +16,7 @@ function App() {
 
   return (
     <>
+      <Toaster position="top-center" />
       <div className={isLoginPage ? "app-login-container" : "app-container"}>
         <Menu />
         {isLoginPage ? (

@@ -171,33 +171,6 @@
   justify-content: center;
 }
 
-/* 버튼 (공통 버튼이라 접두어 제외 가능하지만, 규칙대로라면 reservation-list-btn-edit) */
-/* 하지만 btn-edit 등은 공통 유틸 클래스일 수도 있으니 일단 유지하거나, 필요시 변경 */
-.btn-edit,
-.btn-delete {
-  padding: 4px 10px;
-  border: none;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.btn-edit {
-  background-color: var(--bottari-navy);
-  color: #fff;
-}
-
-.btn-delete {
-  background-color: var(--bottari-coolgray);
-  color: var(--bottari-darkslate);
-}
-
-.btn-edit:hover,
-.btn-delete:hover {
-  opacity: 0.8;
-}
-
 /* 페이지네이션 */
 .reservation-list-pagination {
   display: flex;
