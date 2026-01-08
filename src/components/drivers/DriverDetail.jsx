@@ -13,7 +13,7 @@ export default function DriverDetail() {
   // 초기값 설정
   // selectedData가 없으면 빈 문자열(등록 모드)
   const [formData, setFormData] = useState({
-    name: selectedData?.driverName || '',
+    driverName: selectedData?.driverName || '',
     phone: selectedData?.phone || '',
     email: selectedData?.email || '',
     carNumber: selectedData?.carNumber || '',
@@ -94,9 +94,9 @@ export default function DriverDetail() {
             <input 
               type="text" 
               id="name"
-              name="name" 
+              name="driverName" 
               className='driver-detail-input'
-              value={formData.name} 
+              value={formData.driverName} 
               onChange={handleChange}
               placeholder="이름 입력"
             />
@@ -148,7 +148,7 @@ export default function DriverDetail() {
             <input 
               type="text" 
               id="car_number"
-              name="car_number" 
+              name="carNumber" 
               className='driver-detail-input'
               value={formData.carNumber} 
               onChange={handleChange}
@@ -197,9 +197,9 @@ export default function DriverDetail() {
           <button type="button" className='btn-cancel' onClick={() => dispatch(closePanel())}>
             취소
           </button>
-          <button type="submit" className='btn-save'>
-            {mode === 'store' ? '등록하기' : '수정하기'}
-          </button>
+            <button type="submit" className='btn-save'>
+              {mode === 'store' ? '등록하기' : '수정하기'}
+            </button>
         </div>
       </form>
     </div>

@@ -55,7 +55,7 @@ export default function EmployeeList() {
   };
 
   // 페이지네이션 핸들러
-  const totalPages = Math.ceil(totalCount / 10);
+  const totalPages = Math.ceil(totalCount / 20);
   
   const handlePrevPage = () => {
     if(currentPage > 1) {
