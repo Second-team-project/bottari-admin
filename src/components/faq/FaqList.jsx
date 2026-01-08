@@ -18,11 +18,14 @@ export default function FaqList() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const [page, setPage] = useState(1);
+  const [category, setCategory] = useState('전체')
+
   // 목록 조회 함수
   const fetchFaq = async () => {
     try {
       setLoading(true);
-      const result = await dispatch(getFAQImgThunk()).unwrap();
+      const result = await dispatch(getFAQImgThunk({ page, category })).unwrap();
       console.log('result: ', result.faqs);
       console.log('result-count: ', result.count);
       
@@ -38,7 +41,10 @@ export default function FaqList() {
 
   useEffect(() => {
     fetchFaq();
-  }, []);
+  }, [page, category]);
+
+  // pagination
+  const lastPage = Math.ceil(faqCount / 20);
   
   // ===== props 함수
   // 생성
@@ -90,6 +96,9 @@ export default function FaqList() {
     setSelectedItem(null);
   }
 
+  const CATEGORIES = ['전체', '예약', '배송', '보관', '결제/환불', '이용', '계정', '기타'];
+
+
   return(
     <div className='faq-list-page'>
       <div className='faq-list-top'>
@@ -99,6 +108,22 @@ export default function FaqList() {
           FAQ 등록
         </button>
       </div>
+
+      {/* 카테고리 필터링 */}
+      <div className="faq-category-tabs">
+        {
+          CATEGORIES.map(cat => (
+            <button key={cat}
+              className={`faq-tab-btn ${category === cat ? 'active' : ''}`}
+              onClick={() => {
+                setCategory(cat);
+                setPage(1);
+              }}
+            >{cat}</button>
+          ))
+        }
+      </div>
+
 
       {/* 테이블 */}
       <div className='faq-list-table'>
@@ -144,9 +169,15 @@ export default function FaqList() {
 
       {/* 페이지네이션 (추후 구현, 현재는 UI만 유지) */}
       <div className='faq-list-pagination'>
-        <ChevronLeft className='pagination-btn' color="#6B7280" size={22}/>
-        <span className='page-number'>1</span>
-        <ChevronRight className='pagination-btn' color="#6B7280" size={22} />
+        <ChevronLeft size={22}
+          className={`pagination-btn ${page === 1 ? 'disabled' : ''}`}
+          onClick={() => setPage(prev => Math.max(1, prev - 1))}
+        />
+        <span className='page-number'>{page}</span>
+        <ChevronRight size={22} 
+          className={`pagination-btn ${page >= lastPage ? 'disabled' : ''}`}
+          onClick={() => setPage(prev => Math.min(lastPage, prev + 1))}
+        />
       </div>
 
       {/* 모달 */}
