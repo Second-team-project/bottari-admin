@@ -133,7 +133,8 @@
 
 .notice-modal-footer .btn-edit,
 .notice-modal-footer .btn-delete {
-  padding: 10px 25px;
+  width: 130px;
+  padding: 10px;
   font-size: 0.95rem;
   font-weight: 600;
 }

@@ -41,7 +41,7 @@ export default function Header() {
       {
         !hideNav && (
           <div className='header-container'>
-            <div onClick={handleLogout} style={{ cursor: 'pointer' }} title="로그아웃">
+            <div className='logout-icon-container' onClick={handleLogout} title="로그아웃">
               <LogOut color='#fff' size={21} />
             </div>
           </div>
