@@ -59,17 +59,22 @@
 }
 
 .faq-list-row:hover {
-  background-color: #f9fafb;
+  background-color: var(--bottari-offwhite);
 }
 
 /* 카테고리 배지 */
 .faq-list-col-category span {
-  background-color: #f3f4f6;
-  color: #4b5563;
-  padding: 4px 8px;
-  border-radius: 4px;
+  color: var(--bottari-grayfont);
   font-size: 0.8rem;
   font-weight: 600;
+
+  background-color: var(--bottari-coolgray);
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin: 0 auto;
+
+  display: block;
+  width: 60%;
 }
 
 /* 제목 왼쪽 정렬 */

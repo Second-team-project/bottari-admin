@@ -105,6 +105,7 @@
 
 .store-modal-input:focus {
   border-color: var(--bottari-navy);
+  box-shadow: var(--bottari-shadow);
 }
 
 .store-modal-input[disabled] {
