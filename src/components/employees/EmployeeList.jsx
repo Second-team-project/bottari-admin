@@ -191,9 +191,9 @@ export default function EmployeeList() {
 
 //         {/* 페이지네이션 */}
 //         <div className='employee-list-pagination'>
-//           <ChevronLeft className='pagination-btn' color="#6B7280" size={22}/>
+//           <ChevronLeft className='pagination-btn' size={22}/>
 //           <span className='page-number'>1</span>
-//           <ChevronRight className='pagination-btn' color="#6B7280" size={22} />
+//           <ChevronRight className='pagination-btn' size={22} />
 //         </div>
 //       </div>
 

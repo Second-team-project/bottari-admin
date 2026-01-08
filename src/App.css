@@ -53,6 +53,15 @@
   opacity: 0.8;
 }
 
+.pagination-btn {
+  cursor: pointer;
+  color: var(--bottari-gray);
+}
+.pagination-btn.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
 /* 색상 */
 .color-gray {
   color: var(--bottari-gray);
