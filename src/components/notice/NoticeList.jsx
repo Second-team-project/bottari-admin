@@ -57,7 +57,7 @@ export default function NoticeList() {
             <div className='notice-list-col-no'>{(page - 1) * limit + index + 1}</div>
             <div className='notice-list-col-title'>{notice.title}</div>
             <div className='notice-list-col-writer'>{notice.noticeAdmin.adminName}</div>
-            <div className='notice-list-col-date'>{notice.createdAt}</div>
+            <div className='notice-list-col-date'>{notice.createdAt?.substring(0, 10)}</div>
             <div className='notice-list-col-actions'>
               <button className='btn-edit' onClick={(e) => e.stopPropagation()}>수정</button>
               <button className='btn-delete' onClick={(e) => e.stopPropagation()}>삭제</button>

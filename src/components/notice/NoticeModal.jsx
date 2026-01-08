@@ -25,6 +25,14 @@ export default function NoticeModal({ selectedItem, onClose }) {
               <span className='notice-modal-info-label'>작성일</span>
               <span className='notice-modal-info-value'>{selectedItem.createdAt}</span>
             </div>
+            {
+              selectedItem.createdAt !== selectedItem.updatedAt && (
+                <div className='notice-modal-info-item'>
+                  <span className='notice-modal-info-label'>수정일</span>
+                  <span className='notice-modal-info-value'>{selectedItem.updatedAt}</span>
+                </div>
+              )
+            }
           </div>
 
           {/* 제목 */}
