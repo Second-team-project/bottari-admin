@@ -46,7 +46,7 @@ export default function DriverList() {
   };
 
   // 페이지네이션 핸들러
-  const totalPages = Math.ceil(totalCount / 10);
+  const totalPages = Math.ceil(totalCount / 20);
   
   function handlePrevPage() {
     if(currentPage > 1) {
@@ -99,7 +99,9 @@ export default function DriverList() {
           <div className='driver-list-header'>
             <div className='driver-list-col-no'>번호</div>
             <div className='driver-list-col-name'>이름</div>
+            <div className='driver-list-col-state'>상태</div>
             <div className='driver-list-col-phone'>연락처</div>
+            <div className='driver-list-col-email'>이메일</div>
             <div className='driver-list-col-car'>차량번호</div>
             <div className='driver-list-col-count'>배송건수</div>
             <div className='driver-list-col-date'>등록일</div>
@@ -120,7 +122,9 @@ export default function DriverList() {
                 >
                   <div className='driver-list-col-no'>{driver.id}</div>
                   <div className='driver-list-col-name'>{driver.driverName}</div>
+                  <div className={`'driver-list-col-state' ${driver.attendanceState === 'ON' ? 'status-on' : 'status-off'}`}>{driver.attendanceState === 'ON' ? '🟢 출근' : '⚪ 퇴근'}</div>
                   <div className='driver-list-col-phone'>{driver.phone}</div>
+                  <div className='driver-list-col-email'>{driver.email}</div>
                   <div className='driver-list-col-car'>{driver.carNumber || '-'}</div>
                   <div className='driver-list-col-count'>{driver.deliveryCount || '-'}건</div> 
                   <div className='driver-list-col-date'>
