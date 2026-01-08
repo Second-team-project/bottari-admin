@@ -22,6 +22,36 @@
   gap: 8px;
 }
 
+/* 카테고리 필터링 */
+.faq-category-tabs {
+  padding: 8px;
+  display: flex;
+  gap: 0.3rem;
+}
+.faq-tab-btn {
+  color: var(--bottari-grayfont);
+  font-weight: 600;
+  font-size: 0.9rem;
+
+  border: 1px solid var(--bottari-grayfont);
+  border-radius: 13px;
+  background-color: var(--bottari-offwhite);
+  
+  padding: 5px 8px;
+  
+  cursor: pointer;
+}
+.faq-tab-btn:hover {
+  color: var(--bottari-navy);
+  border: 1px solid var(--bottari-navy);
+  background-color: #fff;
+}
+.faq-tab-btn.active {
+  color: var(--bottari-navy);
+  border: 1px solid var(--bottari-navy);
+  background-color: #fff;
+}
+
 /* 테이블 */
 .faq-list-table {
   width: 100%;

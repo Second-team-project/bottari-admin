@@ -10,7 +10,6 @@ const CATEGORIES = ['예약', '배송', '보관', '결제/환불', '이용', '�
 export default function FaqModal({ item, onClose, onCreate, onUpdate, onDelete }) {
 
   const [formData, setFormData] = useState({
-    adminId: item?.adminId || '', 
     category: item?.category || CATEGORIES[0],
     title: item?.title || '', 
     content: item?.content || '',

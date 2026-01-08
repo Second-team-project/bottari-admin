@@ -6,10 +6,11 @@ import axiosIns from "../../api/axiosInstance.js";
  */
 export const getFAQImgThunk = createAsyncThunk(
   'faq/getFAQImgThunk',
-  async ( _, {rejectWithValue}) => {
+  async ({ page = 1, category }, {rejectWithValue}) => {
     try {
       const url = `/api/admin/faq`;
-      const response = await axiosIns.get(url)
+      const params = { page, category };
+      const response = await axiosIns.get(url, { params })
       console.log('getFAQImgThunk: ', response.data.data)
 
       return response.data.data;
