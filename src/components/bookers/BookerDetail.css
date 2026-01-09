@@ -1,0 +1,120 @@
+/* 사이드 패널 */
+.booker-detail-panel {
+  width: 400px;
+  background-color: #fff;
+  border-left: 1px solid var(--bottari-lightgray);
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.3s ease;
+  flex-shrink: 0;
+  
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.booker-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid var(--bottari-lightgray);
+}
+
+.booker-detail-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.booker-detail-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--bottari-gray);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.booker-detail-close:hover {
+  background-color: var(--bottari-lightgray);
+  color: var(--bottari-darkslate);
+}
+
+.booker-detail-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.booker-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--bottari-lightgray);
+}
+
+.booker-detail-label {
+  font-size: 0.85rem;
+  color: var(--bottari-gray);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.booker-detail-value {
+  font-size: 0.9rem;
+  color: var(--bottari-darkslate);
+  text-align: right;
+  max-width: 65%;
+  word-break: break-all;
+}
+
+/* 특이사항(메모) */
+.booker-detail-memo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--bottari-lightgray);
+}
+
+.booker-detail-memo .booker-detail-value {
+  text-align: left;
+  max-width: 100%;
+  background-color: #f9fafb;
+  padding: 10px;
+  border-radius: 4px;
+  min-height: 80px;
+}
+
+.booker-detail-actions {
+  padding: 20px;
+  border-top: 1px solid var(--bottari-lightgray);
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.booker-detail-actions .btn-edit,
+.booker-detail-actions .btn-delete {
+  flex: 1;
+  padding: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
