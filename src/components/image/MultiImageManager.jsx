@@ -45,6 +45,15 @@ export default function MultiImageManager({ title, data = [], onCreate, onUpdate
     setPreviewUrl(URL.createObjectURL(file));
   };
 
+  // 메모리 누수 방지: 미리보기 URL 해제
+  useEffect(() => {
+    return () => {
+      if (previewUrl && previewUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
+
   // [핸들러] 업로드 영역 클릭
   const handleUploadClick = () => {
     fileInputRef.current?.click();

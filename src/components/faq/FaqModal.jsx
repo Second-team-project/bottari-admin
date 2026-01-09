@@ -8,6 +8,8 @@ import dayjs from 'dayjs';
 const CATEGORIES = ['예약', '배송', '보관', '결제/환불', '이용', '계정', '기타'];
 
 export default function FaqModal({ item, onClose, onCreate, onUpdate, onDelete }) {
+  // 1. 모든 훅(useState, useEffect)은 최상단에 선언해야 함 (중간 return 금지)
+  const isEdit = item?.id !== 'new';
 
   const [formData, setFormData] = useState({
     category: item?.category || CATEGORIES[0],
@@ -16,18 +18,34 @@ export default function FaqModal({ item, onClose, onCreate, onUpdate, onDelete }
     img: item?.img || '',
   });
 
-  if (!item) {
-    toast.error('오류가 발생했습니다. 새로고침 후 다시 시도 해주세요.')
-    return null;
-  }
-  const isEdit = item?.id !== 'new';
-
   const [selectedFile, setSelectedFile] = useState(null);
   
   // 미리보기 URL 초기화
   const [previewUrl, setPreviewUrl] = useState(() => {
     return item?.img || '';
   });
+
+  // 2. 메모리 누수 방지: 컴포넌트가 사라지거나 이미지가 바뀔 때 메모리 해제
+  useEffect(() => {
+    return () => {
+      if (previewUrl && previewUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
+
+  // item이 없을 경우 에러 처리 (useEffect 안에서 처리)
+  useEffect(() => {
+    if (!item) {
+      toast.error('오류가 발생했습니다. 새로고침 후 다시 시도 해주세요.');
+      onClose();
+    }
+  }, [item, onClose]);
+
+  // item이 없으면 아무것도 렌더링하지 않음 (훅 실행 이후에 리턴)
+  if (!item) return null;
+
+  // 입력 핸들러
 
   // 입력 핸들러
   const handleChange = (e) => {
