@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { noticeIndexThunk } from "../thunks/noticeThunk.js";
+import { noticeCreateThunk, noticeDeleteThunk, noticeIndexThunk } from "../thunks/noticeThunk.js";
 
 const initialState = {
   notices: [],
@@ -29,6 +29,12 @@ const slice = createSlice({
         state.page = page;
         state.limit = limit;
         state.count = count;
+      })
+      .addCase(noticeCreateThunk.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(noticeDeleteThunk.fulfilled, (state) => {
+        state.loading = false;
       })
 
       .addMatcher(
