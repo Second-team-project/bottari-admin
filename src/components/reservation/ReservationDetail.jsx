@@ -15,29 +15,53 @@ export default function ReservationDetail() {
       // 등록 모드일 때 초기화
       return {
         type: 'STORAGE', userName: '', phone: '', email: '', address: '',
-        period: '', price: 0, notes: '', state: 'PENDING_PAYMENT', items: [], driver: ''
+        period: '', price: 0, notes: '', state: 'PENDING_PAYMENT', items: [], driver: '', password: ''
       };
     } else if(selectedReservation) {
       // 상세/수정 모드일 때 선택된 데이터 반환
       // 주소 로직: 보관소 이름 또는 배송 경로 조합
       let address = '';
       if (selectedReservation.type === 'STORAGE') {
+        const storageInfo = selectedReservation.reservIdStorages && selectedReservation.reservIdStorages[0];
+        const storeInfo = storageInfo?.storageStore;
         // 보관: Store 정보가 있으면 이름, 없으면 주소
-        address = selectedReservation.store?.name || selectedReservation.store?.address || '';
+        address = storeInfo ? storeInfo.storeName : (storeInfo?.addr || '');
       } else {
-        // 운송: 출발지 -> 도착지
-        const pickup = selectedReservation.pickupAddress || '';
-        const dropoff = selectedReservation.dropoffAddress || '';
-        if(pickup && dropoff) {
-          return address = `${pickup} ➡️ ${dropoff}`;
-        }
+          // 운송: 출발지 -> 도착지
+          const pickup = selectedReservation.startedAddr || '';
+          const dropoff = selectedReservation.endedAddr || '';
           
-        else address = pickup || dropoff || '';
+          if(pickup && dropoff) {
+            return address = `${pickup} ➡️ ${dropoff}`;
+          }
+            
+          else {
+            address = pickup || dropoff || '';
+          }
+      }
+
+      // 기사 정보 처리
+      let driverName = '';
+      if (selectedReservation.reservationsDrivers && selectedReservation.reservationsDrivers.length > 0) {
+        // 가장 최근 배정된 기사(0번 인덱스라고 가정)의 이름을 가져옴
+        driverName = selectedReservation.reservationsDrivers[0].driverName; 
       }
 
       // 기간 로직
-      const startDate = selectedReservation.startDate || ''; 
-      const endDate = selectedReservation.endDate || '';
+      let startDate = ''; 
+      let endDate = '';
+
+      if (selectedReservation.type === 'STORAGE') {
+        // 보관: reservIdStorages 배열의 첫 번째 요소에서 날짜 추출
+        const storage = selectedReservation.reservIdStorages && selectedReservation.reservIdStorages[0];
+        startDate = storage?.startedAt || selectedReservation.createdAt; // 없으면 신청일 대체
+        endDate = storage?.endedAt || '';
+      } else {
+        // 운송: reservIdDeliveries 배열의 첫 번째 요소에서 날짜 추출
+        const delivery = selectedReservation.reservIdDeliveries && selectedReservation.reservIdDeliveries[0];
+        startDate = delivery?.startedAt || selectedReservation.createdAt; // 없으면 신청일 대체
+        // 운송은 보통 종료일이 없거나 당일이므로 endDate는 비워둠 (필요시 추가)
+      }
       
       let period = '';
       if (startDate && endDate) {
@@ -45,6 +69,7 @@ export default function ReservationDetail() {
       } else if (startDate) {
         period = startDate.substring(0, 10);
       }
+
       return {
         type: selectedReservation.type || 'STORAGE',
         // 예약자 정보(회원 or 비회원)
@@ -61,13 +86,13 @@ export default function ReservationDetail() {
         notes: selectedReservation.notes || '', // 요청사항
         state: selectedReservation.state || 'PENDING_PAYMENT',
         items: selectedReservation.reservIdLuggages || [], // 짐 정보
-        driver: selectedReservation.driver?.name || '', // 담당 기사 이름
+        driver: driverName || '', // 담당 기사 이름
       };
     }
     // 기본값
     return {
       type: 'STORAGE', userName: '', phone: '', email: '', address: '',
-      period: '', price: 0, notes: '', state: 'PENDING_PAYMENT', items: [], driver: ''
+      period: '', price: 0, notes: '', state: 'PENDING_PAYMENT', items: [], driver: '', password: ''
     };
   };
 
@@ -92,7 +117,7 @@ export default function ReservationDetail() {
         bookerInfo: {
           userName: formData.userName,
           phone: formData.phone,
-          email: '' 
+          email: '',
         },
         items: []
       };
@@ -111,7 +136,8 @@ export default function ReservationDetail() {
           bookerInfo: {
             userName: formData.userName,
             phone: formData.phone,
-            email: formData.email
+            email: formData.email,
+            password: formData.password || undefined
           }
         }
       };
@@ -236,6 +262,23 @@ export default function ReservationDetail() {
             ) : formData.email || '-'}
           </span>
         </div>
+
+        {/* 비회원 비밀번호 변경(수정 모드 & 비회원일 때만 표시) */}
+        {mode === 'update' && !selectedReservation?.reservationUser && (
+          <div className='reservation-detail-row'>
+            <span className='reservation-detail-label'>비밀번호 변경</span>
+            <span className='reservation-detail-value'>
+              <input 
+                className='detail-input' 
+                type="text"
+                name="password" 
+                value={formData.password} 
+                onChange={handleChange} 
+                placeholder="변경 시에만 입력" 
+              />
+            </span>
+          </div>
+        )}
 
         {/* 신청 날짜(읽기 전용) */}
         {mode !== 'store' && (
@@ -450,12 +493,16 @@ export default function ReservationDetail() {
                   <select className='detail-input' name="state" value={formData.state} onChange={handleChange}>
                     <option value="PENDING_PAYMENT">결제대기</option>
                     <option value="RESERVED">예약완료</option>
+                    <option value="IN_PROGRESS">진행중(이동/보관)</option>
+                    <option value="COMPLETED">완료</option>
                     <option value="CANCELLED">취소됨</option>
                   </select>
                 ) : (
                   <span className={`status-badge ${formData.state}`}>
                     {formData.state === 'PENDING_PAYMENT' && '결제대기'}
                     {formData.state === 'RESERVED' && '예약완료'}
+                    {formData.state === 'IN_PROGRESS' && '진행중'}
+                    {formData.state === 'COMPLETED' && '완료'}
                     {formData.state === 'CANCELLED' && '취소'}
                   </span>
                 )}
