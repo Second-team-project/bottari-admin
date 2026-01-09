@@ -10,17 +10,16 @@ export default function ReservationList() {
   const dispatch = useDispatch();
   const { reservations, loading, panel } = useSelector((state) => state.reservation);
 
-  // 기간 설정 함수(지난달 ~ 이번달)
+  // 기간 설정 함수
   function defaultPeriod() {
     const today = new Date();
     
-    // 시작일: 지난달 1일
-    // getMonth()는 0부터 시작하므로 -1을 하면 지난달이 됨
-    const start = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+    // 시작일 : 오늘로부터 2달 전으로 설정
+    const start = new Date(today); // 시작일 계산을 위한 복사본
+    start.setMonth(today.getMonth() - 2);
     
-    // 종료일: 이번달 마지막 날
-    // 다음달(getMonth() + 1)의 0일은 '이번달 말일'을 의미함
-    const end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    // 종료일: 오늘
+    const end = new Date(today);
 
     // YYYY-MM-DD 형식으로 변환
     const format = (date) => {
@@ -42,8 +41,9 @@ export default function ReservationList() {
     state: '', // 예약 상태
     searchType: 'userName', // 'userName', 'code'
     keyword: '', // 검색어
-    startDate: defaultPeriod.startDate,
-    endDate: defaultPeriod.endDate,
+    limit: 20, // 기본 20개씩 보기
+    startDate: defaultPeriod().startDate,
+    endDate: defaultPeriod().endDate,
   });
 
   // 검색 핸들러
@@ -57,6 +57,16 @@ export default function ReservationList() {
     if(e.key === 'Enter') {
       return handleSearch();
     }
+  };
+
+  // n개씩 보기 변경 핸들러
+  function handleLimitChange(e) {
+    const newLimit = parseInt(e.target.value, 10);
+    setFilters(prev => ({
+      ...prev,
+      limit: newLimit,
+      page: 1 // 중요: 개수를 바꾸면 무조건 1페이지로 리셋
+    }));
   };
 
   // 입력값 변경 핸들러
@@ -114,7 +124,9 @@ export default function ReservationList() {
               <option value=''>전체</option>
               <option value='PENDING_PAYMENT'>결제대기</option>
               <option value='RESERVED'>예약완료</option>
-              <option value='CANCELLED'>취소됨</option>
+              <option value='IN_PROGRESS'>이동/보관중</option>
+              <option value='COMPLETED'>완료</option>
+              <option value='CANCELLED'>취소</option>
             </select>
           </div>
 
@@ -140,6 +152,20 @@ export default function ReservationList() {
           </div>
         </div>
 
+        {/* 오른쪽: n개씩 보기 선택 */}
+        <select 
+          className="limit-select" 
+          value={filters.limit} 
+          onChange={handleLimitChange}
+          style={{ padding: '5px', borderRadius: '4px', border: '1px solid #ddd' }}
+        >
+          <option value={10}>10개씩 보기</option>
+          <option value={20}>20개씩 보기</option>
+          <option value={30}>30개씩 보기</option>
+          <option value={50}>50개씩 보기</option>
+        </select>
+      </div>
+
         {/* 테이블 */}
         <div className='reservation-list-table'>
           {/* 테이블 헤더 */}
@@ -147,9 +173,11 @@ export default function ReservationList() {
             <div className='reservation-list-col-no'>번호</div>
             <div className='reservation-list-col-type'>예약코드</div>
             <div className='reservation-list-col-name'>예약자명</div>
+            <div className='reservation-list-col-email'>이메일</div>
             <div className='reservation-list-col-phone'>연락처</div>
             <div className='reservation-list-col-date'>신청날짜</div>
             <div className='reservation-list-col-status'>처리현황</div>
+            <div className='reservation-list-col-driver'>담당기사</div>
             <div className='reservation-list-col-actions'>관리</div>
           </div>
 
@@ -168,7 +196,10 @@ export default function ReservationList() {
                 <div className='reservation-list-col-no'>{item.id}</div>
                 <div className='reservation-list-col-type'>{item.code}</div>
                 <div className='reservation-list-col-name'>
-                  {item.reservationUser ? item.reservationUser.userName : '(비회원)'}
+                  {item.reservationUser ? item.reservationUser.userName : (item.reservIdBookers?.[0]?.userName || '(비회원)')}
+                </div>
+                <div className='reservation-list-col-email' style={{ fontSize: '0.8rem', color: '#666' }}>
+                  {item.reservationUser?.email || item.reservIdBookers?.[0]?.email || '-'}
                 </div>
                 <div className='reservation-list-col-phone'>
                   {item.reservationUser ? item.reservationUser.phone : '-'}
@@ -180,8 +211,13 @@ export default function ReservationList() {
                   <span className={`status-text ${item.state}`}>
                     {item.state === 'PENDING_PAYMENT' && '결제대기'}
                     {item.state === 'RESERVED' && '예약완료'}
+                    {item.state === 'IN_PROGRESS' && '진행중'}
+                    {item.state === 'COMPLETED' && '완료'}
                     {item.state === 'CANCELLED' && '취소'}
                   </span>
+                </div>
+                <div className='reservation-list-col-driver' style={{ fontWeight: item.driverName !== '미배정' ? 'bold' : 'normal' }}>
+                  {item.reservationsDrivers?.[0]?.driverName || '미배정'}
                 </div>
                 <div className='reservation-list-col-actions'>
                   <button 
