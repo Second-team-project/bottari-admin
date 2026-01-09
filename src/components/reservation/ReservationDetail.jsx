@@ -94,7 +94,7 @@ export default function ReservationDetail() {
           phone: formData.phone,
           email: '' 
         },
-        items: [] // 짐 등록 로직은 별도 UI 필요 (일단 빈 배열)
+        items: []
       };
       await dispatch(reservationStoreThunk(payload));
     } else if(mode === 'update') {

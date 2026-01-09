@@ -6,8 +6,8 @@ import statsReducer from "./slices/statsSlice.js";
 import authReducer from "./slices/authSlice.js";
 import reservationReducer from "./slices/reservationSlice.js";
 import driverReducer from "./slices/driverSlice.js";
+import employeeReducer from "./slices/employeeSlice.js";
 import noticeReducer from "./slices/noticeSlice.js";
-// import employeeReducer from "./slices/employeeSlice.js";
 
 export default configureStore({
   reducer: {
@@ -16,7 +16,7 @@ export default configureStore({
     auth: authReducer,
     reservation: reservationReducer,
     driver: driverReducer,
+    employee: employeeReducer,
     notice: noticeReducer,
-    // employee: employeeReducer,
   }
 });
