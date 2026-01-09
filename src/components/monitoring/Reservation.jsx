@@ -114,9 +114,9 @@ export default function Reservation() {
 
         {/* 페이지 버튼 */}
         <div className='pagenation-btn-container'>
-          <ChevronLeft className='pagenation-btn' color="#6B7280" size={22}/>
+          <ChevronLeft className='pagenation-btn' size={22}/>
           <p className='page-number'>1</p>
-          <ChevronRight className='pagenation-btn' color="#6B7280" size={22} />
+          <ChevronRight className='pagenation-btn' size={22} />
         </div>
       </div>
 
