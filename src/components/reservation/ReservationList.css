@@ -180,11 +180,6 @@
   margin-top: 20px;
   padding-bottom: 30px;
 }
-
-.pagination-btn {
-  cursor: pointer;
-}
-
 .page-number {
   font-weight: 600;
   color: var(--bottari-darkslate);
