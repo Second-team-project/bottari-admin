@@ -1,6 +1,6 @@
 import { X } from 'lucide-react';
 import './StoreModal.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
 export default function StoreModal({ store, onClose, onCreate, onUpdate, onDelete }) {
@@ -8,10 +8,19 @@ export default function StoreModal({ store, onClose, onCreate, onUpdate, onDelet
     code: store?.code || '', storeName: store?.storeName || '', tel: store?.tel || '', addr: store?.addr || '',
   });
 
+  // [수정] 훅 규칙 준수를 위해 useEffect 안에서 에러 처리
+  useEffect(() => {
+    if (!store) {
+      toast.error('오류가 발생했습니다. 새로고침 후 다시 시도 해주세요.');
+      onClose();
+    }
+  }, [store, onClose]);
+
+  // [수정] store가 없을 때 렌더링 중단 (모든 훅 선언 이후에 위치)
   if (!store) {
-    toast.error('오류가 발생했습니다. 새로고침 후 다시 시도 해주세요.')
     return null;
   }
+
   const isEdit = store?.id !== 'new';
 
   // [핸들러] 입력값 변경
