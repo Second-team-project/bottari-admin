@@ -215,7 +215,7 @@ export default function ReservationList() {
             disabled={filters.page === 1}
             onClick={() => setFilters({...filters, page: filters.page - 1})}
           >
-            <ChevronLeft color="#6B7280" size={22}/>
+            <ChevronLeft size={22}/>
           </button>
           
           <span className='page-number'>{filters.page}</span>
@@ -226,7 +226,7 @@ export default function ReservationList() {
             disabled={reservations.length < 20} 
             onClick={() => setFilters({...filters, page: filters.page + 1})}
           >
-            <ChevronRight color="#6B7280" size={22} />
+            <ChevronRight size={22} />
           </button>
         </div>
       </div>

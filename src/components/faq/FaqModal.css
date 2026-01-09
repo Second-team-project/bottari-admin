@@ -20,14 +20,16 @@
 
 /* 모달 컨테이너 */
 .faq-modal-container {
-  background-color: #fff;
   width: 800px;
   max-width: 90%;
   max-height: 85vh;
+  background-color: #fff;
   border-radius: 12px;
+  box-shadow: var(--bottari-shadow);
+
   display: flex;
   flex-direction: column;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
   animation: zoomIn 0.3s ease;
 }
 
@@ -64,7 +66,7 @@
 }
 
 .faq-modal-close:hover {
-  background-color: #f3f4f6;
+  background-color: var(--bottari-offwhite);
   color: #000;
 }
 
@@ -90,52 +92,97 @@
 /* 상단 정보 (카테고리 등) */
 .faq-modal-info-row {
   display: flex;
-  gap: 30px;
+  gap: 5%;
   margin-bottom: 20px;
   padding-bottom: 15px;
   border-bottom: 1px dashed var(--bottari-lightgray);
 }
 
 .faq-modal-info-item {
+  font-size: 0.9rem;
+
+  width: 35%;
+
   display: flex;
   gap: 10px;
-  font-size: 0.9rem;
   align-items: center;
 }
 
 .faq-modal-info-label {
   color: var(--bottari-gray);
   font-weight: 500;
+
+  width: 100%;
+  max-width: 90px;
+}
+.faq-modal-info-value {
+  width: 100%;
 }
 
-.faq-category-badge {
-  background-color: #e0f2fe;
-  color: #0369a1;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-weight: 600;
-  font-size: 0.85rem;
-}
-
-/* 질문 (Q) */
-.faq-question-box {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--bottari-darkslate);
-  padding: 15px;
-  background-color: #f9fafb;
-  border-radius: 8px;
-  border-left: 4px solid var(--bottari-navy);
-}
-
-/* 답변 (A) */
-.faq-answer-box {
+/* 입력 필드 스타일 (Edit/Create 모드) */
+.faq-input-text,
+.faq-input-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--bottari-coolgray);
+  border-radius: 6px;
   font-size: 1rem;
-  line-height: 1.6;
+  outline: none;
+
+  transition: border-color 0.2s;
+  cursor: pointer;
+}
+
+.faq-input-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--bottari-coolgray);
+  border-radius: 6px;
+  font-size: 1rem;
+  line-height: 1.5;
+  outline: none;
+  resize: vertical;
+  min-height: 120px;
+  transition: border-color 0.2s;
+}
+
+.faq-input-text:focus,
+.faq-input-select:focus,
+.faq-input-textarea:focus {
+  border-color: var(--bottari-navy);
+  box-shadow: var(--bottari-shadow); /* navy 계열 focus ring */
+}
+
+/* 파일 업로드 */
+.faq-file-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
   color: #374151;
-  min-height: 150px;
-  white-space: pre-wrap;
-  padding: 10px 0;
+  transition: background-color 0.2s;
+}
+
+.faq-file-upload-btn:hover {
+  background-color: #e5e7eb;
+}
+
+.faq-img-preview {
+  margin-top: 10px;
+  max-width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.faq-img-preview img {
+  display: block;
+  max-width: 100%;
+  max-height: 300px;
 }
 
 /* 푸터/액션 */
@@ -146,11 +193,17 @@
   justify-content: flex-end;
   gap: 12px;
   background-color: #f9fafb;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
-.faq-modal-footer .btn-edit,
-.faq-modal-footer .btn-delete {
-  padding: 10px 25px;
+/* 버튼 공통 스타일 */
+.faq-modal-footer button {
+  padding: 10px 20px;
+  border-radius: 6px;
   font-size: 0.95rem;
   font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s;
 }
