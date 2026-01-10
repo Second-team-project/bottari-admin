@@ -6,6 +6,32 @@
   position: relative;
 }
 
+/* 필터 영역 */
+.search-list-tab {
+  width: 60px;
+  height: 34px;
+
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.search-list-tab:hover {
+  border: 1px solid var(--bottari-navy);
+}
+.search-list-tab:active {
+  transform: scale(0.98);
+}
+.search-list-tab.active {
+  color: var(--bottari-navy);
+  font-weight: 600;
+  border: 1px solid var(--bottari-navy);
+}
+
 /* 리스트 컨테이너 */
 .user-list-container {
   flex: 1;
