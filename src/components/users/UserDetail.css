@@ -65,7 +65,7 @@
 .user-detail-row {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   padding: 12px 0;
   border-bottom: 1px solid var(--bottari-lightgray);
 }
@@ -85,6 +85,16 @@
   word-break: break-all;
 }
 
+
+/* 회원 상태 */
+.user-detail-select {
+  font-size: 0.9rem;
+  border: 1px solid var(--bottari-coolgray);
+  border-radius: 8px;
+  width: 30%;
+  padding: 5px 15px;
+}
+
 /* 특이사항(메모) */
 .user-detail-memo {
   display: flex;
@@ -97,12 +107,49 @@
 .user-detail-memo .user-detail-value {
   text-align: left;
   max-width: 100%;
-  background-color: #f9fafb;
+  background-color: var(--bottari-offwhite);
   padding: 10px;
   border-radius: 4px;
   min-height: 80px;
 }
 
+.user-detail-textarea {
+  font-size: 0.9rem;
+  border: 1px solid var(--bottari-coolgray);
+  border-radius: 8px;
+  padding: 10px;
+}
+.user-detail-textarea:focus {
+  outline: none;
+  border: 1px solid var(--bottari-navy);
+  box-shadow: var(--bottari-shadow);
+}
+
+/* 결제 내역 */
+.user-detail-reserve-item-header {
+  font-size: 0.85rem;
+  color: var(--bottari-gray);
+  font-weight: 500;
+  white-space: nowrap;
+
+  width: 100%;
+  background-color: var(--bottari-offwhite);
+  padding: 5px;
+
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1fr;
+  justify-items: center;
+}
+.user-detail-reserve-item {
+  font-size: 0.9rem;
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1fr;
+  justify-items: center;
+}
+
+/* 하단 버튼 */
 .user-detail-actions {
   padding: 20px;
   border-top: 1px solid var(--bottari-lightgray);
