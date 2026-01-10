@@ -60,11 +60,12 @@ export const noticeCreateThunk = createAsyncThunk(
 // 게시글 수정
 export const noticeUpdateThunk = createAsyncThunk(
   'notice/noticeUpdateThunk',
-  async (id, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
+      const { id, data } = params;
       const url = `/api/admin/notices/${id}`;
 
-      const response = await axiosIns.put(url);
+      const response = await axiosIns.put(url, data);
 
       return response.data;
     } catch (error) {
