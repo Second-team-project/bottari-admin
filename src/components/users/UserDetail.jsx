@@ -67,7 +67,7 @@ export default function UserDetail() {
   const handleDelete = async() => {
     try {
       if (!window.confirm('정말 이 회원을 탈퇴 처리하시겠습니까?')) return;
-      await deleteUser(id);
+      await updateUser(id, { status: 'WITHDRAWN' });
       refreshList();
       navigate('/users');
       
@@ -127,7 +127,8 @@ export default function UserDetail() {
             value={status}
           >
             <option value="ACTIVE">정상</option>
-            <option value="BANNED">차단</option>
+            <option value="BLOCKED">차단</option>
+            {status === 'WITHDRAWN' && <option value="WITHDRAWN">탈퇴</option>}
           </select>
         </div>
         
@@ -135,7 +136,7 @@ export default function UserDetail() {
         <div className='user-detail-memo'>
           <span className='user-detail-label'>관리자 메모</span>
           <textarea name="adminMemo" id="adminMemo" className='user-detail-textarea'
-            value={adminMemo}
+            value={adminMemo || ''}
             onChange={(e) => setadminMemo(e.target.value)}
           ></textarea>
         </div>
