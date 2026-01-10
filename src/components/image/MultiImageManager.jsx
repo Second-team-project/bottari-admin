@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Plus, Upload, Pencil, Trash2, ChevronUp, ChevronDown, X, Link } from 'lucide-react';
 import './MultiImageManager.css';
 import { toast } from 'sonner';
