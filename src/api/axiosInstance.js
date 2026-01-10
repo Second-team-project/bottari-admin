@@ -27,7 +27,7 @@ const axiosIns = axios.create({
 });
 
 axiosIns.interceptors.request.use(async config => { // config: 원래 보내려 했던 request 객체의 option(body X)
-  const noRetry = /^\/api\/auth\/reissue$/; // <= 리트라이 제외 URL 설정
+  const noRetry = /^\/api\/admin\/auth\/reissue$/; // <= 리트라이 제외 URL 설정
   let { accessToken } = store.getState().auth; // <= state에 접근해서 auth state 획득
 
   try {
