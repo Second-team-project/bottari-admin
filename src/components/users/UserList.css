@@ -92,6 +92,10 @@
 }
 
 /* 컬럼 스타일 */
+.user-list-row-withdrawn {
+  color: var(--bottari-coolgray);
+}
+
 .user-list-col-no {
   color: var(--bottari-gray);
 }
@@ -114,15 +118,21 @@
 }
 
 /* 정상 상태 */
-.status-active {
+.user-list-status-active {
   background-color: #dcfce7;
   color: #166534;
 }
 
 /* 정지 상태 */
-.status-blocked {
+.user-list-status-blocked {
   background-color: #fee2e2;
   color: #991b1b;
+}
+
+/* 탈퇴 상태 */
+.user-list-status-withdrawn {
+  background-color: var(--bottari-coolgray);
+  color: var(--bottari-grayfont);
 }
 
 .user-list-col-actions {
