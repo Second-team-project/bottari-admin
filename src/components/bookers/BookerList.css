@@ -1,51 +1,25 @@
 /* 페이지 전체 레이아웃 */
-.user-list-page {
+.booker-list-page {
   display: flex;
   align-items: flex-start;
   min-height: 100vh;
   position: relative;
 }
 
-/* 필터 영역 */
-.search-list-tab {
-  width: 60px;
-  height: 34px;
-
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-.search-list-tab:hover {
-  border: 1px solid var(--bottari-navy);
-}
-.search-list-tab:active {
-  transform: scale(0.98);
-}
-.search-list-tab.active {
-  color: var(--bottari-navy);
-  font-weight: 600;
-  border: 1px solid var(--bottari-navy);
-}
-
 /* 리스트 컨테이너 */
-.user-list-container {
+.booker-list-container {
   flex: 1;
   padding: 35px;
   min-width: 0; 
 }
 
 /* 제목 */
-.user-list-title {
+.booker-list-title {
   margin-bottom: 20px;
 }
 
 /* 테이블 */
-.user-list-table {
+.booker-list-table {
   width: 100%;
   border: 1px solid var(--bottari-lightgray);
   border-radius: 8px;
@@ -53,9 +27,9 @@
 
 /* 테이블 헤더 (Sticky) */
 /* 번호(60) 이름(100) 이메일(1fr) 가입일(120) 상태(80) 관리(120) */
-.user-list-header {
+.booker-list-header {
   display: grid;
-  grid-template-columns: 60px 100px 1fr 120px 80px 120px;
+  grid-template-columns: 60px 1fr 120px 1fr 1fr 1fr 120px;
   background-color: var(--bottari-grayfont);
   color: #fff;
   text-align: center;
@@ -70,9 +44,9 @@
 }
 
 /* 테이블 행 */
-.user-list-row {
+.booker-list-row {
   display: grid;
-  grid-template-columns: 60px 100px 1fr 120px 80px 120px;
+  grid-template-columns: 60px 1fr 120px 1fr 1fr 1fr 120px;
   background-color: #fff;
   text-align: center;
   align-items: center;
@@ -83,30 +57,30 @@
   font-size: 0.85rem;
 }
 
-.user-list-row:hover {
+.booker-list-row:hover {
   background-color: #f9fafb;
 }
 
-.user-list-row.selected {
+.booker-list-row.selected {
   background-color: #e0f2fe;
 }
 
 /* 컬럼 스타일 */
-.user-list-col-no {
+.booker-list-col-no {
   color: var(--bottari-gray);
 }
 
-.user-list-col-name {
+.booker-list-col-name {
   font-weight: 500;
 }
 
-.user-list-col-email {
+.booker-list-col-email {
   text-align: left;
   padding-left: 20px;
   color: var(--bottari-gray);
 }
 
-.user-list-col-status span {
+.booker-list-col-status span {
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 0.8rem;
@@ -125,14 +99,14 @@
   color: #991b1b;
 }
 
-.user-list-col-actions {
+.booker-list-col-actions {
   display: flex;
   gap: 8px;
   justify-content: center;
 }
 
 /* 페이지네이션 */
-.user-list-pagination {
+.booker-list-pagination {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -140,6 +114,11 @@
   margin-top: 20px;
   padding-bottom: 30px;
 }
+
+.pagination-btn {
+  cursor: pointer;
+}
+
 .page-number {
   font-weight: 600;
   color: var(--bottari-darkslate);

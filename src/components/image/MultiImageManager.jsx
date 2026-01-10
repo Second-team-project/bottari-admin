@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Plus, Upload, Pencil, Trash2, ChevronUp, ChevronDown, X, Link } from 'lucide-react';
 import './MultiImageManager.css';
 import { toast } from 'sonner';
@@ -44,6 +44,15 @@ export default function MultiImageManager({ title, data = [], onCreate, onUpdate
     setSelectedFile(file);
     setPreviewUrl(URL.createObjectURL(file));
   };
+
+  // 메모리 누수 방지: 미리보기 URL 해제
+  useEffect(() => {
+    return () => {
+      if (previewUrl && previewUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
 
   // [핸들러] 업로드 영역 클릭
   const handleUploadClick = () => {

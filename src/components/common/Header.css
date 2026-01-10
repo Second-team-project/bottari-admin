@@ -1,7 +1,14 @@
 .header-container {
+  height: 35px;
   padding: 7px;
   display: flex;
   justify-content: end;
   align-items: center;
   background-color: var(--bottari-grayfont);
+}
+
+.logout-icon-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }

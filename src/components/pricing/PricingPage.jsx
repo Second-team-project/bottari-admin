@@ -1,17 +1,14 @@
 import './PricingPage.css';
 
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 import BasicPricing from './BasicPricing.jsx';
 import AdditionalPricing from './AdditionalPricing.jsx';
 
-import { createAdditionalPricingThunk, createPricingThunk, deleteAdditionalPricingThunk, deletePricingThunk, getAdditionalPricingThunk, getPricingThunk, updateAdditionalPricingThunk, updatePricingThunk } from '../../store/thunks/pricingThunk.js';
 import { toast } from 'sonner';
+import { createAdditionalPricing, createPricing, deletePricing, getAdditionalPricing, getPricing, updateAdditionalPricing, updatePricing } from '../../api/pricingApi.js';
 
 export default function PricingPage() {
-  // ===== hooks
-  const dispatch = useDispatch();
   // ===== local states
   // 기본 요금 데이터
   const [basePricing, setBasePricing] = useState([]);
@@ -23,26 +20,26 @@ export default function PricingPage() {
   // 기본 가격 불러오기
   const fetchBasePrice = async() => {
     try {
-      const result = await dispatch(getPricingThunk()).unwrap()
+      const result = await getPricing();
       
       // console.log('PricingPage: ', result)
 
-      setBasePricing(result)
+      setBasePricing(result);
       
     } catch (error) {
-      toast.error('오류가 발생했습니다. 새로고침 해주세요.')
-      console.error('기본 요금 불러오기 실패: ', error)
+      toast.error('오류가 발생했습니다. 새로고침 해주세요.');
+      console.error('기본 요금 불러오기 실패: ', error);
     }
   }
 
   // 추가 가격 불러오기
   const fetchAdditionalPrice = async() => {
     try {
-      const result = await dispatch(getAdditionalPricingThunk()).unwrap()
+      const result = await getAdditionalPricing();
       
-      console.log('fetchAdditionalPrice: ', result)
+      console.log('fetchAdditionalPrice: ', result);
 
-      setAdditionalPricing(result)
+      setAdditionalPricing(result);
       
     } catch (error) {
       toast.error('오류가 발생했습니다. 새로고침 해주세요.')
@@ -61,20 +58,20 @@ export default function PricingPage() {
   // 생성
   const handleCreate = async(item) => {
     try {
-      await dispatch(createPricingThunk(item)).unwrap();
+      await createPricing(item);
       fetchBasePrice();
 
-      toast.success('요금이 등록되었습니다.')
+      toast.success('요금이 등록되었습니다.');
   } catch (error) {
     toast.error(error.message);
   }}
   // 수정
   const handleUpdate = async(item) => {
     try {
-      await dispatch(updatePricingThunk(item)).unwrap();
+      await updatePricing(item);
       fetchBasePrice();
 
-      toast.success('요금이 수정되었습니다.')
+      toast.success('요금이 수정되었습니다.');
     } catch (error) {
       toast.error(error.message);
     }
@@ -82,10 +79,10 @@ export default function PricingPage() {
   // 삭제
   const handleDelete = async(id) => {
     try {
-      await dispatch(deletePricingThunk(id)).unwrap();
+      await deletePricing(id);
       fetchBasePrice();
       
-      toast.success('요금이 삭제되었습니다.')
+      toast.success('요금이 삭제되었습니다.');
     } catch (error) {
       toast.error(error.message);
     }
@@ -94,10 +91,10 @@ export default function PricingPage() {
   // 생성
   const handleCreateAdditional = async(item) => {
     try {
-      await dispatch(createAdditionalPricingThunk(item)).unwrap();
+      await createAdditionalPricing(item);
       fetchAdditionalPrice();
 
-      toast.success('요금이 등록되었습니다.')
+      toast.success('요금이 등록되었습니다.');
     } catch (error) {
       toast.error(error.message);
     }
@@ -105,7 +102,7 @@ export default function PricingPage() {
   // 수정
   const handleUpdateAdditional = async(item) => {
     try {
-      await dispatch(updateAdditionalPricingThunk(item)).unwrap();
+      await updateAdditionalPricing(item);
       fetchAdditionalPrice();
 
       toast.success('요금이 수정되었습니다.')
@@ -116,7 +113,7 @@ export default function PricingPage() {
   // 삭제
   const handleDeleteAdditional = async(id) => {
     try {
-      await dispatch(deleteAdditionalPricingThunk(id)).unwrap();
+      await deleteAdditionalPricing(id);
       fetchAdditionalPrice();
       
       toast.success('요금이 삭제되었습니다.')

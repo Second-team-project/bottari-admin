@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   scrollbar-gutter: stable;
+  font-family: 'Paperozi', sans-serif;
 }
 
 #root {
@@ -35,12 +36,6 @@
   --bottari-shadow: 0 4px 12px rgba(0,0,0,0.1);
   --bottari-input-shadow: 0 0 3px 0 var(--bottari-navy);
   --bottari-card-shadow: 0 0 10px 2px var(--bottari-coolgray);
-}
-
-
-/* 폰트 일괄 '페이퍼로지'폰트 적용 */
-h1, h2, h3, h4, h5, h6, p, span {
-  font-family: 'Paperozi', sans-serif;
 }
 
 @font-face {
