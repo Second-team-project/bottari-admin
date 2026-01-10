@@ -15,6 +15,7 @@
 
 /* 상단 헤더 (제목 + 등록버튼 배치) */
 .list-page-header {
+  height: 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;

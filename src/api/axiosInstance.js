@@ -2,6 +2,7 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import { jwtDecode } from 'jwt-decode';
 import { reissueThunk } from '../store/thunks/authThunk.js';
+import { clearAuth } from '../store/slices/authSlice.js';
 
 // TODO: 인증용 로직 추가 필요
 
@@ -26,7 +27,7 @@ const axiosIns = axios.create({
 });
 
 axiosIns.interceptors.request.use(async config => { // config: 원래 보내려 했던 request 객체의 option(body X)
-  const noRetry = /^\/api\/auth\/reissue$/; // <= 리트라이 제외 URL 설정
+  const noRetry = /^\/api\/admin\/auth\/reissue$/; // <= 리트라이 제외 URL 설정
   let { accessToken } = store.getState().auth; // <= state에 접근해서 auth state 획득
 
   try {
@@ -47,7 +48,9 @@ axiosIns.interceptors.request.use(async config => { // config: 원래 보내려 
   
     return config;
   } catch(error) {
-    console.log('axios interceptor', error);
+    console.log('토큰 재발급 실패: ', error);
+    store.dispatch(clearAuth()); // <-- 무한 요청 끊기
+    window.location.href = '/login'; // <-- 로그인 페이지로 쫓아내기
     return Promise.reject(error); // <= Thunk에서 에러쪽으로 빠짐
   }
 });

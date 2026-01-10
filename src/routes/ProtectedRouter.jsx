@@ -12,15 +12,16 @@ const { ADMIN } = TYPE;
 
 // 인증 및 인가가 필요한 라우트만 정의
 const AUTH_REQUIRED_ROUTES = [
-  { path: /^\/api\/admin\/monitoring$/, types: [ADMIN] },
-  { path: /^\/api\/admin\/reservations$/, types: [ADMIN] },
-  { path: /^\/api\/admin\/drivers$/, types: [ADMIN] },
-  { path: /^\/api\/admin\/employees$/, types: [ADMIN] },
-  { path: /^\/api\/admin\/notice$/, types: [ADMIN] },
-  { path: /^\/api\/admin\/faq$/, types: [ADMIN] },
-  { path: /^\/api\/admin\/image$/, types: [ADMIN] },
-  { path: /^\/api\/admin\/pricing$/, types: [ADMIN] },
-  { path: /^\/api\/admin\/store$/, types: [ADMIN] },
+  { path: /^\/monitoring$/, types: [ADMIN] },
+  { path: /^\/reservations$/, types: [ADMIN] },
+  { path: /^\/drivers$/, types: [ADMIN] },
+  { path: /^\/employees$/, types: [ADMIN] },
+  { path: /^\/users$/, types: [ADMIN] },
+  { path: /^\/notice$/, types: [ADMIN] },
+  { path: /^\/faq$/, types: [ADMIN] },
+  { path: /^\/image$/, types: [ADMIN] },
+  { path: /^\/pricing$/, types: [ADMIN] },
+  { path: /^\/store$/, types: [ADMIN] },
 ];
 
 // 비로그인만 접근 허용하는 라우트 정의
@@ -42,7 +43,7 @@ export default function ProtectedRouter() {
         try {
           await dispatch(reissueThunk()).unwrap();
         } catch(error) {
-          console.log('프로텍트라우터 재발급', error);
+          console.error('프로텍트라우터 재발급 실패: ', error);
           dispatch(clearAuth());
         }
       }
@@ -57,6 +58,8 @@ export default function ProtectedRouter() {
     return <></>;
   }
 
+  console.log('현재 로그인 정보:', isLoggedIn, admin);
+
   // 게스트 라우트 확인
   const isGuestRoute = GUEST_ONLY_ROUTES.some(regx => regx.test(location.pathname));
 
@@ -65,25 +68,33 @@ export default function ProtectedRouter() {
       return <Navigate to="/monitoring" replace />
     }
   } else {
-    // 요청에 맞는 권한 규칙 조회
-    const matchRole = AUTH_REQUIRED_ROUTES.find(item => item.path.test(location.pathname)); // item = path 하나하나
+    // 요청에 맞는 권한 규칙 조회 
+    // const matchRole = AUTH_REQUIRED_ROUTES.find(item => item.path.test(location.pathname)); // item = path 하나하나
+    // -> 관리자 페이지라서 로그인 페이지 외엔 몽땅 권한 체크함
 
-    // 일치하는 규칙이 있을 시 인증 및 권한 체크
-    if(matchRole) {
+    // 일치하는 규칙이 있을 시 인증 및 권한 체크 
+    // if(matchRole) {
+    // -> 규칙 상관 없이 몽땅 체크
+
       // 인증 체크
       if(isLoggedIn) {
         // 권한 체크
-        if(matchRole.types.includes(admin.type)) { // auth에 있는 admin
+        // if(matchRole.types.includes(admin.type)) {
+        // auth에 있는 admin의 타입이 위에 선언된 타입인지 체크
+        // -> 현재 admin의 타입을 나누지 않을 것이고, DB에서서도 타입을 정의하지 않으니 타입 체크 패스
           return <Outlet />
-        } else {
-          alert('권한이 부족하여 사용할 수 없습니다.');
-          return <Navigate to="/login" replace />
-        }
+
+        // } else {
+        //   alert('권한이 부족하여 사용할 수 없습니다.');
+        //   dispatch(clearAuth());
+        //   return <Navigate to="/login" replace />
+        // }
+        // -> admin 타입체크 X 이므로 주석처리
       } else {
         alert('로그인이 필요한 서비스입니다.');
         return <Navigate to="/login" replace />
       }
-    }
+    // }
   }
 
   return <Outlet />

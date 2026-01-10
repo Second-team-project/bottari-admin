@@ -14,6 +14,7 @@ import PricingPage from "../components/pricing/PricingPage.jsx";
 import ImageManagePage from "../components/image/ImageManagePage.jsx";
 import StoreList from "../components/store/StoreList.jsx";
 import UserList from "../components/users/UserList.jsx";
+import BookerList from "../components/bookers/BookerList.jsx";
 
 
 const router = createBrowserRouter([
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "/users",
         element: <UserList />,
+      },
+      {
+        path: "/bookers",
+        element: <BookerList />,
       },
       {
         path: "/notice",

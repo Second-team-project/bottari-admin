@@ -2,30 +2,36 @@ import './FaqList.css';
 
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
-import { useDispatch } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 
 import FaqModal from './FaqModal';
-import { createFAQImgThunk, deleteFAQImgThunk, getFAQImgThunk, updateFAQImgThunk } from '../../store/thunks/faqThunk';
+import { getFAQ, createFAQ, updateFAQ, deleteFAQ } from '../../api/faqApi';
 import { toast } from 'sonner';
 import dayjs from 'dayjs';
 
 export default function FaqList() {
   // ===== hooks
-  const dispatch = useDispatch()
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // ===== URL Query Params (Source of Truth)
+  // URL에서 값을 읽어옵니다. 없으면 기본값을 사용합니다.
+  const page = parseInt(searchParams.get('page')) || 1;
+  const category = searchParams.get('category') || '전체';
+
+  // API 요청용 객체
+  const filters = { page, category };
+
   // ===== local states
   const [faqList, setFaqList] = useState([]);
   const [faqCount, setFaqCount] = useState(0);
   const [selectedItem, setSelectedItem] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const [page, setPage] = useState(1);
-  const [category, setCategory] = useState('전체')
-
   // 목록 조회 함수
-  const fetchFaq = async () => {
+  const fetchFaq = async (params) => {
     try {
       setLoading(true);
-      const result = await dispatch(getFAQImgThunk({ page, category })).unwrap();
+      const result = await getFAQ(params);
       console.log('result: ', result.faqs);
       console.log('result-count: ', result.count);
       
@@ -39,19 +45,25 @@ export default function FaqList() {
     }
   };
 
+  // URL 파라미터가 변경되면 API 호출
   useEffect(() => {
-    fetchFaq();
-  }, [page, category]);
+    fetchFaq(filters);
+  }, [searchParams]);
 
   // pagination
-  const lastPage = Math.ceil(faqCount / 20);
+  const lastPage = Math.ceil(faqCount / 20) || 1;
   
   // ===== props 함수
+  // 현재 상태로 목록 새로고침
+  const refreshList = () => {
+    fetchFaq(filters);
+  }
+
   // 생성
   const handleCreate = async(item) => {
     try {
-      await dispatch(createFAQImgThunk(item)).unwrap();
-      fetchFaq();
+      await createFAQ(item);
+      refreshList();
       
       toast.success('faq가 등록되었습니다.')
     } catch (error) {
@@ -60,8 +72,9 @@ export default function FaqList() {
   // 수정
   const handleUpdate = async(item) => {
     try {
-      await dispatch(updateFAQImgThunk(item)).unwrap();
-      fetchFaq();
+      // item이 { id, formData } 형태라고 가정 (기존 Thunk와 동일)
+      await updateFAQ(item);
+      refreshList();
       
       toast.success('faq가 수정되었습니다.')
     } catch (error) {
@@ -72,8 +85,8 @@ export default function FaqList() {
   const handleDelete = async(id) => {
     try {
       if (window.confirm('정말 삭제하시겠습니까?')) {
-        await dispatch(deleteFAQImgThunk(id)).unwrap();
-        fetchFaq();
+        await deleteFAQ(id);
+        refreshList();
         toast.success('faq가 삭제되었습니다.')
       }
     } catch (error) {
@@ -96,6 +109,22 @@ export default function FaqList() {
     setSelectedItem(null);
   }
 
+  // 카테고리 변경 핸들러
+  const handleCategoryChange = (newCategory) => {
+    setSearchParams({
+      page: 1, // 필터 변경 시 1페이지로 리셋
+      category: newCategory
+    });
+  };
+
+  // 페이지 변경 핸들러
+  const handlePageChange = (newPage) => {
+    setSearchParams({
+      page: newPage,
+      category: category // 기존 카테고리 유지
+    });
+  };
+
   const CATEGORIES = ['전체', '예약', '배송', '보관', '결제/환불', '이용', '계정', '기타'];
 
 
@@ -114,11 +143,8 @@ export default function FaqList() {
         {
           CATEGORIES.map(cat => (
             <button key={cat}
-              className={`faq-tab-btn ${category === cat ? 'active' : ''}`}
-              onClick={() => {
-                setCategory(cat);
-                setPage(1);
-              }}
+              className={`search-list-tab ${category === cat ? 'active' : ''}`}
+              onClick={() => handleCategoryChange(cat)}
             >{cat}</button>
           ))
         }
@@ -152,8 +178,8 @@ export default function FaqList() {
             className='faq-list-row'
             onClick={() => handleRowClick(item)}
           >
-            {/* 번호: 역순 or 순차, 여기선 인덱스 사용 */}
-            <div className='faq-list-col-no'>{index + 1}</div>
+            {/* 번호: 전체 게시글 기준 역순이나 순차 번호가 좋지만, 여기선 페이지 내 인덱스 활용 */}
+            <div className='faq-list-col-no'>{(page - 1) * 20 + index + 1}</div>
             <div className='faq-list-col-category'>
               <span>{item?.category || '일반'}</span>
             </div>
@@ -167,16 +193,16 @@ export default function FaqList() {
         ))}
       </div>
 
-      {/* 페이지네이션 (추후 구현, 현재는 UI만 유지) */}
+      {/* 페이지네이션 */}
       <div className='faq-list-pagination'>
         <ChevronLeft size={22}
           className={`pagination-btn ${page === 1 ? 'disabled' : ''}`}
-          onClick={() => setPage(prev => Math.max(1, prev - 1))}
+          onClick={() => handlePageChange(Math.max(1, page - 1))}
         />
         <span className='page-number'>{page}</span>
         <ChevronRight size={22} 
           className={`pagination-btn ${page >= lastPage ? 'disabled' : ''}`}
-          onClick={() => setPage(prev => Math.min(lastPage, prev + 1))}
+          onClick={() => handlePageChange(Math.min(lastPage, page + 1))}
         />
       </div>
 
