@@ -2,15 +2,12 @@ import './StoreList.css';
 
 import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
-import { useDispatch } from 'react-redux';
 
 import StoreModal from './StoreModal';
-import { createStoreThunk, deleteStoreThunk, getStoreThunk, updateStoreThunk } from '../../store/thunks/storeThunk.js';
+import { getStore, createStore, updateStore, deleteStore } from '../../api/storeApi.js';
 import { toast } from 'sonner';
 
 export default function StoreList() {
-  // ===== hooks 
-  const dispatch = useDispatch();
   // =====local states
   const [storeList, setStoreList] = useState([])
   const [selectedItem, setSelectedItem] = useState(null);
@@ -18,7 +15,7 @@ export default function StoreList() {
   // 보관소 불러오기
   const fetchStore = async() => {
     try {
-      const result = await dispatch(getStoreThunk()).unwrap()
+      const result = await getStore();
       console.log(result)
 
       setStoreList(result)
@@ -36,7 +33,7 @@ export default function StoreList() {
   // 생성
   const handleCreate = async(item) => {
     try {
-      await dispatch(createStoreThunk(item)).unwrap();
+      await createStore(item);
       fetchStore();
 
       toast.success('보관소가 추가되었습니다.')
@@ -46,7 +43,7 @@ export default function StoreList() {
   // 수정
   const handleUpdate = async(item) => {
     try {
-      await dispatch(updateStoreThunk(item)).unwrap();
+      await updateStore(item);
       fetchStore();
 
       toast.success('보관소 정보가 수정되었습니다.')
@@ -58,7 +55,7 @@ export default function StoreList() {
   const handleDelete = async(id) => {
     try {
       if (window.confirm('정말 삭제하시겠습니까?')) {
-        await dispatch(deleteStoreThunk(id)).unwrap();
+        await deleteStore(id);
         fetchStore();
         toast.success('보관소 정보가 삭제되었습니다.')
       }

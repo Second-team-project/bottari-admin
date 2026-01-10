@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { toast } from 'sonner';
 
 import './ImageManagePage.css';
 import SingleImageManager from './SingleImageManager';
 import MultiImageManager from './MultiImageManager';
-import { createGuideImgThunk, deleteGuideImgThunk, getGuideImgThunk, updateGuideImgThunk, updateGuideImgOrderThunk } from '../../store/thunks/guideImgThunk';
+import { getGuideImg, createGuideImg, updateGuideImg, updateGuideImgOrder, deleteGuideImg } from '../../api/guideImgApi';
 
 export default function ImageManagePage() {
   // ===== hooks
-  const dispatch = useDispatch();
 
   // ===== local states
   const [images, setImages] = useState([]);
@@ -18,7 +16,7 @@ export default function ImageManagePage() {
   // 이미지 데이터 불러오기
   const fetchImages = async () => {
     try {
-      const result = await dispatch(getGuideImgThunk()).unwrap();
+      const result = await getGuideImg();
       setImages(result);
 
       console.log('guideImg-Page-fetch: ', result);
@@ -44,7 +42,7 @@ export default function ImageManagePage() {
   // 생성
   const handleCreate = async (formData) => {
     try {
-      await dispatch(createGuideImgThunk(formData)).unwrap();
+      await createGuideImg(formData);
       fetchImages();
 
       console.log('handleCreate: ', formData);
@@ -57,7 +55,7 @@ export default function ImageManagePage() {
   // 수정
   const handleUpdate = async (id, formData) => {
     try {
-      await dispatch(updateGuideImgThunk({ id, formData })).unwrap();
+      await updateGuideImg({ id, formData });
       fetchImages();
 
       console.log('handleUpdate: ', id, formData);
@@ -70,7 +68,7 @@ export default function ImageManagePage() {
   // 삭제
   const handleDelete = async (id) => {
     try {
-      await dispatch(deleteGuideImgThunk(id)).unwrap();
+      await deleteGuideImg(id);
       fetchImages();
 
       console.log('handleDelete: ', id);
@@ -93,10 +91,10 @@ export default function ImageManagePage() {
       const current = eventBanners[currentIndex];
       const target = eventBanners[targetIndex];
 
-      // 두 아이템의 sortOrder 교환 (PATCH 2번 호출)
+      // 두 아이템의 sortOrder 교환 (API 2번 호출)
       await Promise.all([
-        dispatch(updateGuideImgOrderThunk({ id: current.id, sortOrder: target.sortOrder })).unwrap(),
-        dispatch(updateGuideImgOrderThunk({ id: target.id, sortOrder: current.sortOrder })).unwrap()
+        updateGuideImgOrder({ id: current.id, sortOrder: target.sortOrder }),
+        updateGuideImgOrder({ id: target.id, sortOrder: current.sortOrder })
       ]);
 
       fetchImages();
