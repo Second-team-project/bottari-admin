@@ -22,6 +22,7 @@ const AUTH_REQUIRED_ROUTES = [
   { path: /^\/image$/, types: [ADMIN] },
   { path: /^\/pricing$/, types: [ADMIN] },
   { path: /^\/store$/, types: [ADMIN] },
+  { path: /^\/chat$/, types: [ADMIN] },
 ];
 
 // 비로그인만 접근 허용하는 라우트 정의
