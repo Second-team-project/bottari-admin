@@ -42,6 +42,7 @@ export default function UserList() {
     { label: '전체', value: '' },
     { label: '정상', value: 'ACTIVE' },
     { label: '차단', value: 'BLOCKED' },
+    { label: '탈퇴', value: 'WITHDRAWN' },
   ];
 
   // 유저 데이터 불러오기
@@ -216,7 +217,7 @@ export default function UserList() {
           { userList?.map((user, index) => (
             <div
               key={user?.id}
-              className={`user-list-row ${selectedUser === index ? 'selected' : ''}`}
+              className={`user-list-row ${selectedUser === index ? 'selected' : ''} user-list-row-${user?.status?.toLowerCase()}`}
               onClick={() => handleOpen({ user, index })}
             >
               <div className='user-list-col-no'>{(page - 1) * 20 + index + 1}</div>
@@ -224,8 +225,8 @@ export default function UserList() {
               <div className='user-list-col-email'>{user?.email}</div>
               <div className='user-list-col-date'>{user?.createdAt}</div>
               <div className='user-list-col-status'>
-                <span className={user?.status === 'ACTIVE' ? 'status-active' : 'status-blocked'}>
-                  {user?.status === 'ACTIVE' ? '정상' : '정지'}
+                <span className={`user-list-status-badge user-list-status-${user?.status?.toLowerCase()}`}>
+                  {STATUS_TABS.find(tab => tab.value === user?.status)?.label || user?.status}
                 </span>
               </div>
               <div className='user-list-col-actions'>
