@@ -29,6 +29,7 @@ export default function Menu() {
               {/* <Link className="redirect-menu" to="/bookers">예약자 관리</Link> */}
               <Link className="redirect-menu" to="/notice">공지사항 관리</Link>
               <Link className="redirect-menu" to="/faq">FAQ 관리</Link>
+              <Link className="redirect-menu" to="/chat">1:1 상담</Link>
               <Link className="redirect-menu" to="/image">배너 관리</Link>
               <Link className="redirect-menu" to="/pricing">요금 관리</Link>  
               <Link className="redirect-menu" to="/store">보관소 관리</Link>  
