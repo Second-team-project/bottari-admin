@@ -15,6 +15,8 @@ import ImageManagePage from "../components/image/ImageManagePage.jsx";
 import StoreList from "../components/store/StoreList.jsx";
 import UserList from "../components/users/UserList.jsx";
 import BookerList from "../components/bookers/BookerList.jsx";
+import UserDetail from "../components/users/UserDetail.jsx";
+import ChatList from "../components/chat/ChatList.jsx";
 
 
 const router = createBrowserRouter([
@@ -50,6 +52,12 @@ const router = createBrowserRouter([
       {
         path: "/users",
         element: <UserList />,
+        children: [
+          {
+            path: ":id",
+            element: <UserDetail />,
+          }
+        ]
       },
       {
         path: "/bookers",
@@ -74,6 +82,14 @@ const router = createBrowserRouter([
       {
         path: "/store",
         element: <StoreList />,
+      },
+      {
+        path: "/chat",
+        element: <ChatList />,
+      },
+      {
+        path: "/chat/:id",
+        element: <ChatList />,
       },
     ],
   },
