@@ -157,7 +157,6 @@ export default function ReservationList() {
           className="limit-select" 
           value={filters.limit} 
           onChange={handleLimitChange}
-          style={{ padding: '5px', borderRadius: '4px', border: '1px solid #ddd' }}
         >
           <option value={10}>10개씩 보기</option>
           <option value={20}>20개씩 보기</option>
@@ -186,13 +185,13 @@ export default function ReservationList() {
           ) : reservations.length === 0 ? (
              <div className='empty-msg'>검색 결과가 없습니다.</div>
           ) : (
-            reservations.map((item) => (
+            reservations.map((item, index) => (
               <div
                 key={item.id}
                 className={`reservation-list-row ${panel.selectedReservation?.id === item.id ? 'selected' : ''}`}
                 onClick={() => dispatch(openPanel({ mode: 'show', data: item }))} // 행 클릭 시 상세 모드
               >
-                <div className='reservation-list-col-no'>{item.id}</div>
+                <div className='reservation-list-col-no'>{(filters.page - 1) * filters.limit + index + 1}</div>
                 <div className='reservation-list-col-type'>{item.code}</div>
                 <div className='reservation-list-col-name'>
                   {item.reservationUser ? item.reservationUser.userName : (item.reservIdBookers?.[0]?.userName || '(비회원)')}

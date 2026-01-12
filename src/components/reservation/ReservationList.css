@@ -42,7 +42,9 @@
 /* 검색 바 컨테이너 */
 .reservation-search-bar {
   display: flex;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  overflow-x: auto;
   gap: 20px;
   background-color: #f8f9fa;
   padding: 15px;
@@ -56,11 +58,20 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  white-space: nowrap;
   font-size: 0.9rem;
 }
 
 .search-group.right-align {
   margin-left: auto; /* 검색창을 우측 끝으로 밀기 */
+}
+
+/* 리스트 여러개 보기 */
+.limit-select {
+  padding: '10px';
+  border: '1px solid #ddd';
+  border-radius: '4px';
+  color: var(--bottari-gray)
 }
 
 /* 테이블 */
@@ -117,10 +128,34 @@
   color: #dc2626; font-weight: bold;
 }
 
+/* 테이블 헤더, 리스트 규격 */
+:root {
+  --reservation-grid-cols: 
+    60px      /* 번호 */
+    140px     /* 예약코드/관리 */
+    100px     /* 예약자명 */
+    1.2fr     /* 이메일 */
+    100px     /* 연락처 */
+    100px     /* 신청날짜 */
+    100px       /* 처리 현황 */
+    100px     /* 담당 기사 */
+    120px       /* 관리 */
+  ;
+}
+
+/* 테이블 헤더, 행 공통 규격 */
+.reservation-list-row > div,
+.reservation-list-header > div {
+  white-space: nowrap;      /* 줄바꿈 막기 */
+  overflow: hidden;         /* 내용 숨김 */
+  text-overflow: ellipsis;  /* 내용이 길면 ... 표시 */
+  padding: 0 5px;
+}
+
 /* 테이블 헤더 (Sticky) */
 .reservation-list-header {
   display: grid;
-  grid-template-columns: 60px 80px 1fr 1fr 120px 100px 120px;
+  grid-template-columns: var(--reservation-grid-cols);
   background-color: var(--bottari-grayfont);
   color: #fff;
   text-align: center;
@@ -128,6 +163,9 @@
   padding: 12px 0;
   font-weight: 600;
   font-size: 0.9rem;
+
+  /* 줄바꿈 금지 */
+  white-space: nowrap;
   
   /* 스티키 설정 (브라우저 전체 스크롤 기준) */
   position: sticky;
@@ -138,7 +176,7 @@
 /* 테이블 행 */
 .reservation-list-row {
   display: grid;
-  grid-template-columns: 60px 80px 1fr 1fr 120px 100px 120px;
+  grid-template-columns: var(--reservation-grid-cols);
   background-color: #fff;
   text-align: center;
   align-items: center;
@@ -147,7 +185,7 @@
   cursor: pointer;
   transition: background-color 0.2s;
   font-size: 0.85rem;
-}  
+} 
 
 .reservation-list-row:hover {
   background-color: #f9fafb;
