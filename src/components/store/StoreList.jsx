@@ -123,13 +123,6 @@ export default function StoreList() {
         ))}
       </div>
 
-      {/* 페이지네이션 */}
-      <div className='store-list-pagination'>
-        <ChevronLeft className='pagination-btn' size={22}/>
-        <span className='page-number'>1</span>
-        <ChevronRight className='pagination-btn' size={22} />
-      </div>
-
       {/* 등록/수정 모달 */}
       {
         selectedItem && (
