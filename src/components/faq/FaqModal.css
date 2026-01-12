@@ -190,11 +190,16 @@
   object-fit: contain;
 }
 
-.notice-clear-image-btn {
+.faq-clear-image-btn {
+  cursor: pointer;
   position: absolute;
   top: 10px;
   right: 0;
   color: #374151;
+}
+
+.faq-clear-image-btn:hover {
+  opacity: 0.9;
 }
 
 /* 푸터/액션 */
