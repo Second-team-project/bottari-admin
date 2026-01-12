@@ -29,7 +29,7 @@
 
   border-radius: 12px;
   box-shadow: var(--bottari-shadow);
-  
+
   display: flex;
   flex-direction: column;
   
@@ -44,7 +44,7 @@
 .store-modal-header {
   border-bottom: 1px solid var(--bottari-lightgray);
   padding: 20px 25px;
-
+  
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -66,7 +66,7 @@
   
   display: flex;
   align-items: center;
-
+  
   cursor: pointer;
 }
 
@@ -79,6 +79,7 @@
 .store-modal-content {
   padding: 25px;
   overflow-y: auto;
+  scrollbar-gutter: auto;
 }
 
 .store-modal-form-group {
@@ -121,24 +122,22 @@
   justify-content: flex-end;
   gap: 12px;
   background-color: #f9fafb;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
 .store-modal-footer .btn-save {
-  background-color: var(--bottari-navy);
-  color: #fff;
-  border: none;
-  padding: 10px 25px;
-  border-radius: 6px;
+  width: 130px;
+  padding: 10px;
+  font-size: 0.95rem;
   font-weight: 600;
-  cursor: pointer;
+  flex: none;
 }
 
 .store-modal-footer .btn-cancel {
-  background-color: var(--bottari-coolgray);
-  color: var(--bottari-darkslate);
-  border: none;
-  padding: 10px 25px;
-  border-radius: 6px;
+  width: 130px;
+  padding: 10px;
+  font-size: 0.95rem;
   font-weight: 600;
-  cursor: pointer;
+  flex: none;
 }

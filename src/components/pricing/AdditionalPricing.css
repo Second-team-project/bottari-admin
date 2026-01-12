@@ -105,6 +105,17 @@
   justify-content: center;
 }
 
+.edit-additional-pricing-col-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  padding: 0 10px;
+}
+
+.btn-flex {
+  flex: 1;
+}
+
 /* 페이지네이션 */
 .additional-pricing-pagination {
   display: flex;

@@ -120,7 +120,7 @@ export default function FaqModal({ item, onClose, onCreate, onUpdate, onDelete }
           {/* 상단 정보 (카테고리) */}
           <div className='faq-modal-info-row'>
             <div className='faq-modal-info-item'>
-              <span className='faq-modal-info-label'>카테고리</span>
+              <span className='faq-modal-info-label label-width'>카테고리</span>
               <select 
                 name="category" 
                 value={formData.category} 
@@ -137,9 +137,21 @@ export default function FaqModal({ item, onClose, onCreate, onUpdate, onDelete }
             <div className='faq-modal-info-item'>
               <span className='faq-modal-info-label'>작성일</span>
               <span className='faq-modal-info-value'>
-                {dayjs(item?.createdAt).format('YYYY-MM-DD HH:mm')}
+                {item?.createdAt}
               </span>
             </div>
+
+            {/* 수정일 */}
+            {
+              item?.createdAt !== item?.updatedAt && (
+                <div className='faq-modal-info-item'>
+                  <span className='faq-modal-info-label'>수정일</span>
+                  <span className='faq-modal-info-value'>
+                    {item?.updatedAt}
+                  </span>
+                </div>
+              )
+            }
           </div>
 
           {/* 질문 (Q) */}
@@ -189,7 +201,7 @@ export default function FaqModal({ item, onClose, onCreate, onUpdate, onDelete }
 
         <div className='faq-modal-footer'>
           <button className='btn-save' onClick={handleSave}>
-            {isEdit  ? '저장' : '생성'}
+            {isEdit  ? '수정하기' : '등록하기'}
           </button>
           <button className='btn-cancel' onClick={onClose}>취소</button>
         </div>
