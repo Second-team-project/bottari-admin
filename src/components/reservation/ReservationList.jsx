@@ -92,7 +92,7 @@ export default function ReservationList() {
 
   useEffect(() => {
     dispatch(reservationIndexThunk(filters));
-  }, [filters.page]);
+  }, [filters.page, filters.limit]);
 
   return(
     <div className='reservation-list-page'>
@@ -164,7 +164,6 @@ export default function ReservationList() {
           <option value={30}>30개씩 보기</option>
           <option value={50}>50개씩 보기</option>
         </select>
-      </div>
 
         {/* 테이블 */}
         <div className='reservation-list-table'>
@@ -248,8 +247,8 @@ export default function ReservationList() {
         <div className='reservation-list-pagination'>
           <button 
             className='pagination-btn' 
-            disabled={filters.page === 1}
-            onClick={() => setFilters({...filters, page: filters.page - 1})}
+            disabled={reservations.length < filters.limit}
+            onClick={() => setFilters({...filters, page: filters.page + 1})}
           >
             <ChevronLeft size={22}/>
           </button>
