@@ -86,6 +86,8 @@ export default function UserList() {
   // ||     핸들러     ||
   // === 패널 관련
   function handleOpen({ user, index }) {
+    (e) => e.stopPropagation()
+
     setSelectedUser(index);
     navigate(`/users/${user.id}`)
   }
@@ -230,7 +232,7 @@ export default function UserList() {
                 </span>
               </div>
               <div className='user-list-col-actions'>
-                <button className='btn-edit' onClick={(e) => e.stopPropagation()}>관리</button>
+                <button className='btn-edit' onClick={() => handleOpen({ user, index })}>관리</button>
               </div>
             </div>
           ))}
