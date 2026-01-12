@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { closePanel } from '../../store/slices/driverSlice.js';
 import { driverIndexThunk, driverStoreThunk, driverUpdateThunk } from '../../store/thunks/driverThunk.js';
+import dayjs from 'dayjs';
 
 export default function DriverDetail() {
   const dispatch = useDispatch();
@@ -18,6 +19,9 @@ export default function DriverDetail() {
     email: selectedData?.email || '',
     carNumber: selectedData?.carNumber || '',
     memo: selectedData?.memo || '', // 특이사항
+    state: selectedData?.state || 'COLOCKED_OUT', // 출퇴근 상태
+    deliveryCount: selectedData?.deliveryCount || 0, // 배송 건수
+    createdAt: selectedData?.createdAt || null,
   });
 
   // 입력값 변경 핸들러
@@ -34,7 +38,7 @@ export default function DriverDetail() {
     e.preventDefault();
 
     // 유효성 검사
-    if(!formData.name.trim()) {
+    if(!formData.driverName.trim()) {
       return alert('이름을 입력해주세요.');
     }
     if(!formData.phone.trim()) {
@@ -63,6 +67,13 @@ export default function DriverDetail() {
     }
   };
 
+  // 타이틀 헬퍼
+  const getTitle = () => {
+    if (mode === 'store') return '기사 등록';
+    if (mode === 'update') return '기사 정보 수정';
+    return '기사 상세 정보';
+  };
+
   const isEditMode = mode === 'store' || mode === 'update';
 
   return (
@@ -70,7 +81,7 @@ export default function DriverDetail() {
       {/* 헤더 */}
       <div className='driver-detail-header'>
         <h3 className="detail-title">
-          {mode === 'store' ? '기사 등록' : '기사 정보 수정'}
+          {getTitle()}
         </h3>
         <button type="button" className="btn-close" onClick={() =>dispatch(closePanel())}>
           <X size={24} />
@@ -152,7 +163,7 @@ export default function DriverDetail() {
               className='driver-detail-input'
               value={formData.carNumber} 
               onChange={handleChange}
-              placeholder="예: 12가 3456"
+              placeholder="예: 12가3456"
             />
             ) : (
               <span className="read-only-text">{formData.carNumber}</span>
@@ -169,7 +180,7 @@ export default function DriverDetail() {
             <div className='driver-detail-row'>
               <span className='driver-detail-label'>등록일</span>
               <span className='driver-detail-text'>
-                {selectedData.createdAt ? new Date(selectedData.createdAt).toLocaleDateString() : '-'}
+                {selectedData.createdAt ? dayjs(formData.createdAt).format('YYYY-MM-DD HH:mm:ss') : '-'}
               </span>
             </div>
           </>

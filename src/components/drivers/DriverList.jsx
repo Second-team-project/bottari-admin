@@ -5,6 +5,7 @@ import DriverDetail from './DriverDetail.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { driverDestroyThunk, driverIndexThunk } from '../../store/thunks/driverThunk.js';
 import { openPanel, setPage } from '../../store/slices/driverSlice.js';
+import dayjs from 'dayjs';
 
 export default function DriverList() {
   const dispatch = useDispatch();
@@ -113,14 +114,14 @@ export default function DriverList() {
             <div className='state-message'>로딩 중...</div>
           ) : (
             drivers.length > 0 ? (
-              drivers.map((driver) => (
+              drivers.map((driver, index) => (
                 <div
                   key={driver.id}
                   // 현재 선택된 데이터와 ID가 같으면 selected 클래스 추가
                   className={`driver-list-row ${panel.selectedData?.id === driver.id ? 'selected' : ''}`}
                   onClick={() => handleRowClick(driver)}
                 >
-                  <div className='driver-list-col-no'>{driver.id}</div>
+                  <div className='driver-list-col-no'>{(currentPage - 1) * 20 + index + 1}</div>
                   <div className='driver-list-col-name'>{driver.driverName}</div>
                   <div className={`'driver-list-col-state' ${driver.attendanceState === 'ON' ? 'status-on' : 'status-off'}`}>{driver.attendanceState === 'ON' ? '🟢 출근' : '⚪ 퇴근'}</div>
                   <div className='driver-list-col-phone'>{driver.phone}</div>
@@ -128,7 +129,7 @@ export default function DriverList() {
                   <div className='driver-list-col-car'>{driver.carNumber || '-'}</div>
                   <div className='driver-list-col-count'>{driver.deliveryCount || '-'}건</div> 
                   <div className='driver-list-col-date'>
-                    {driver.createdAt ? new Date(driver.createdAt).toLocaleDateString() : '-'}
+                    {driver.createdAt ? dayjs(driver.createdAt).format('YYYY.MM.DD') : '-'}
                   </div>
                   <div className='driver-list-col-actions'>
                     <button className='btn-edit' onClick={(e) => {
@@ -157,7 +158,7 @@ export default function DriverList() {
             style={{ pointerEvents: currentPage === 1 ? 'none' : 'auto' }}
           />
           <span className='page-number'>
-            {currentPage} / {totalPages || 1}
+            {currentPage || 1}
           </span>
           <ChevronRight 
             className='pagination-btn' 
