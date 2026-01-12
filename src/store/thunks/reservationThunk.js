@@ -5,8 +5,8 @@ export const reservationIndexThunk = createAsyncThunk(
   'reservation/reservationIndexThunk',
   async (params, { rejectWithValue }) => {
     try {
-      // params = { page, state, searchType, keyword, startDate, endDate }
-      const response = await axiosIns.get('/api/admin/reservations', { params });
+      // params = { page, state, searchType, keyword, startDate, endDate... }
+      const response = await axiosIns.get('/api/admin/reservations', { params: params });
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || '예약 목록 로딩 실패');

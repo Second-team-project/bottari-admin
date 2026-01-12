@@ -81,11 +81,25 @@
   border-radius: 8px;
 }
 
+/* 테이블 헤더, 리스트 규격 */
+:root {
+  --driver-grid-cols: 
+    60px      /* 번호 */
+    100px       /* 예약자명 */
+    100px       /* 상태 */
+    160px     /* 연락처 */
+    180px       /* 이메일 */
+    120px     /* 차량번호 */
+    120px    /* 배송건수 */
+    140px       /* 등록일 */
+    1fr       /* 관리 */
+  ;
+}
+
 /* 테이블 헤더 (Sticky) */
-/* 번호(60) 이름(100) 연락처(150) 차량번호(120) 배송건수(100) 등록일(1fr) 관리(120) */
 .driver-list-header {
   display: grid;
-  grid-template-columns: 60px 100px 150px 120px 100px 1fr 120px;
+  grid-template-columns: var(--driver-grid-cols);
   background-color: var(--bottari-grayfont);
   color: #fff;
   text-align: center;
@@ -93,6 +107,9 @@
   padding: 12px 0;
   font-weight: 600;
   font-size: 0.9rem;
+
+  /* 줄바꿈 금지 */
+  white-space: nowrap;
   
   position: sticky;
   top: 0; 
@@ -102,7 +119,7 @@
 /* 테이블 행 */
 .driver-list-row {
   display: grid;
-  grid-template-columns: 60px 100px 150px 120px 100px 1fr 120px;
+  grid-template-columns: var(--driver-grid-cols);
   background-color: #fff;
   text-align: center;
   align-items: center;
@@ -111,6 +128,15 @@
   cursor: pointer;
   transition: background-color 0.2s;
   font-size: 0.85rem;
+}
+
+/* 테이블 헤더, 행 공통 규격 */
+.driver-list-row > div,
+.driver-list-header > div {
+  white-space: nowrap;      /* 줄바꿈 막기 */
+  overflow: hidden;         /* 내용 숨김 */
+  text-overflow: ellipsis;  /* 내용이 길면 ... 표시 */
+  padding: 0 5px;
 }
 
 .driver-list-row:hover {
