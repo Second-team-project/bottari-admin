@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Upload } from 'lucide-react';
+import { X, Upload, Trash2 } from 'lucide-react';
 import './FaqModal.css';
 import { toast } from 'sonner';
 import dayjs from 'dayjs';
@@ -24,6 +24,13 @@ export default function FaqModal({ item, onClose, onCreate, onUpdate, onDelete }
   const [previewUrl, setPreviewUrl] = useState(() => {
     return item?.img || '';
   });
+
+  // 이미지 제거 핸들러
+  const handleRemoveImage = () => {
+    setFormData(prev => ({ ...prev, img: null })); // formData의 img를 null로 설정
+    setSelectedFile(null); // 새로 선택하려던 파일 초기화
+    setPreviewUrl(''); // 미리보기 비우기
+  };
 
   // 2. 메모리 누수 방지: 컴포넌트가 사라지거나 이미지가 바뀔 때 메모리 해제
   useEffect(() => {
@@ -161,6 +168,7 @@ export default function FaqModal({ item, onClose, onCreate, onUpdate, onDelete }
              {previewUrl && (
                <div className='faq-img-preview'>
                  <img src={previewUrl} alt="Preview" />
+                 <Trash2 className='faq-clear-image-btn' onClick={handleRemoveImage} size={18} />
                </div>
              )}
           </div>

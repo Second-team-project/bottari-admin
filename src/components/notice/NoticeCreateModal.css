@@ -157,6 +157,7 @@
   overflow: hidden;
   display: flex;
   justify-content: center;
+  position: relative;
   background-color: #f9fafb;
   margin-bottom: 15px;
 }
@@ -166,6 +167,18 @@
   max-height: 250px;
   object-fit: contain;
   display: block;
+}
+
+.notice-clear-image-btn {
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 0;
+  color: #374151;
+}
+
+.notice-clear-image-btn:hover {
+  opacity: 0.9;
 }
 
 /* 입력창 포커스 효과 추가 */
