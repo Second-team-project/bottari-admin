@@ -112,9 +112,9 @@ export default function AdditionalPricing({ data, onCreate, onUpdate, onDelete }
                   className='pricing-input small'
                 /> <span className="unit">%</span>
               </div>
-              <div className='additional-pricing-col-actions'>
+              <div className='edit-additional-pricing-col-actions'>
                 <button className='btn-save' onClick={handleSave}>저장</button>
-                <button className='btn-delete' onClick={handleCancel}>취소</button>
+                <button className='btn-delete btn-flex' onClick={handleCancel}>취소</button>
               </div>
             </div>
           )}
@@ -156,9 +156,9 @@ export default function AdditionalPricing({ data, onCreate, onUpdate, onDelete }
                       className='pricing-input small'
                     /> <span className="unit">%</span>
                   </div>
-                  <div className='additional-pricing-col-actions'>
+                  <div className='edit-additional-pricing-col-actions'>
                     <button className='btn-save' onClick={handleSave}>저장</button>
-                    <button className='btn-delete' onClick={handleCancel}>취소</button>
+                    <button className='btn-delete btn-flex' onClick={handleCancel}>취소</button>
                   </div>
                 </>
               ) : (

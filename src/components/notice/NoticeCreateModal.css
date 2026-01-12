@@ -29,6 +29,7 @@
   flex-direction: column;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   animation: zoomIn 0.3s ease;
+  scrollbar-gutter: auto;
 }
 
 @keyframes zoomIn {
@@ -198,6 +199,8 @@
   justify-content: flex-end;
   gap: 12px;
   background-color: #f9fafb;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
 .notice-modal-footer .btn-edit,

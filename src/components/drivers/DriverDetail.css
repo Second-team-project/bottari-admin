@@ -3,6 +3,7 @@
   width: 400px;
   background-color: #fff;
   border-left: 1px solid var(--bottari-lightgray);
+  border-right: 1px solid var(--bottari-lightgray);
   display: flex;
   flex-direction: column;
   animation: slideIn 0.3s ease;
@@ -63,6 +64,7 @@
   flex: 1;
   padding: 20px;
   overflow-y: auto;
+  scrollbar-gutter: auto;
 }
 
 .driver-detail-row {

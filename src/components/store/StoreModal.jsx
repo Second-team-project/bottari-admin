@@ -118,8 +118,8 @@ export default function StoreModal({ store, onClose, onCreate, onUpdate, onDelet
         </div>
 
         <div className='store-modal-footer'>
+          <button className='btn-save' onClick={handleSave}>{isEdit ? '수정하기' : '등록하기'}</button>
           <button className='btn-cancel' onClick={onClose}>취소</button>
-          <button className='btn-save' onClick={handleSave}>{isEdit ? '수정 완료' : '등록하기'}</button>
         </div>
       </div>
     </div>
