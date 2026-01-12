@@ -75,6 +75,7 @@
   padding: 25px;
   overflow-y: auto;
   flex: 1;
+  scrollbar-gutter: auto;
 }
 
 .faq-modal-form-group {
@@ -100,23 +101,18 @@
 
 .faq-modal-info-item {
   font-size: 0.9rem;
-
-  width: 35%;
-
   display: flex;
-  gap: 10px;
+  gap: 15px;
   align-items: center;
 }
 
 .faq-modal-info-label {
   color: var(--bottari-gray);
   font-weight: 500;
-
-  width: 100%;
-  max-width: 90px;
 }
-.faq-modal-info-value {
-  width: 100%;
+
+.label-width {
+  width: 85px;
 }
 
 /* 입력 필드 스타일 (Edit/Create 모드) */
@@ -216,11 +212,9 @@
 
 /* 버튼 공통 스타일 */
 .faq-modal-footer button {
-  padding: 10px 20px;
-  border-radius: 6px;
+  width: 130px;
+  padding: 10px;
   font-size: 0.95rem;
   font-weight: 600;
-  cursor: pointer;
-  border: none;
-  transition: background-color 0.2s;
+  flex: none;
 }

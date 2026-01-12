@@ -73,6 +73,7 @@
   padding: 25px;
   overflow-y: auto;
   flex: 1;
+  scrollbar-gutter: auto;
 }
 
 .notice-modal-form-group {
@@ -200,6 +201,8 @@
   justify-content: flex-end;
   gap: 12px;
   background-color: #f9fafb;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
 .notice-modal-footer .btn-edit,

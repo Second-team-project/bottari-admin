@@ -184,7 +184,7 @@ export default function FaqList() {
               <span>{item?.category || '일반'}</span>
             </div>
             <div className='faq-list-col-question'>{item?.title}</div>
-            <div className='faq-list-col-date'>{dayjs(item?.createdAt).format('YYYY-MM-DD HH:mm')}</div>
+            <div className='faq-list-col-date'>{dayjs(item?.createdAt).format('YYYY-MM-DD')}</div>
             <div className='store-list-col-actions'>
               <button className='btn-edit' onClick={(e) => { e.stopPropagation(); handleRowClick(item); }}>수정</button>
               <button className='btn-delete' onClick={(e) => {e.stopPropagation(); handleDelete(item?.id)}}>삭제</button>

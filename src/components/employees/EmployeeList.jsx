@@ -124,7 +124,7 @@ export default function EmployeeList() {
                   className={`employee-list-row ${selectedData?.id === emp.id ? 'selected' : ''}`}
                   onClick={() => handleRowClick(emp)}
                 >
-                  <div className='employee-list-col-no'>{totalCount - ((currentPage - 1) * 10) - index}</div>
+                  <div className='employee-list-col-no'>{(currentPage - 1) * 20 + index + 1}</div>
                   <div className='employee-list-col-name'>{emp.adminName}</div>
                   <div className='employee-list-col-id'>{emp.accountId}</div>
                   <div className='employee-list-col-phone'>{emp.phone}</div>
@@ -154,7 +154,7 @@ export default function EmployeeList() {
               size={22}
               onClick={handlePrevPage}
             />
-            <span className='page-number'>{currentPage} / {totalPages}</span>
+            <span className='page-number'>{currentPage || 1 }</span>
             <ChevronRight 
               className={`pagination-btn ${currentPage === totalPages ? 'disabled' : ''}`} 
               color={currentPage === totalPages ? "#ccc" : "#6B7280"} 

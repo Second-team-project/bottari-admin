@@ -3,6 +3,7 @@
   width: 400px;
   background-color: #fff;
   border-left: 1px solid var(--bottari-lightgray);
+  border-right: 1px solid var(--bottari-lightgray);
   display: flex;
   flex-direction: column;
   animation: slideIn 0.3s ease;
@@ -12,6 +13,7 @@
   top: 0;
   height: 100vh;
   overflow-y: auto;
+  scrollbar-gutter: auto;
 }
 
 @keyframes slideIn {
