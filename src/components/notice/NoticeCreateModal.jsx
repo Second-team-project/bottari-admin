@@ -1,4 +1,4 @@
-import { Upload, X } from 'lucide-react';
+import { Trash2, Upload, X } from 'lucide-react';
 import './NoticeCreateModal.css';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -18,6 +18,12 @@ export default function NoticeCreateModal({ createOpen, createCancel }) {
   
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState('');
+
+  // 이미지 제거 핸들러
+  const handleRemoveImage = () => {
+    setSelectedFile(null); // 새로 선택하려던 파일 초기화
+    setPreviewUrl(''); // 미리보기 비우기
+  };
   
   // 입력 핸들러
   const handleChange = (e) => {
@@ -110,6 +116,7 @@ export default function NoticeCreateModal({ createOpen, createCancel }) {
             {previewUrl && (
               <div className='notice-img-preview-container'>
                 <img src={previewUrl} alt="Preview" className="notice-single-image-preview" />
+                <Trash2 className='notice-clear-image-btn' onClick={handleRemoveImage} size={18} />
               </div>
             )}
           </div>

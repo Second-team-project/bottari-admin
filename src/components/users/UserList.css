@@ -55,7 +55,7 @@
 /* 번호(60) 이름(100) 이메일(1fr) 가입일(120) 상태(80) 관리(120) */
 .user-list-header {
   display: grid;
-  grid-template-columns: 60px 100px 1fr 120px 80px 120px;
+  grid-template-columns: 60px 100px 1fr 160px 60px 120px;
   background-color: var(--bottari-grayfont);
   color: #fff;
   text-align: center;
@@ -72,7 +72,7 @@
 /* 테이블 행 */
 .user-list-row {
   display: grid;
-  grid-template-columns: 60px 100px 1fr 120px 80px 120px;
+  grid-template-columns: 60px 100px 1fr 160px 60px 120px;
   background-color: #fff;
   text-align: center;
   align-items: center;
