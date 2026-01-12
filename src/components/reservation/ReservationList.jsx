@@ -5,6 +5,7 @@ import ReservationDetail from './ReservationDetail.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { reservationDestroyThunk, reservationIndexThunk } from '../../store/thunks/reservationThunk.js';
 import { openPanel } from '../../store/slices/reservationSlice.js';
+import dayjs from 'dayjs';
 
 export default function ReservationList() {
   const dispatch = useDispatch();
@@ -12,26 +13,13 @@ export default function ReservationList() {
 
   // 기간 설정 함수
   function defaultPeriod() {
-    const today = new Date();
+    const today = dayjs();
     
-    // 시작일 : 오늘로부터 2달 전으로 설정
-    const start = new Date(today); // 시작일 계산을 위한 복사본
-    start.setMonth(today.getMonth() - 2);
-    
-    // 종료일: 오늘
-    const end = new Date(today);
-
-    // YYYY-MM-DD 형식으로 변환
-    const format = (date) => {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    };
-
     return { 
-      startDate: format(start), 
-      endDate: format(end) 
+      // 오늘로부터 2달 전
+      startDate: today.subtract(2, 'month').format('YYYY-MM-DD'),
+      // 오늘 날짜 -> 포맷팅
+      endDate: today.format('YYYY-MM-DD')
     };
   }
 
@@ -200,7 +188,7 @@ export default function ReservationList() {
                   {item.reservationUser?.email || item.reservIdBookers?.[0]?.email || '-'}
                 </div>
                 <div className='reservation-list-col-phone'>
-                  {item.reservationUser ? item.reservationUser.phone : '-'}
+                  {item.reservationUser?.phone || item.reservIdBookers?.[0]?.phone}
                 </div>
                 <div className='reservation-list-col-date'>
                   {item.createdAt?.substring(0, 10)}
@@ -246,10 +234,10 @@ export default function ReservationList() {
         <div className='reservation-list-pagination'>
           <button 
             className='pagination-btn' 
-            disabled={reservations.length < filters.limit}
-            onClick={() => setFilters({...filters, page: filters.page + 1})}
+            disabled={filters.page === 1}
+            onClick={() => setFilters({...filters, page: filters.page - 1})}
           >
-            <ChevronLeft size={22}/>
+            <ChevronLeft size={22} color={filters.page === 1 ? "#ccc" : "#333"}/>
           </button>
           
           <span className='page-number'>{filters.page}</span>
@@ -257,10 +245,10 @@ export default function ReservationList() {
           <button 
             className='pagination-btn'
             // 다음 페이지 데이터가 없으면 비활성화 (간단 로직)
-            disabled={reservations.length < 20} 
+            disabled={reservations.length < filters.limit} 
             onClick={() => setFilters({...filters, page: filters.page + 1})}
           >
-            <ChevronRight size={22} />
+            <ChevronRight size={22} color={reservations.length < filters.limit ? "#ccc" : "#333"} />
           </button>
         </div>
       </div>

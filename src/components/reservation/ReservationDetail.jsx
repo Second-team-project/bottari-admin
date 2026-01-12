@@ -70,12 +70,14 @@ export default function ReservationDetail() {
         period = startDate.substring(0, 10);
       }
 
+      const booker = selectedReservation.reservIdBookers && selectedReservation.reservIdBookers[0];
+
       return {
         type: selectedReservation.type || 'STORAGE',
         // 예약자 정보(회원 or 비회원)
-        userName: selectedReservation.reservationUser?.userName || selectedReservation.bookerInfo?.userName || '',
-        phone: selectedReservation.reservationUser?.phone || selectedReservation.bookerInfo?.phone || '',
-        email: selectedReservation.reservationUser?.email || selectedReservation.bookerInfo?.email || '',
+        userName: selectedReservation.reservationUser?.userName || booker.userName || '',
+        phone: selectedReservation.reservationUser?.phone || booker.phone || '',
+        email: selectedReservation.reservationUser?.email || booker.email || '',
         
         // 위에서 계산한 값 적용
         address: address,
@@ -179,12 +181,11 @@ export default function ReservationDetail() {
   const getTitle = () => {
     if (mode === 'store') return '새 예약 등록';
     if (mode === 'update') return '예약 수정';
-    return '예약 상세';
+    return '예약 상세 정보';
   };
 
   // 현재 편집 모드인지 확인(등록 or 수정)
   const isEditMode = mode === 'store' || mode === 'update';
-
 
   return (
     <div className='reservation-detail-panel'>
@@ -285,7 +286,7 @@ export default function ReservationDetail() {
           <div className='reservation-detail-row'>
             <span className='reservation-detail-label'>신청날짜</span>
             <span className='reservation-detail-value'>
-              {selectedReservation?.createdAt?.substring(0, 10)}
+              {selectedReservation?.createdAt}
             </span>
           </div>
         )}
