@@ -89,6 +89,17 @@
   justify-content: center;
 }
 
+.edit-basic-pricing-col-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  padding: 0 10px;
+}
+
+.btn-flex {
+  flex: 1;
+}
+
 /* 컬럼 스타일 */
 .basic-pricing-col-name { 
   font-weight: 600; 

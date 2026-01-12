@@ -1,4 +1,4 @@
-import { Upload, X } from 'lucide-react';
+import { Trash2, Upload, X } from 'lucide-react';
 import './NoticeModal.css';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -19,6 +19,13 @@ export default function NoticeModal({ selectedItem, onClose }) {
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(selectedItem.img || '');
+
+  // 이미지 제거 핸들러
+  const handleRemoveImage = () => {
+    setFormData(prev => ({ ...prev, img: null })); // formData의 img를 null로 설정
+    setSelectedFile(null); // 새로 선택하려던 파일 초기화
+    setPreviewUrl(''); // 미리보기 비우기
+  };
 
   // 입력 핸들러
   const handleChange = (e) => {
@@ -137,6 +144,7 @@ export default function NoticeModal({ selectedItem, onClose }) {
             {previewUrl && (
               <div className='notice-img-preview-container'>
                 <img src={previewUrl} alt="Preview" className="notice-single-image-preview" />
+                <Trash2 className='notice-clear-image-btn' onClick={handleRemoveImage} size={18} />
               </div>
             )}
           </div>
