@@ -223,7 +223,7 @@ export default function UserList() {
               <div className='user-list-col-no'>{(page - 1) * 20 + index + 1}</div>
               <div className='user-list-col-name'>{user?.userName}</div>
               <div className='user-list-col-email'>{user?.email}</div>
-              <div className='user-list-col-date'>{user?.createdAt}</div>
+              <div className='user-list-col-date'>{user?.createdAt?.substring(0, 10)}</div>
               <div className='user-list-col-status'>
                 <span className={`user-list-status-badge user-list-status-${user?.status?.toLowerCase()}`}>
                   {STATUS_TABS.find(tab => tab.value === user?.status)?.label || user?.status}

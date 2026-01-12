@@ -140,9 +140,9 @@ export default function BasicPricing({ type, data, onCreate, onUpdate, onDelete 
                   className='pricing-input'
                 /><span> 원</span>
               </div>
-              <div className='basic-pricing-col-actions'>
+              <div className='edit-basic-pricing-col-actions'>
                 <button className='btn-save' onClick={handleSave}>저장</button>
-                <button className='btn-delete' onClick={handleCancel}>취소</button>
+                <button className='btn-delete btn-flex' onClick={handleCancel}>취소</button>
               </div>
             </div>
           )}
@@ -191,9 +191,9 @@ export default function BasicPricing({ type, data, onCreate, onUpdate, onDelete 
                       className='pricing-input'
                     /><span> 원</span>
                   </div>
-                  <div className='basic-pricing-col-actions'>
+                  <div className='edit-basic-pricing-col-actions'>
                     <button className='btn-save' onClick={handleSave}>저장</button>
-                    <button className='btn-delete' onClick={handleCancel}>취소</button>
+                    <button className='btn-delete btn-flex' onClick={handleCancel}>취소</button>
                   </div>
                 </>
               ) : (
