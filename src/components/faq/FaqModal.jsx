@@ -168,7 +168,7 @@ export default function FaqModal({ item, onClose, onCreate, onUpdate, onDelete }
              {previewUrl && (
                <div className='faq-img-preview'>
                  <img src={previewUrl} alt="Preview" />
-                 <Trash2 className='notice-clear-image-btn' onClick={handleRemoveImage} size={18} />
+                 <Trash2 className='faq-clear-image-btn' onClick={handleRemoveImage} size={18} />
                </div>
              )}
           </div>
