@@ -6,7 +6,6 @@ export const reservationIndexThunk = createAsyncThunk(
   async (params, { rejectWithValue }) => {
     try {
       // params = { page, state, searchType, keyword, startDate, endDate... }
-      console.log(params);
       const response = await axiosIns.get('/api/admin/reservations', { params: params });
       return response.data.data;
     } catch (error) {

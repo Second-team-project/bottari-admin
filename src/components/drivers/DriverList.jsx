@@ -17,7 +17,7 @@ export default function DriverList() {
     e.preventDefault();
     // 검색 시 1페이지로 초기화 후 검색
     dispatch(setPage(1));
-    dispatch(driverIndexThunk({ page: 1, name: searchTerm }));
+    dispatch(driverIndexThunk({ page: 1, driverName: searchTerm }));
   };
 
   // 행 클릭 - 상세 패널 열기
@@ -38,7 +38,7 @@ export default function DriverList() {
         .then(() => {
           alert('삭제되었습니다.');
           // 삭제 후 데이터 갱신(현재 페이지 유지)
-          dispatch(driverIndexThunk({ page: currentPage, name: searchTerm }));
+          dispatch(driverIndexThunk({ page: currentPage, driverName: searchTerm }));
         })
         .catch((err) => {
           alert(`삭제 실패: ${err}`);
@@ -64,7 +64,7 @@ export default function DriverList() {
   // 페이지 변경 시 데이터 호출
   useEffect(() => {
     // 검색어가 있다면 검색어도 함께 보냄
-    dispatch(driverIndexThunk({ page: currentPage, name: searchTerm }));
+    dispatch(driverIndexThunk({ page: currentPage, driverName: searchTerm }));
   }, [dispatch, currentPage]);
 
   return(
