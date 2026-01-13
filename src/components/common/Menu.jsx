@@ -23,7 +23,7 @@ export default function Menu() {
               <Link className="redirect-menu" to="/monitoring">통합 모니터링</Link>
               <Link className="redirect-menu" to="/reservations">예약 관리</Link>
               <Link className="redirect-menu" to="/drivers">기사 관리</Link>
-              <Link className="redirect-menu" to="/employees">직원 관리</Link>
+              {/* <Link className="redirect-menu" to="/employees">직원 관리</Link> */}
               <Link className="redirect-menu" to="/users">회원 관리</Link>
               {/* 예약 관리에서 모두 관리할 수 있을 경우 삭제 */}
               {/* <Link className="redirect-menu" to="/bookers">예약자 관리</Link> */}

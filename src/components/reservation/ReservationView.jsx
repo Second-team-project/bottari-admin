@@ -32,6 +32,7 @@ export default function ReservationView() {
     const labels = {
       PENDING_PAYMENT: '결제대기',
       RESERVED: '예약완료',
+      PICKING_UP: '픽업중',
       IN_PROGRESS: '진행중',
       COMPLETED: '완료',
       CANCELLED: '취소',
