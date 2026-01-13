@@ -6,7 +6,6 @@ import axiosIns from "./axiosInstance";
 export const getPricing = async (_) => {
   const url = `/api/admin/pricing`;
   const response = await axiosIns.get(url)
-  console.log('getPricing: ', response.data.data)
 
   return response.data.data;
 }
@@ -19,7 +18,6 @@ export const getAdditionalPricing = async (_) => {
   const url = `/api/admin/pricing/additional`;
 
   const response = await axiosIns.get(url)
-  console.log('getAdditionalPricing: ', response.data.data)
 
   return response.data.data;
 }
@@ -31,7 +29,6 @@ export const getAdditionalPricing = async (_) => {
 export const createPricing = async (data) => {
   const url = `/api/admin/pricing`;
   const response = await axiosIns.post(url, data)
-  console.log('createPricing: ', response.data.data)
 
   return response.data.data;
 }
@@ -43,7 +40,6 @@ export const createPricing = async (data) => {
 export const createAdditionalPricing = async (data) => {
   const url = `/api/admin/pricing/additional`;
   const response = await axiosIns.post(url, data)
-  console.log('createAdditionalPricing: ', response.data.data)
 
   return response.data.data;
 }
@@ -55,7 +51,6 @@ export const createAdditionalPricing = async (data) => {
 export const updatePricing = async (data) => {
   const url = `/api/admin/pricing/${data.id}`;
   const response = await axiosIns.put(url, data)
-  console.log('updatePricing: ', response.data.data)
 
   return response.data.data;
 }
@@ -66,7 +61,6 @@ export const updatePricing = async (data) => {
 export const updateAdditionalPricing = async (data) => {
   const url = `/api/admin/pricing/additional/${data.id}`;
   const response = await axiosIns.put(url, data)
-  console.log('updateAdditionalPricing: ', response.data.data)
 
   return response.data.data;
 }
@@ -77,7 +71,6 @@ export const updateAdditionalPricing = async (data) => {
 export const deletePricing = async (id) => {
   const url = `/api/admin/pricing/${id}`;
   const response = await axiosIns.delete(url)
-  console.log('deletePricing: ', response.data.data)
 
   return response.data.data;
 }
@@ -88,7 +81,6 @@ export const deletePricing = async (id) => {
 export const deleteAdditionalPricing = async (id) => {
   const url = `/api/admin/pricing/additional/${id}`;
   const response = await axiosIns.delete(url)
-  console.log('deleteAdditionalPricing: ', response.data.data)
 
   return response.data.data;
 }

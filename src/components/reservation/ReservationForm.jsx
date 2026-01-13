@@ -94,7 +94,7 @@ export default function ReservationForm({ mode }) {
 
   const [formData, setFormData] = useState(getInitialState);
   
-  // 가격 정보 state =============================================================
+  // 가격 정보 state =
   const [basePricing, setBasePricing] = useState([]);
   const [additionalPricing, setAdditionalPricing] = useState([]);
   const [isAutoPrice, setIsAutoPrice] = useState(true); // 자동 계산 활성화 여부
@@ -122,7 +122,7 @@ export default function ReservationForm({ mode }) {
     fetchData();
   }, []);
 
-  // 입력 핸들러
+  // 입력 핸들러 ================================================================
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -152,7 +152,6 @@ export default function ReservationForm({ mode }) {
     else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
-    setFormData((prev) => ({ ...prev, [name]: value }));
     console.log('입력핸들러-formdata: ', formData)
 
     // 가격을 직접 수정하면 자동 계산 끄기
@@ -174,7 +173,7 @@ export default function ReservationForm({ mode }) {
   // ===== 가격 자동 계산 로직 =====
   useEffect(() => {
     // 1. 자동 계산이 꺼져있거나, 필수 데이터가 없으면 중단
-    if (!isAutoPrice || !basePricing?.length || !additionalPricing?.length) return;
+    if (!basePricing?.length || !additionalPricing?.length) return;
     if (!isStorage) return; // 일단 보관(STORAGE)만 계산 로직 적용
 
     // 2. 일일 기본 요금 합계 계산 (Daily Base Price)
@@ -186,11 +185,20 @@ export default function ReservationForm({ mode }) {
         weight: item.itemWeight 
       });
 
-      const found = basePricing.find(p => 
-        p.itemType === item.itemType && 
-        p.itemSize === (item.itemSize || null) && 
-        p.itemWeight === item.itemWeight
-      );
+      const found = basePricing.find(p => {
+        // 1. 타입이 다르면 무조건 탈락
+        if (p.itemType !== item.itemType) return false;
+
+        // 2. 골프가방(GOLF)인 경우: 사이즈 무시, 무게만 비교
+        if (item.itemType === 'GOLF') {
+          console.log(`⛳ GOLF 비교: 가격표[${p.itemWeight}] vs 선택[${item.itemWeight}]`);
+          console.log(`   -> 일치 여부: ${p.itemWeight === item.itemWeight}`);
+          return p.itemWeight === item.itemWeight;
+        }
+
+        // 3. 그 외 일반 짐: 사이즈와 무게 모두 비교
+        return (p.itemSize || null) === (item.itemSize || null) && p.itemWeight === item.itemWeight;
+      });
       
       console.log('✅ 매칭 결과:', found);
 
@@ -203,21 +211,16 @@ export default function ReservationForm({ mode }) {
     if (dailyBasePrice === 0) return;
 
     // 3. 기간(일수) 계산
-    // period 형식: "YYYY-MM-DD ~ YYYY-MM-DD"
-    const dates = formData?.period?.split('~').map(s => s.trim());
-    if (dates?.length !== 2) return;
+    if (!formData.startDate || !formData.endDate) return;
 
-    const start = new Date(dates[0]);
-    const end = new Date(dates[1]);
+    const start = dayjs(formData.startDate);
+    const end = dayjs(formData.endDate);
+    const diffDays = end.diff(start, 'day', true);
+    const finalDiffDays = Math.ceil(diffDays);
 
-    if (isNaN(start.getTime()) || isNaN(end.getTime())) return;
+    console.log('📅 보관 일수:', finalDiffDays);
 
-    const diffTime = end.getTime() - start.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    console.log('📅 보관 일수:', diffDays);
-
-    if (diffDays <= 0) return;
+    if (finalDiffDays <= 0) return;
 
     // 4. 구간별 할증 적용 (ReserveStorage.jsx 로직)
     let total = 0;
@@ -507,10 +510,22 @@ export default function ReservationForm({ mode }) {
           <span className="reservation-detail-value">
             <input
               className="detail-input"
-              type="number"
+              type="text"
               name="price"
-              value={formData.price}
-              onChange={handleChange}
+              value={Number(formData.price).toLocaleString()}
+              readOnly // 수정 불가!
+              style={{ backgroundColor: '#f3f4f6', color: '#6b7280' }}
+            />
+          </span>
+        </div>
+        {/* 추가 금액 */}
+        <div className="reservation-detail-row">
+          <span className="reservation-detail-label">추가금액</span>
+          <span className="reservation-detail-value">
+            <input
+              className="detail-input"
+              type="number"
+              name="additioanlPrice"
             />
           </span>
         </div>
