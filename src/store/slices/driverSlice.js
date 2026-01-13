@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { driverDestroyThunk, driverIndexThunk, driverShowThunk, driverStoreThunk, driverUpdateThunk } from "../thunks/driverThunk.js";
+import { driverDestroyThunk, driverIndexAllThunk, driverIndexThunk, driverShowThunk, driverStoreThunk, driverUpdateThunk } from "../thunks/driverThunk.js";
 
 const initialState = {
   drivers: [],      // 목록 데이터
@@ -80,6 +80,13 @@ const slice = createSlice({
         state.loading = false;
         // 목록에서 즉시 제거
         state.drivers = state.drivers.filter(driver => driver.id !== action.payload);
+      })
+
+      /* 기사 리스트 리미트 X */
+      .addCase(driverIndexAllThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        
+        state.drivers = action.payload.drivers;
       })
 
       .addMatcher(

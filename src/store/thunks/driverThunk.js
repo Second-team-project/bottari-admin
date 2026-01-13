@@ -63,3 +63,15 @@ export const driverDestroyThunk = createAsyncThunk(
     }
   }
 );
+
+export const driverIndexAllThunk = createAsyncThunk(
+  'driver/driverIndexAllThunk',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosIns.get(`${API_URL}/list`);
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
