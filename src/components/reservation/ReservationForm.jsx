@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { closePanel, openPanel } from '../../store/slices/reservationSlice.js';
 import { reservationStoreThunk, reservationUpdateThunk } from '../../store/thunks/reservationThunk';
+import { driverIndexThunk } from '../../store/thunks/driverThunk.js';
 import LuggageEditor from './components/LuggageEditor';
 import './ReservationDetail.css';
 import { getAdditionalPricing, getPricing } from '../../api/pricingApi.js';
@@ -21,19 +22,28 @@ const INITIAL_FORM_DATA = {
   notes: '',
   state: 'PENDING_PAYMENT',
   items: [],
-  driver: '',
+  driverId: '',
   password: '',
 };
 
 export default function ReservationForm({ mode }) {
   const dispatch = useDispatch();
   const { selectedReservation } = useSelector((state) => state.reservation);
+  const { drivers } = useSelector((state) => state.driver);
   
   const isCreate = mode === 'store';
   const isUpdate = mode === 'update';
 
   // 보관일 경우
   const isStorage = !isCreate && selectedReservation?.code?.startsWith('S');
+
+  // 기사 목록 없으면 불러오기
+  useEffect(() => {
+    // 이미 목록이 있으면 호출 안 함 (최적화)
+    if (!drivers || drivers.length === 0) {
+      dispatch(driverIndexThunk({ page: 1, limit: 100 })); // 전체 목록을 위해 넉넉히 호출
+    }
+  }, [dispatch, drivers]);
 
   // 초기 상태 계산
   const getInitialState = () => {
@@ -70,7 +80,7 @@ export default function ReservationForm({ mode }) {
     }
 
     // 기사 정보
-    const driverName = selectedReservation.reservationsDrivers?.[0]?.driverName || '';
+    const assignedDriverId = selectedReservation.reservationsDrivers?.[0]?.id || '';
 
     // 예약자 정보
     const booker = selectedReservation.reservIdBookers?.[0];
@@ -87,7 +97,7 @@ export default function ReservationForm({ mode }) {
       notes: selectedReservation.notes || '',
       state: selectedReservation.state || 'PENDING_PAYMENT',
       items: selectedReservation.reservIdLuggages || [],
-      driver: driverName,
+      driverId: assignedDriverId,
       password: '',
     };
   };
@@ -254,7 +264,7 @@ export default function ReservationForm({ mode }) {
         notes: formData.notes,
         address: formData.address,
         period: formData.period,
-        driver: formData.driver,
+        driverId: formData.driverId,
         bookerInfo: {
           userName: formData.userName,
           phone: formData.phone,
@@ -273,7 +283,7 @@ export default function ReservationForm({ mode }) {
           type: formData.type,
           address: formData.address,
           period: formData.period,
-          driver: formData.driver,
+          driverId: formData.driverId,
           bookerInfo: {
             userName: formData.userName,
             phone: formData.phone,
@@ -296,6 +306,11 @@ export default function ReservationForm({ mode }) {
   };
 
   const isRegisteredUser = isUpdate && selectedReservation?.reservationUser;
+
+  // 필터링된 기사 목록 생성
+  const filteredDrivers = drivers ? drivers.filter(driver => 
+    driver.attendanceState === 'CLOCKED_IN' || driver.id === Number(formData.driverId)
+  ) : [];
 
   return (
     <div className="reservation-detail-panel">
@@ -594,14 +609,30 @@ export default function ReservationForm({ mode }) {
             <div className="reservation-detail-row">
               <span className="reservation-detail-label">담당기사</span>
               <span className="reservation-detail-value">
-                <input
+                <select
                   className="detail-input"
-                  type="text"
-                  name="driver"
-                  value={formData.driver}
+                  name="driverId"
+                  value={formData.driverId || ''}
                   onChange={handleChange}
-                  placeholder="기사 배정"
-                />
+                  style={{ 
+                    fontWeight: 'bold', 
+                    cursor: 'pointer' 
+                  }}
+                >
+                  <option value="">배정 안함 (선택)</option>
+                  {/* 필터 없이 모든 drivers 표시 */}
+                  {drivers && drivers.map(driver => {
+                    // 상태 텍스트 결정 (CLOCKED_IN -> 출근, 그 외 -> 퇴근)
+                    const isClockedIn = driver.attendanceState === 'CLOCKED_IN';
+                    const stateLabel = isClockedIn ? '출근' : '퇴근';
+                    
+                    return (
+                      <option key={driver.id} value={driver.id}>
+                        [{stateLabel}] {driver.driverName} ({driver.carNumber})
+                      </option>
+                    );
+                  })}
+                </select>
               </span>
             </div>
           )
