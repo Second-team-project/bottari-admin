@@ -554,27 +554,30 @@ export default function ReservationForm({ mode }) {
         )}
 
         {/* 짐 정보 */}
-        <div className="reservation-detail-row flex-column" style={{ alignItems: 'flex-start' }}>
+        <div className="reservation-detail-row" style={{ alignItems: 'flex-start' }}>
           <span className="reservation-detail-label">맡긴 짐 정보</span>
-          <LuggageEditor pricing={basePricing} items={formData.items} onChange={handleItemsChange} />
+          <span className="reservation-detail-value">
+            <LuggageEditor pricing={basePricing} items={formData.items} onChange={handleItemsChange} readOnly={true} />
+          </span>
         </div>
 
         {/* 결제 금액 */}
         <div className="reservation-detail-row">
           <span className="reservation-detail-label">결제금액</span>
           <span className="reservation-detail-value">
-            <input
+            {Number(formData.price || 0).toLocaleString()}원
+            {/* <input
               className="detail-input"
               type="text"
               name="price"
               value={Number(formData.price).toLocaleString()}
               readOnly // 수정 불가!
               style={{ backgroundColor: '#f3f4f6', color: '#6b7280' }}
-            />
+            /> */}
           </span>
         </div>
         {/* 추가 금액 */}
-        <div className="reservation-detail-row">
+        {/* <div className="reservation-detail-row">
           <span className="reservation-detail-label">추가금액</span>
           <span className="reservation-detail-value">
             <input
@@ -583,7 +586,7 @@ export default function ReservationForm({ mode }) {
               name="additioanlPrice"
             />
           </span>
-        </div>
+        </div> */}
 
         {/* 담당 기사 */}
         {
