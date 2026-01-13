@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ChevronDown, ChevronLeft, ChevronRight, X, Plus, Search, RefreshCw } from 'lucide-react';
 import './ReservationList.css';
-import ReservationDetail from './ReservationDetail.jsx';
+import ReservationPanel from './ReservationPanel.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { reservationDestroyThunk, reservationIndexThunk } from '../../store/thunks/reservationThunk.js';
 import { openPanel } from '../../store/slices/reservationSlice.js';
@@ -253,8 +253,8 @@ export default function ReservationList() {
         </div>
       </div>
       {panel.isOpen && (
-        <ReservationDetail 
-          key={panel.mode + (panel.selectedReservation?.id || '')} 
+        <ReservationPanel
+          key={panel.mode + (panel.selectedReservation?.id || '')}
         />
       )}
     </div>
