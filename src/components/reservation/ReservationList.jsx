@@ -3,7 +3,7 @@ import { ChevronDown, ChevronLeft, ChevronRight, X, Plus, Search, RefreshCw } fr
 import './ReservationList.css';
 import ReservationPanel from './ReservationPanel.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { reservationDestroyThunk, reservationIndexThunk } from '../../store/thunks/reservationThunk.js';
+import { reservationDestroyThunk, reservationIndexThunk, reservationShowThunk } from '../../store/thunks/reservationThunk.js';
 import { openPanel } from '../../store/slices/reservationSlice.js';
 import dayjs from 'dayjs';
 import { PatternFormat } from 'react-number-format';
@@ -51,6 +51,12 @@ export default function ReservationList() {
     }
   };
 
+  function handleOpenPanelShowData(mode, id) {
+    dispatch(openPanel({ mode: mode }));
+
+    dispatch(reservationShowThunk(id));
+  }
+
   // // n개씩 보기 변경 핸들러
   // function handleLimitChange(e) {
   //   const newLimit = parseInt(e.target.value, 10);
@@ -71,7 +77,6 @@ export default function ReservationList() {
   function handleStateChange(e) {
     const newState = e.target.value;
     setFilters((prev) => ({ ...prev, state: newState, page: 1 }));
-    dispatch(reservationIndexThunk({ ...filters, state: newState, page: 1 }));
   };
 
   // 삭제 핸들러
@@ -84,7 +89,7 @@ export default function ReservationList() {
 
   useEffect(() => {
     dispatch(reservationIndexThunk(filters));
-  }, [filters.page]);
+  }, [filters.page, filters.state]);
 
   return(
     <div className='reservation-list-page'>
@@ -95,7 +100,7 @@ export default function ReservationList() {
           <h2 className='page-title'>예약 관리</h2>
           <button 
             className='create-btn' 
-            onClick={() => dispatch(openPanel({ mode: 'store', data: null }))}
+            onClick={() => dispatch(openPanel({ mode: 'store' }))}
           >
             <Plus size={16} /> 예약 등록
           </button>
@@ -181,7 +186,7 @@ export default function ReservationList() {
               <div
                 key={item.id}
                 className={`reservation-list-row ${panel.selectedReservation?.id === item.id ? 'selected' : ''}`}
-                onClick={() => dispatch(openPanel({ mode: 'show', data: item }))} // 행 클릭 시 상세 모드
+                onClick={() => handleOpenPanelShowData('show', item.id)} // 행 클릭 시 상세 모드
               >
                 <div className='reservation-list-col-no'>{(filters.page - 1) * filters.limit + index + 1}</div>
                 <div className='reservation-list-col-type'>{item.code}</div>
@@ -218,7 +223,7 @@ export default function ReservationList() {
                     className='btn-edit' 
                     onClick={(e) => {
                       e.stopPropagation(); // 행 클릭 이벤트 막기
-                      dispatch(openPanel({ mode: 'update', data: item }));
+                      handleOpenPanelShowData('update', item.id);
                     }}
                   >
                     수정

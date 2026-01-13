@@ -23,11 +23,11 @@ const slice = createSlice({
   reducers: {
     // 패널 열기(어떤 모드로 열 건지, 어떤 데이터를 보여줄 건지)
     openPanel: (state, action) => {
-      const { mode, data } = action.payload; // payload: { mode: 'edit', data: object }
+      const { mode } = action.payload; // payload: { mode: 'edit', data: object }
       state.panel.isOpen = true;
       state.panel.mode = mode || 'show';
-      // 등록 모드면 데이터를 비우고, 상세 모드면 데이터를 채움
-      state.selectedReservation = data || null;
+
+      state.selectedReservation = null;
     },
     // 패널 닫기(데이터 초기화)
     closePanel: (state) => {
@@ -53,6 +53,7 @@ const slice = createSlice({
       // --- 상세 조회 ---
       .addCase(reservationShowThunk.fulfilled, (state, action) => {
         state.selectedReservation = action.payload;
+        state.loading = false;
       })
 
       // --- 등록 성공 ---
