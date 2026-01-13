@@ -132,11 +132,11 @@
 :root {
   --reservation-grid-cols: 
     60px      /* 번호 */
-    140px     /* 예약코드/관리 */
+    160px     /* 예약코드/관리 */
     100px     /* 예약자명 */
-    1.2fr     /* 이메일 */
-    100px     /* 연락처 */
-    100px     /* 신청날짜 */
+    1fr     /* 이메일 */
+    140px     /* 연락처 */
+    140px     /* 신청날짜 */
     100px       /* 처리 현황 */
     100px     /* 담당 기사 */
     120px       /* 관리 */
@@ -222,4 +222,20 @@
 .page-number {
   font-weight: 600;
   color: var(--bottari-darkslate);
+}
+
+/* 페이지네이션 버튼 스타일 */
+.pagination-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 버튼이 비활성화(disabled) 상태일 때 */
+.pagination-btn:disabled {
+  cursor: default;
 }

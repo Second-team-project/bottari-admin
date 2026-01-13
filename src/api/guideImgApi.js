@@ -42,7 +42,7 @@ export const updateGuideImg = async ({ id, formData }) => {
  */
 export const updateGuideImgOrder = async ({ id, sortOrder }) => {
   const url = `/api/admin/guide-img/${id}`;
-  const response = await axiosIns.put(url, { sortOrder });
+  const response = await axiosIns.patch(url, { sortOrder });
   console.log('updateGuideImgOrder: ', response.data.data);
 
   return response.data.data;
