@@ -81,10 +81,7 @@ export default function LuggageEditor({ items, onChange, readOnly = false, prici
       <ul className="luggage-list">
         {items.map((item, idx) => (
           <li key={idx}>
-            {TYPE_LABELS[item.itemType] || item.itemType} /
-            {item.itemSize || '-'} /
-            {item.itemWeight || '-'} /
-            {item.count}개
+            {TYPE_LABELS[item.itemType] || item.itemType} / {item.itemSize || '-'} / {item.itemWeight || '-'} / {item.count}개
           </li>
         ))}
       </ul>
