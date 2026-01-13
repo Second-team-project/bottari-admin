@@ -5,9 +5,10 @@ import { closePanel, openPanel } from '../../store/slices/reservationSlice.js';
 import { reservationStoreThunk, reservationUpdateThunk } from '../../store/thunks/reservationThunk';
 import LuggageEditor from './components/LuggageEditor';
 import './ReservationDetail.css';
+import { getAdditionalPricing, getPricing } from '../../api/pricingApi.js';
+import { toast } from 'sonner';
 import { PatternFormat } from 'react-number-format';
 import dayjs from 'dayjs';
-
 const INITIAL_FORM_DATA = {
   type: '',
   userName: '',
@@ -30,7 +31,7 @@ export default function ReservationForm({ mode }) {
   
   const isCreate = mode === 'store';
   const isUpdate = mode === 'update';
-  
+
   // 보관일 경우
   const isStorage = !isCreate && selectedReservation?.code?.startsWith('S');
 
@@ -92,11 +93,34 @@ export default function ReservationForm({ mode }) {
   };
 
   const [formData, setFormData] = useState(getInitialState);
+  
+  // 가격 정보 state =============================================================
+  const [basePricing, setBasePricing] = useState([]);
+  const [additionalPricing, setAdditionalPricing] = useState([]);
+  const [isAutoPrice, setIsAutoPrice] = useState(true); // 자동 계산 활성화 여부
 
   // mode나 selectedReservation이 변경되면 폼 데이터 재설정
   useEffect(() => {
     setFormData(getInitialState());
+    setIsAutoPrice(true); // 폼 초기화 시 자동계산도 초기화
   }, [mode, selectedReservation?.id]);
+
+  // 가격 정보 불러오기
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const pricingRes = await getPricing();
+        if (pricingRes) setBasePricing(pricingRes);
+        
+        const additionalRes = await getAdditionalPricing();
+        if (additionalRes) setAdditionalPricing(additionalRes);
+      } catch (error) {
+        console.error("Failed to fetch pricing data: ", error);
+        toast.error('오류가 발생했습니다. 새로고침 해주세요.');
+      }
+    };
+    fetchData();
+  }, []);
 
   // 입력 핸들러
   const handleChange = (e) => {
@@ -128,12 +152,95 @@ export default function ReservationForm({ mode }) {
     else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    console.log('입력핸들러-formdata: ', formData)
+
+    // 가격을 직접 수정하면 자동 계산 끄기
+    if (name === 'price') {
+      setIsAutoPrice(false);
+    } 
+    // 기간이나 타입을 수정하면 다시 자동 계산 켜기
+    else if (name === 'period' || name === 'type') {
+      setIsAutoPrice(true);
+    }
   };
 
   // 짐 정보 변경 핸들러
   const handleItemsChange = (newItems) => {
     setFormData((prev) => ({ ...prev, items: newItems }));
+    setIsAutoPrice(true); // 짐이 바뀌면 가격 재계산
   };
+
+  // ===== 가격 자동 계산 로직 =====
+  useEffect(() => {
+    // 1. 자동 계산이 꺼져있거나, 필수 데이터가 없으면 중단
+    if (!isAutoPrice || !basePricing.length || !additionalPricing.length) return;
+    if (formData.type !== 'STORAGE') return; // 일단 보관(STORAGE)만 계산 로직 적용
+
+    // 2. 일일 기본 요금 합계 계산 (Daily Base Price)
+    // "무조건" 부모가 가진 가격표(basePricing) 기준으로 새로 계산 (Single Source of Truth)
+    const dailyBasePrice = formData.items.reduce((acc, item) => {
+      console.log('🔍 가격 계산 시도:', { 
+        type: item.itemType, 
+        size: item.itemSize, 
+        weight: item.itemWeight 
+      });
+
+      const found = basePricing.find(p => 
+        p.itemType === item.itemType && 
+        p.itemSize === (item.itemSize || null) && 
+        p.itemWeight === item.itemWeight
+      );
+      
+      console.log('✅ 매칭 결과:', found);
+
+      const unitPrice = found ? Number(found.basePrice) : 0;
+      return acc + (unitPrice * (Number(item.count) || 0));
+    }, 0);
+
+    console.log('🧮 일일 합계(Daily):', dailyBasePrice);
+
+    if (dailyBasePrice === 0) return;
+
+    // 3. 기간(일수) 계산
+    // period 형식: "YYYY-MM-DD ~ YYYY-MM-DD"
+    const dates = formData.period.split('~').map(s => s.trim());
+    if (dates.length !== 2) return;
+
+    const start = new Date(dates[0]);
+    const end = new Date(dates[1]);
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) return;
+
+    const diffTime = end.getTime() - start.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    console.log('📅 보관 일수:', diffDays);
+
+    if (diffDays <= 0) return;
+
+    // 4. 구간별 할증 적용 (ReserveStorage.jsx 로직)
+    let total = 0;
+    const sortedPricing = [...additionalPricing].sort((a, b) => a.minValue - b.minValue);
+
+    for (const tier of sortedPricing) {
+      const tierStart = tier.minValue;
+      const tierEnd = Math.min(tier.maxValue, diffDays);
+
+      if (tierEnd < tierStart || tierStart > diffDays) continue;
+
+      const daysInTier = tierEnd - tierStart + 1;
+      // 요금 = 일일기본요금 * (할증률%) * 일수
+      total += dailyBasePrice * (tier.rate / 100) * daysInTier;
+    }
+
+    console.log('💰 최종 계산 금액:', Math.round(total));
+
+    // 5. 최종 금액 반영
+    setFormData(prev => ({ ...prev, price: Math.round(total) }));
+
+  }, [formData.items, formData.period, formData.type, isAutoPrice, basePricing, additionalPricing]);
+
 
   // 저장/등록 핸들러
   const handleSubmit = async () => {
@@ -299,7 +406,7 @@ export default function ReservationForm({ mode }) {
                   name="address"
                   value={formData.address}
                   onChange={handleChange}
-                  placeholder="보관소 이름 또는 주소"
+                  placeholder="보관소 이름"
                 />
               </span>
             </div>
@@ -389,11 +496,9 @@ export default function ReservationForm({ mode }) {
         )}
 
         {/* 짐 정보 */}
-        <div className="reservation-detail-row" style={{ alignItems: 'flex-start' }}>
+        <div className="reservation-detail-row flex-column" style={{ alignItems: 'flex-start' }}>
           <span className="reservation-detail-label">맡긴 짐 정보</span>
-          <span className="reservation-detail-value" style={{ width: '100%' }}>
-            <LuggageEditor items={formData.items} onChange={handleItemsChange} />
-          </span>
+          <LuggageEditor pricing={basePricing} items={formData.items} onChange={handleItemsChange} />
         </div>
 
         {/* 결제 금액 */}
