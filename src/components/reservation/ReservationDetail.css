@@ -257,13 +257,22 @@
   font-size: 0.8rem;
 }
 
+/* 상태별 텍스트 색상 */
 .status-badge.PENDING_PAYMENT {
-  background-color: #fff3cd; color: #856404;
+  color: #d97706; font-weight: bold;
 }
 .status-badge.RESERVED {
-  background-color: #d4edda; color: #155724;
+  color: #059669; font-weight: bold;
 }
 .status-badge.CANCELLED {
-  background-color: #f8d7da; color: #721c24;
+  color: #dc2626; font-weight: bold;
 }
-
+.status-badge.PICKING_UP {
+  color: #2563EB; font-weight: bold;
+}
+.status-badge.COMPLETED {
+  color: #374151; font-weight: bold;
+}
+.status-badge.IN_PROGRESS {
+  color: var(--bottari-deeppink); font-weight: bold;
+}
