@@ -84,38 +84,37 @@
 
 /* 입력 필드 (Input) */
 .driver-detail-input {
-  text-align: right;
-  border: 1px solid transparent; /* 평소에는 테두리 숨김 느낌 */
+  width: 65%;
+  padding: 6px 8px;
+  border: 1px solid var(--bottari-lightgray, #ddd);
   border-radius: 4px;
-  padding: 4px 8px;
-  font-size: 0.95rem;
-  color: #111;
-  background-color: transparent;
-  width: 60%;
-  transition: all 0.2s;
+  font-size: 0.9rem;
+  color: var(--bottari-darkslate, #333);
+  background-color: #fff;
+  text-align: left;
+  transition: border-color 0.2s;
 }
 
 .driver-detail-input:focus {
-  background-color: #fff;
-  border-color: #2563EB;
   outline: none;
+  border-color: var(--bottari-navy, #333); /* 클릭(포커스) 시: 진한 검정/네이비 */
 }
 
 .driver-detail-input::placeholder {
-  color: #d1d5db;
-  text-align: right;
+  color: #aaa;
+  text-align: left;
 }
 
-/* .driver-detail-value {
+.driver-detail-text {
   font-size: 0.9rem;
   color: var(--bottari-darkslate);
   text-align: right;
   max-width: 65%;
   word-break: break-all;
-} */
+}
 
 /* 특이사항은 좀 더 크게 보여줄 수 있음 */
-.driver-detail-memo {
+.driver-detail-notes {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -123,7 +122,7 @@
   border-bottom: 1px solid var(--bottari-lightgray);
 }
 
-.driver-detail-memo .driver-detail-value {
+.driver-detail-notes .driver-detail-value {
   text-align: left;
   max-width: 100%;
   background-color: #f9fafb;
@@ -170,10 +169,10 @@
   background-color: #d1d5db;
 }
 
-/* .driver-detail-actions .btn-edit,
+.driver-detail-actions .btn-edit,
 .driver-detail-actions .btn-delete {
   flex: 1;
   padding: 12px;
   font-size: 0.9rem;
   font-weight: 600;
-} */
+}
