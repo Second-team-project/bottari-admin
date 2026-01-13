@@ -121,6 +121,7 @@ export default function ReservationList() {
               <option value=''>전체</option>
               <option value='PENDING_PAYMENT'>결제대기</option>
               <option value='RESERVED'>예약완료</option>
+              <option value='PICKING_UP'>픽업중</option>
               <option value='IN_PROGRESS'>이동/보관중</option>
               <option value='COMPLETED'>완료</option>
               <option value='CANCELLED'>취소</option>
@@ -210,6 +211,7 @@ export default function ReservationList() {
                   <span className={`status-text ${item.state}`}>
                     {item.state === 'PENDING_PAYMENT' && '결제대기'}
                     {item.state === 'RESERVED' && '예약완료'}
+                    {item.state === 'PICKING_UP' && '픽업중'}
                     {item.state === 'IN_PROGRESS' && '진행중'}
                     {item.state === 'COMPLETED' && '완료'}
                     {item.state === 'CANCELLED' && '취소'}

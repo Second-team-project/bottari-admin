@@ -45,10 +45,10 @@ const router = createBrowserRouter([
         path: "/drivers",
         element: <DriverList />,
       },
-      {
-        path: "/employees",
-        element: <EmployeeList />,
-      },
+      // {
+      //   path: "/employees",
+      //   element: <EmployeeList />,
+      // },
       {
         path: "/users",
         element: <UserList />,
