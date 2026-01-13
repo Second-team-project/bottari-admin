@@ -127,6 +127,15 @@
 .status-text.CANCELLED {
   color: #dc2626; font-weight: bold;
 }
+.status-text.PICKING_UP {
+  color: #2563EB; font-weight: bold;
+}
+.status-text.COMPLETED {
+  color: #374151; font-weight: bold;
+}
+.status-text.IN_PROGRESS {
+  color: #4F46E5; font-weight: bold;
+}
 
 /* 테이블 헤더, 리스트 규격 */
 :root {
