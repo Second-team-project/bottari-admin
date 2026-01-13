@@ -89,6 +89,19 @@
   word-break: break-all;
 }
 
+.reservation-location-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: end;
+  gap: 2px;
+}
+
+.reservation-location-arrow {
+  position: relative;
+  right: 50px;
+}
+
 .reservation-detail-row.request-row {
   flex-direction: column;
   gap: 10px;
