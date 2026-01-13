@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import './DriverList.css';
-import DriverDetail from './DriverDetail.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { driverDestroyThunk, driverIndexThunk } from '../../store/thunks/driverThunk.js';
 import { openPanel, setPage } from '../../store/slices/driverSlice.js';
 import dayjs from 'dayjs';
+import { PatternFormat } from 'react-number-format';
+import DirverPanel from './DirverPanel.jsx';
 
 export default function DriverList() {
   const dispatch = useDispatch();
@@ -67,6 +68,8 @@ export default function DriverList() {
     dispatch(driverIndexThunk({ page: currentPage, driverName: searchTerm }));
   }, [dispatch, currentPage]);
 
+  console.log("=== 리스트 데이터 확인 ===", drivers);
+
   return(
     <div className='driver-list-page'>
       <div className={`driver-list-container ${panel.isOpen ? 'with-panel' : ''}`}>
@@ -88,7 +91,7 @@ export default function DriverList() {
               </form>
               
               {/* 등록 버튼 */}
-              <button className="btn-edit" onClick={handleOpenCreate} style={{ backgroundColor: '#2563EB' }}>
+              <button className="create-btn" onClick={handleOpenCreate}>
                 + 기사 등록
               </button>
             </div>
@@ -123,8 +126,16 @@ export default function DriverList() {
                 >
                   <div className='driver-list-col-no'>{(currentPage - 1) * 20 + index + 1}</div>
                   <div className='driver-list-col-name'>{driver.driverName}</div>
-                  <div className={`'driver-list-col-state' ${driver.attendanceState === 'ON' ? 'status-on' : 'status-off'}`}>{driver.attendanceState === 'ON' ? '🟢 출근' : '⚪ 퇴근'}</div>
-                  <div className='driver-list-col-phone'>{driver.phone}</div>
+                  <div className={`driver-list-col-state ${driver.attendanceState === 'CLOCKED_IN' ? 'status-on' : 'status-off'}` }>
+                      {driver.attendanceState === 'CLOCKED_IN' ? '🟢 출근' : '⚪ 퇴근'}
+                  </div>
+                  <div className='driver-list-col-phone'>
+                    <PatternFormat
+                      value={driver.phone}
+                      format="###-####-####"
+                      displayType="text"
+                    />
+                  </div>
                   <div className='driver-list-col-email'>{driver.email}</div>
                   <div className='driver-list-col-car'>{driver.carNumber || '-'}</div>
                   <div className='driver-list-col-count'>{driver.deliveryCount || '-'}건</div> 
@@ -150,29 +161,39 @@ export default function DriverList() {
 
         {/* 페이지네이션 */}
         <div className='driver-list-pagination'>
-          <ChevronLeft 
+          {/* 이전 페이지 버튼 */}
+          <button 
             className='pagination-btn' 
-            color={currentPage === 1 ? "#ccc" : "#6B7280"} 
-            size={22}
-            onClick={handlePrevPage}
-            style={{ pointerEvents: currentPage === 1 ? 'none' : 'auto' }}
-          />
+            onClick={handlePrevPage} 
+            disabled={currentPage === 1}
+          >
+            <ChevronLeft 
+              color={currentPage === 1 ? "#ccc" : "#6B7280"} 
+              size={22}
+            />
+          </button>
+
           <span className='page-number'>
             {currentPage || 1}
           </span>
-          <ChevronRight 
+
+          {/* 다음 페이지 버튼 */}
+          <button 
             className='pagination-btn' 
-            color={currentPage === totalPages ? "#ccc" : "#6B7280"} 
-            size={22} 
-            onClick={handleNextPage}
-            style={{ pointerEvents: currentPage === totalPages ? 'none' : 'auto' }}
-          />
+            onClick={handleNextPage} 
+            disabled={currentPage === totalPages}
+          >
+            <ChevronRight 
+              color={currentPage === totalPages ? "#ccc" : "#6B7280"} 
+              size={22} 
+            />
+          </button>
         </div>
       </div>
 
       {/* 사이드 패널 */}
       {panel.isOpen && (
-        <DriverDetail key={panel.selectedData?.id || 'new'} />
+        <DirverPanel />
       )}
     </div>
   )
