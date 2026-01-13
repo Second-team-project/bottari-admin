@@ -128,23 +128,23 @@ export default function ReservationForm({ mode }) {
 
     // 시작날짜가 변경된 경우
     if (name === 'startDate_Date') {
-      const currentTime = dayjs(formData.startDate).format('HH:mm'); // 기존 시간 보존
+      const currentTime = formData.startDate ? dayjs(formData.startDate).format('HH:mm') : '00:00'; // 기존 시간 보존
       const newDateTime = `${value} ${currentTime}`; // 선택한 날짜 + 기존 시간
       setFormData((prev) => ({ ...prev, startDate: newDateTime }));
     } 
     // 시작시간이 변경된 경우
     else if (name === 'startDate_Time') {
-      const currentDate = dayjs(formData.startDate).format('YYYY-MM-DD'); // 기존 날짜 보존
+      const currentDate = formData.startDate ? dayjs(formData.startDate).format('YYYY-MM-DD') : dayjs().format('YYYY-MM-DD'); // 기존 날짜 보존
       const newDateTime = `${currentDate} ${value}`; // 기존 날짜 + 선택한 시간
       setFormData((prev) => ({ ...prev, startDate: newDateTime }));
     }
     else if (name === 'endDate_Date') {
-      const currentTime = dayjs(formData.endDate).format('HH:mm'); // 기존 시간 보존
+      const currentTime = formData.endDate ? dayjs(formData.endDate).format('HH:mm') : '00:00'; // 기존 시간 보존
       const newDateTime = `${value} ${currentTime}`; // 선택한 날짜 + 기존 시간
       setFormData((prev) => ({ ...prev, endDate: newDateTime }));
     }
     else if (name === 'endDate_Time') {
-      const currentDate = dayjs(formData.endDate).format('YYYY-MM-DD'); // 기존 날짜 보존
+      const currentDate = formData.endDate ? dayjs(formData.endDate).format('YYYY-MM-DD') : dayjs().format('YYYY-MM-DD'); // 기존 날짜 보존
       const newDateTime = `${currentDate} ${value}`; // 기존 날짜 + 선택한 시간
       setFormData((prev) => ({ ...prev, endDate: newDateTime }));
     }
@@ -174,8 +174,8 @@ export default function ReservationForm({ mode }) {
   // ===== 가격 자동 계산 로직 =====
   useEffect(() => {
     // 1. 자동 계산이 꺼져있거나, 필수 데이터가 없으면 중단
-    if (!isAutoPrice || !basePricing.length || !additionalPricing.length) return;
-    if (formData.type !== 'STORAGE') return; // 일단 보관(STORAGE)만 계산 로직 적용
+    if (!isAutoPrice || !basePricing?.length || !additionalPricing?.length) return;
+    if (!isStorage) return; // 일단 보관(STORAGE)만 계산 로직 적용
 
     // 2. 일일 기본 요금 합계 계산 (Daily Base Price)
     // "무조건" 부모가 가진 가격표(basePricing) 기준으로 새로 계산 (Single Source of Truth)
@@ -204,8 +204,8 @@ export default function ReservationForm({ mode }) {
 
     // 3. 기간(일수) 계산
     // period 형식: "YYYY-MM-DD ~ YYYY-MM-DD"
-    const dates = formData.period.split('~').map(s => s.trim());
-    if (dates.length !== 2) return;
+    const dates = formData?.period?.split('~').map(s => s.trim());
+    if (dates?.length !== 2) return;
 
     const start = new Date(dates[0]);
     const end = new Date(dates[1]);
@@ -419,14 +419,14 @@ export default function ReservationForm({ mode }) {
                       type="date"
                       className="detail-input"
                       name="startDate_Date"
-                      value={dayjs(formData.startDate).format('YYYY-MM-DD')}
+                      value={formData.startDate ? dayjs(formData.startDate).format('YYYY-MM-DD') : ''}
                       onChange={handleChange}
                       />
                     <input
                       type="time"
                       className="detail-input"
                       name="startDate_Time"
-                      value={dayjs(formData.startDate).format('HH:mm')}
+                      value={formData.startDate ? dayjs(formData.startDate).format('HH:mm') : ''}
                       onChange={handleChange}
                     />
                   </span>
@@ -438,14 +438,14 @@ export default function ReservationForm({ mode }) {
                       type="date"
                       className="detail-input"
                       name="endDate_Date"
-                      value={dayjs(formData.endDate).format('YYYY-MM-DD')}
+                      value={formData.endDate ? dayjs(formData.endDate).format('YYYY-MM-DD') : ''}
                       onChange={handleChange}
                       />
                     <input
                       type="time"
                       className="detail-input"
                       name="endDate_Time"
-                      value={dayjs(formData.endDate).format('HH:mm')}
+                      value={formData.endDate ? dayjs(formData.endDate).format('HH:mm') : ''}
                       onChange={handleChange}
                     />
                   </span>
@@ -479,14 +479,14 @@ export default function ReservationForm({ mode }) {
                     type="date"
                     className="detail-input"
                     name="startDate_Date"
-                    value={dayjs(formData.startDate).format('YYYY-MM-DD')}
+                    value={formData.startDate ? dayjs(formData.startDate).format('YYYY-MM-DD') : ''}
                     onChange={handleChange}
                     />
                   <input
                     type="time"
                     className="detail-input"
                     name="startDate_Time"
-                    value={dayjs(formData.startDate).format('HH:mm')}
+                    value={formData.startDate ? dayjs(formData.startDate).format('HH:mm') : ''}
                     onChange={handleChange}
                   />
                 </span>
