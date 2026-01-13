@@ -134,12 +134,16 @@ export default function FaqModal({ item, onClose, onCreate, onUpdate, onDelete }
             </div>
 
             {/* 작성일 등은 보여주기만 (수정 불가) */}
-            <div className='faq-modal-info-item'>
-              <span className='faq-modal-info-label'>작성일</span>
-              <span className='faq-modal-info-value'>
-                {item?.createdAt}
-              </span>
-            </div>
+            {
+              !item?.id && (
+                <div className='faq-modal-info-item'>
+                  <span className='faq-modal-info-label'>작성일</span>
+                  <span className='faq-modal-info-value'>
+                    {item?.createdAt}
+                  </span>
+                </div>
+              )
+            }
 
             {/* 수정일 */}
             {
