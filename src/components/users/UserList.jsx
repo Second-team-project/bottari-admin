@@ -160,7 +160,7 @@ export default function UserList() {
   return(
     <div className='user-list-page'>
       <div className={`user-list-container ${selectedUser !== null ? 'with-panel' : ''}`}>
-        <h2 className='list-page-header'>회원 관리</h2>
+        <h2 className='page-title'>회원 관리</h2>
 
         {/* 검색 */}
         <div className='reservation-search-bar'>

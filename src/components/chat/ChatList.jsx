@@ -157,7 +157,7 @@ export default function ChatList() {
   return (
     <div className='chat-list-page'>
       <div className={`chat-list-container ${selectedRoom !== null ? 'with-panel' : ''}`}>
-        <h2 className='list-page-header'>1:1 상담 관리</h2>
+        <h2 className='page-title'>1:1 상담 관리</h2>
 
         {/* 검색 */}
         <div className='reservation-search-bar'>
