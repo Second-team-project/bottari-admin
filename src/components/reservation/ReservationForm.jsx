@@ -318,11 +318,10 @@ export default function ReservationForm({ mode }) {
         {/* 구분 */}
         <div className="reservation-detail-row">
           <span className="reservation-detail-label">구분</span>
-          <span className="reservation-detail-value">
-            <select className="detail-input" name="type" value={formData.type} onChange={handleChange}>
-              <option value="STORAGE">보관</option>
-              <option value="DELIVERY">운송</option>
-            </select>
+          <span className="reservation-detail-value" style={{ fontWeight: 'bold' }}>
+            {
+              isStorage ? '보관' : '운송' 
+            }
           </span>
         </div>
 
@@ -401,6 +400,20 @@ export default function ReservationForm({ mode }) {
         {isStorage && (
           <>
             <div className="reservation-detail-row">
+              <span className="reservation-detail-label">{isStorage ? '보관 장소' : '배송 출발지/도착지'}</span>
+              {
+                isStorage ? (
+                  <span className="reservation-detail-value">{selectedReservation?.reservIdStorages[0].storageStore.storeName}</span>
+                ) : (
+                  <div className='reservation-location-container'>
+                    <span className="reservation-detail-value">{selectedReservation?.reservIdDeliveries[0].startedAddr}</span>
+                    <ArrowDown className='reservation-location-arrow' size={18} color='#6B7280' />
+                    <span className="reservation-detail-value">{selectedReservation?.reservIdDeliveries[0].endedAddr}</span>
+                  </div>
+                )
+              }
+            </div>
+            {/* <div className="reservation-detail-row">
               <span className="reservation-detail-label">보관 장소</span>
               <span className="reservation-detail-value">
                 <input
@@ -412,8 +425,22 @@ export default function ReservationForm({ mode }) {
                   placeholder="보관소 이름"
                 />
               </span>
-            </div>
+            </div> */}
             <div className="reservation-detail-row">
+              <span className="reservation-detail-label">{isStorage ? '보관 기간' : '픽업 요청일'}</span>
+              {
+                isStorage ? (
+                  <div className='reservation-location-container'>
+                    <span className="reservation-detail-value">{dayjs(selectedReservation?.reservIdStorages[0].startedAt).format('YYYY-MM-DD HH:mm')}</span>
+                    <ArrowDown className='reservation-location-arrow' size={18} color='#6B7280' />
+                    <span className="reservation-detail-value">{dayjs(selectedReservation?.reservIdStorages[0].endedAt).format('YYYY-MM-DD HH:mm')}</span>
+                  </div>
+                ) : (
+                  <span className="reservation-detail-value">{dayjs(selectedReservation?.reservIdDeliveries[0].startedAt).format('YYYY-MM-DD HH:mm')}</span>
+                )
+              }
+            </div>
+            {/* <div className="reservation-detail-row">
               <span className="reservation-detail-label">보관 기간</span>
               <div>
                 <div>
@@ -454,7 +481,7 @@ export default function ReservationForm({ mode }) {
                   </span>
                 </div>
               </div>
-            </div>
+            </div> */}
           </>
         )}
 
@@ -462,6 +489,20 @@ export default function ReservationForm({ mode }) {
         {!isStorage && (
           <>
             <div className="reservation-detail-row">
+              <span className="reservation-detail-label">{isStorage ? '보관 장소' : '배송 출발지/도착지'}</span>
+              {
+                isStorage ? (
+                  <span className="reservation-detail-value">{selectedReservation?.reservIdStorages[0].storageStore.storeName}</span>
+                ) : (
+                  <div className='reservation-location-container'>
+                    <span className="reservation-detail-value">{selectedReservation?.reservIdDeliveries[0].startedAddr}</span>
+                    <ArrowDown className='reservation-location-arrow' size={18} color='#6B7280' />
+                    <span className="reservation-detail-value">{selectedReservation?.reservIdDeliveries[0].endedAddr}</span>
+                  </div>
+                )
+              }
+            </div>
+            {/* <div className="reservation-detail-row">
               <span className="reservation-detail-label">배송 경로</span>
               <span className="reservation-detail-value">
                 <input
@@ -473,8 +514,22 @@ export default function ReservationForm({ mode }) {
                   placeholder="출발지 -> 도착지"
                 />
               </span>
-            </div>
+            </div> */}
             <div className="reservation-detail-row">
+              <span className="reservation-detail-label">{isStorage ? '보관 기간' : '픽업 요청일'}</span>
+              {
+                isStorage ? (
+                  <div className='reservation-location-container'>
+                    <span className="reservation-detail-value">{dayjs(selectedReservation?.reservIdStorages[0].startedAt).format('YYYY-MM-DD HH:mm')}</span>
+                    <ArrowDown className='reservation-location-arrow' size={18} color='#6B7280' />
+                    <span className="reservation-detail-value">{dayjs(selectedReservation?.reservIdStorages[0].endedAt).format('YYYY-MM-DD HH:mm')}</span>
+                  </div>
+                ) : (
+                  <span className="reservation-detail-value">{dayjs(selectedReservation?.reservIdDeliveries[0].startedAt).format('YYYY-MM-DD HH:mm')}</span>
+                )
+              }
+            </div>
+            {/* <div className="reservation-detail-row">
               <span className="reservation-detail-label">픽업 요청일</span>
               <div>
                 <span className="reservation-edit-detail-value">
@@ -494,7 +549,7 @@ export default function ReservationForm({ mode }) {
                   />
                 </span>
               </div>
-            </div>
+            </div> */}
           </>
         )}
 

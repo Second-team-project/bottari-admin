@@ -98,12 +98,12 @@ export default function ReservationList() {
         {/* 상단 헤더(제목 + 등록 버튼) */}
         <div className='list-page-header'>
           <h2 className='page-title'>예약 관리</h2>
-          <button 
+          {/* <button 
             className='create-btn' 
             onClick={() => dispatch(openPanel({ mode: 'store' }))}
           >
             <Plus size={16} /> 예약 등록
-          </button>
+          </button> */}
         </div>
 
         {/* 검색 및 필터 영역 */}
