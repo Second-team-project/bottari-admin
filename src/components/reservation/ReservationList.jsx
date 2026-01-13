@@ -6,11 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { reservationDestroyThunk, reservationIndexThunk } from '../../store/thunks/reservationThunk.js';
 import { openPanel } from '../../store/slices/reservationSlice.js';
 import dayjs from 'dayjs';
+import { PatternFormat } from 'react-number-format';
 
 export default function ReservationList() {
   const dispatch = useDispatch();
-  const { reservations, loading, panel } = useSelector((state) => state.reservation);
+  const { reservations, loading, panel, totalCount } = useSelector((state) => state.reservation);
 
+  
   // 기간 설정 함수
   function defaultPeriod() {
     const today = dayjs();
@@ -22,7 +24,7 @@ export default function ReservationList() {
       endDate: today.format('YYYY-MM-DD')
     };
   }
-
+  
   // 검색 필터 상태 (로컬 관리)
   const [filters, setFilters] = useState({
     page: 1,
@@ -33,7 +35,9 @@ export default function ReservationList() {
     startDate: defaultPeriod().startDate,
     endDate: defaultPeriod().endDate,
   });
-
+  
+  const totalPages = Math.ceil((totalCount || 0) / filters.limit);
+  
   // 검색 핸들러
   function handleSearch() {
     setFilters({ ...filters, page: 1 });
@@ -47,15 +51,15 @@ export default function ReservationList() {
     }
   };
 
-  // n개씩 보기 변경 핸들러
-  function handleLimitChange(e) {
-    const newLimit = parseInt(e.target.value, 10);
-    setFilters(prev => ({
-      ...prev,
-      limit: newLimit,
-      page: 1 // 중요: 개수를 바꾸면 무조건 1페이지로 리셋
-    }));
-  };
+  // // n개씩 보기 변경 핸들러
+  // function handleLimitChange(e) {
+  //   const newLimit = parseInt(e.target.value, 10);
+  //   setFilters(prev => ({
+  //     ...prev,
+  //     limit: newLimit,
+  //     page: 1 // 중요: 개수를 바꾸면 무조건 1페이지로 리셋
+  //   }));
+  // };
 
   // 입력값 변경 핸들러
   function handleChange(e) {
@@ -80,7 +84,7 @@ export default function ReservationList() {
 
   useEffect(() => {
     dispatch(reservationIndexThunk(filters));
-  }, [filters.page, filters.limit]);
+  }, [filters.page]);
 
   return(
     <div className='reservation-list-page'>
@@ -140,7 +144,7 @@ export default function ReservationList() {
           </div>
         </div>
 
-        {/* 오른쪽: n개씩 보기 선택 */}
+        {/* 오른쪽: n개씩 보기 선택
         <select 
           className="limit-select" 
           value={filters.limit} 
@@ -150,7 +154,7 @@ export default function ReservationList() {
           <option value={20}>20개씩 보기</option>
           <option value={30}>30개씩 보기</option>
           <option value={50}>50개씩 보기</option>
-        </select>
+        </select> */}
 
         {/* 테이블 */}
         <div className='reservation-list-table'>
@@ -188,7 +192,11 @@ export default function ReservationList() {
                   {item.reservationUser?.email || item.reservIdBookers?.[0]?.email || '-'}
                 </div>
                 <div className='reservation-list-col-phone'>
-                  {item.reservationUser?.phone || item.reservIdBookers?.[0]?.phone}
+                  <PatternFormat
+                    value={item.reservationUser?.phone || item.reservIdBookers?.[0]?.phone}
+                    format="###-####-####"
+                    displayType="text"
+                  />
                 </div>
                 <div className='reservation-list-col-date'>
                   {item.createdAt?.substring(0, 10)}
@@ -245,10 +253,10 @@ export default function ReservationList() {
           <button 
             className='pagination-btn'
             // 다음 페이지 데이터가 없으면 비활성화 (간단 로직)
-            disabled={reservations.length < filters.limit} 
+            disabled={filters.page >= totalPages}
             onClick={() => setFilters({...filters, page: filters.page + 1})}
           >
-            <ChevronRight size={22} color={reservations.length < filters.limit ? "#ccc" : "#333"} />
+            <ChevronRight size={22} color={filters.page >= totalPages ? "#ccc" : "#333"} />
           </button>
         </div>
       </div>
