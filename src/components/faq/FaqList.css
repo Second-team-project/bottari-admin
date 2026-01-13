@@ -62,7 +62,7 @@
 /* 헤더: 번호(60) 카테고리(100) 질문(1fr) 작성일(150) 관리(120) */
 .faq-list-header {
   display: grid;
-  grid-template-columns: 60px 100px 1fr 150px 120px;
+  grid-template-columns: 60px 120px 1fr 150px 120px;
   background-color: var(--bottari-grayfont);
   color: #fff;
   text-align: center;
@@ -77,7 +77,7 @@
 
 .faq-list-row {
   display: grid;
-  grid-template-columns: 60px 100px 1fr 150px 120px;
+  grid-template-columns: 60px 120px 1fr 150px 120px;
   background-color: #fff;
   text-align: center;
   align-items: center;
