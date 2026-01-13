@@ -1,9 +1,10 @@
-import { X } from 'lucide-react';
+import { ArrowDown, X } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { closePanel, openPanel } from '../../store/slices/reservationSlice.js';
-import { reservationDestroyThunk } from '../../store/thunks/reservationThunk';
+import { closePanel } from '../../store/slices/reservationSlice.js';
 import LuggageEditor from './components/LuggageEditor';
 import './ReservationDetail.css';
+import dayjs from 'dayjs';
+import { PatternFormat } from 'react-number-format';
 
 export default function ReservationView() {
   const dispatch = useDispatch();
@@ -13,42 +14,6 @@ export default function ReservationView() {
   
   // 보관일 경우
   const isStorage = selectedReservation.code && selectedReservation.code.startsWith('S');
-
-  // 주소 계산
-  const getAddress = () => {
-    if (isStorage) {
-      const storageInfo = selectedReservation.reservIdStorages?.[0];
-      const storeInfo = storageInfo?.storageStore;
-      return storeInfo?.storeName || storeInfo?.addr || '';
-    } else {
-      const pickup = selectedReservation.startedAddr || '';
-      const dropoff = selectedReservation.endedAddr || '';
-      if (pickup && dropoff) return `${pickup} ➡️ ${dropoff}`;
-      return pickup || dropoff || '';
-    }
-  };
-
-  // 기간 계산
-  const getPeriod = () => {
-    let startDate = '';
-    let endDate = '';
-
-    if (isStorage) {
-      const storage = selectedReservation.reservIdStorages?.[0];
-      startDate = storage?.startedAt || selectedReservation.createdAt;
-      endDate = storage?.endedAt || '';
-    } else {
-      const delivery = selectedReservation.reservIdDeliveries?.[0];
-      startDate = delivery?.startedAt || selectedReservation.createdAt;
-    }
-
-    if (startDate && endDate) {
-      return `${startDate.substring(0, 10)} ~ ${endDate.substring(0, 10)}`;
-    } else if (startDate) {
-      return startDate.substring(0, 10);
-    }
-    return '-';
-  };
 
   // 기사 정보
   const getDriverName = () => {
@@ -72,13 +37,6 @@ export default function ReservationView() {
       CANCELLED: '취소',
     };
     return labels[state] || state;
-  };
-
-  // 삭제 핸들러
-  const handleDelete = async () => {
-    if (window.confirm('정말 삭제하시겠습니까?')) {
-      await dispatch(reservationDestroyThunk(selectedReservation.id));
-    }
   };
 
   console.log(selectedReservation);
@@ -116,7 +74,12 @@ export default function ReservationView() {
         {/* 연락처 */}
         <div className="reservation-detail-row">
           <span className="reservation-detail-label">연락처</span>
-          <span className="reservation-detail-value">{phone}</span>
+          <PatternFormat
+            value={phone}
+            format="###-####-####"
+            displayType="text"
+            className="reservation-detail-value"
+          />
         </div>
 
         {/* 이메일 */}
@@ -133,16 +96,34 @@ export default function ReservationView() {
 
         {/* 장소/경로 */}
         <div className="reservation-detail-row">
-          <span className="reservation-detail-label">{isStorage ? '보관 장소' : '배송 경로'}</span>
-          <span className="reservation-detail-value">{getAddress() || (isStorage ? '보관소 정보 없음' : '경로 정보 없음')}</span>
+          <span className="reservation-detail-label">{isStorage ? '보관 장소' : '배송 출발지/도착지'}</span>
+          {
+            isStorage ? (
+              <span className="reservation-detail-value">{selectedReservation.reservIdStorages[0].storageStore.storeName}</span>
+            ) : (
+              <div className='reservation-location-container'>
+                <span className="reservation-detail-value">{selectedReservation.reservIdDeliveries[0].startedAddr}</span>
+                <ArrowDown className='reservation-location-arrow' size={18} color='#6B7280' />
+                <span className="reservation-detail-value">{selectedReservation.reservIdDeliveries[0].endedAddr}</span>
+              </div>
+            )
+          }
         </div>
 
         {/* 기간/픽업일 */}
         <div className="reservation-detail-row">
           <span className="reservation-detail-label">{isStorage ? '보관 기간' : '픽업 요청일'}</span>
-          <span className="reservation-detail-value">
-            {isStorage ? getPeriod() : getPeriod().split('~')[0]}
-          </span>
+          {
+            isStorage ? (
+              <div className='reservation-location-container'>
+                <span className="reservation-detail-value">{dayjs(selectedReservation.reservIdStorages[0].startedAt).format('YYYY-MM-DD HH:mm')}</span>
+                <ArrowDown className='reservation-location-arrow' size={18} color='#6B7280' />
+                <span className="reservation-detail-value">{dayjs(selectedReservation.reservIdStorages[0].endedAt).format('YYYY-MM-DD HH:mm')}</span>
+              </div>
+            ) : (
+              <span className="reservation-detail-value">{dayjs(selectedReservation.reservIdDeliveries[0].startedAt).format('YYYY-MM-DD HH:mm')}</span>
+            )
+          }
         </div>
 
         {/* 짐 정보 */}
@@ -172,10 +153,10 @@ export default function ReservationView() {
         }
 
         {/* 요청사항 */}
-        <div className="reservation-detail-row" style={{ flexDirection: 'column', gap: '8px', borderBottom: 'none' }}>
+        <div className="reservation-detail-row" style={{ flexDirection: 'column', gap: '8px' }}>
           <span className="reservation-detail-label">요청사항</span>
           <div className="reservation-detail-value" style={{ width: '100%', maxWidth: '100%' }}>
-            <p style={{ margin: 0, whiteSpace: 'pre-wrap', textAlign: 'left' }}>
+            <p style={{ margin: 0, whiteSpace: 'pre-wrap', textAlign: 'right' }}>
               {selectedReservation.notes || '-'}
             </p>
           </div>
@@ -190,18 +171,6 @@ export default function ReservationView() {
             </span>
           </span>
         </div>
-      </div>
-
-      <div className="reservation-detail-actions">
-        <button
-          className="btn-edit"
-          onClick={() => dispatch(openPanel({ mode: 'update', data: selectedReservation }))}
-        >
-          수정
-        </button>
-        <button className="btn-delete" onClick={handleDelete}>
-          삭제
-        </button>
       </div>
     </div>
   );
