@@ -8,12 +8,15 @@ import './ReservationDetail.css';
 export default function ReservationView() {
   const dispatch = useDispatch();
   const { selectedReservation } = useSelector((state) => state.reservation);
-
+  
   if (!selectedReservation) return null;
+  
+  // 보관일 경우
+  const isStorage = selectedReservation.code && selectedReservation.code.startsWith('S');
 
   // 주소 계산
   const getAddress = () => {
-    if (selectedReservation.type === 'STORAGE') {
+    if (isStorage) {
       const storageInfo = selectedReservation.reservIdStorages?.[0];
       const storeInfo = storageInfo?.storageStore;
       return storeInfo?.storeName || storeInfo?.addr || '';
@@ -30,7 +33,7 @@ export default function ReservationView() {
     let startDate = '';
     let endDate = '';
 
-    if (selectedReservation.type === 'STORAGE') {
+    if (isStorage) {
       const storage = selectedReservation.reservIdStorages?.[0];
       startDate = storage?.startedAt || selectedReservation.createdAt;
       endDate = storage?.endedAt || '';
@@ -78,7 +81,7 @@ export default function ReservationView() {
     }
   };
 
-  const isStorage = selectedReservation.type === 'STORAGE';
+  console.log(selectedReservation);
 
   return (
     <div className="reservation-detail-panel">
@@ -159,10 +162,14 @@ export default function ReservationView() {
         </div>
 
         {/* 담당 기사 */}
-        <div className="reservation-detail-row">
-          <span className="reservation-detail-label">담당기사</span>
-          <span className="reservation-detail-value">{getDriverName()}</span>
-        </div>
+        {
+          !isStorage && (
+            <div className="reservation-detail-row">
+              <span className="reservation-detail-label">담당기사</span>
+              <span className="reservation-detail-value">{getDriverName()}</span>
+            </div>
+          )
+        }
 
         {/* 요청사항 */}
         <div className="reservation-detail-row" style={{ flexDirection: 'column', gap: '8px', borderBottom: 'none' }}>
