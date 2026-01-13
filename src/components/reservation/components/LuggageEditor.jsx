@@ -1,7 +1,7 @@
 import '../ReservationDetail.css';
 import { X } from 'lucide-react';
 
-export default function LuggageEditor({ items, onChange, readOnly = false, pricing = [] }) {
+export default function LuggageEditor({ items, onChange, readOnly = true, pricing = [] }) {
   // 1. [Helper] 종류(Type) 목록 추출 (중복제거)
   const typeList = pricing?.length > 0 ? [...new Set(pricing.map(p => p.itemType))] : [];
 
@@ -36,7 +36,8 @@ export default function LuggageEditor({ items, onChange, readOnly = false, prici
     // 연쇄 초기화 로직 (Cascading Reset)
     if (field === 'itemType') {
       // 종류가 바뀌면 크기/무게 초기화
-      currentItem.itemSize = '';
+      // GOLF인 경우 사이즈를 null로, 아니면 빈 문자열로 설정
+      currentItem.itemSize = value === 'GOLF' ? null : '';
       currentItem.itemWeight = '';
     } else if (field === 'itemSize') {
       // 크기가 바뀌면 무게 초기화
