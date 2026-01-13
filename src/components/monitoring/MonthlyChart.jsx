@@ -8,6 +8,7 @@ import {
   Legend,
   PointElement,
   LineElement,
+  LineController,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
@@ -20,6 +21,7 @@ ChartJS.register(
   BarElement,
   PointElement,
   LineElement,
+  LineController,
   Title,
   Tooltip,
   Legend
