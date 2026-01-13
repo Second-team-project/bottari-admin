@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { closePanel, openPanel } from '../../store/slices/reservationSlice.js';
 import { reservationStoreThunk, reservationUpdateThunk } from '../../store/thunks/reservationThunk';
-import { driverIndexThunk } from '../../store/thunks/driverThunk.js';
+import { driverIndexAllThunk, driverIndexThunk } from '../../store/thunks/driverThunk.js';
 import LuggageEditor from './components/LuggageEditor';
 import './ReservationDetail.css';
 import { getAdditionalPricing, getPricing } from '../../api/pricingApi.js';
@@ -39,11 +39,8 @@ export default function ReservationForm({ mode }) {
 
   // 기사 목록 없으면 불러오기
   useEffect(() => {
-    // 이미 목록이 있으면 호출 안 함 (최적화)
-    if (!drivers || drivers.length === 0) {
-      dispatch(driverIndexThunk({ page: 1, limit: 100 })); // 전체 목록을 위해 넉넉히 호출
-    }
-  }, [dispatch, drivers]);
+    dispatch(driverIndexAllThunk());
+  }, []);
 
   // 초기 상태 계산
   const getInitialState = () => {
@@ -308,9 +305,9 @@ export default function ReservationForm({ mode }) {
   const isRegisteredUser = isUpdate && selectedReservation?.reservationUser;
 
   // 필터링된 기사 목록 생성
-  const filteredDrivers = drivers ? drivers.filter(driver => 
-    driver.attendanceState === 'CLOCKED_IN' || driver.id === Number(formData.driverId)
-  ) : [];
+  // const filteredDrivers = drivers ? drivers.filter(driver => 
+  //   driver.attendanceState === 'CLOCKED_IN' || driver.id === Number(formData.driverId)
+  // ) : [];
 
   return (
     <div className="reservation-detail-panel">
