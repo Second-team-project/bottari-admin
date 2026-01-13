@@ -1,18 +1,21 @@
-import { X } from 'lucide-react';
+import { ArrowDown, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { closePanel, openPanel } from '../../store/slices/reservationSlice.js';
 import { reservationStoreThunk, reservationUpdateThunk } from '../../store/thunks/reservationThunk';
 import LuggageEditor from './components/LuggageEditor';
 import './ReservationDetail.css';
+import { PatternFormat } from 'react-number-format';
+import dayjs from 'dayjs';
 
 const INITIAL_FORM_DATA = {
-  type: 'STORAGE',
+  type: '',
   userName: '',
   phone: '',
   email: '',
   address: '',
-  period: '',
+  startDate: '',
+  endDate: '',
   price: 0,
   notes: '',
   state: 'PENDING_PAYMENT',
@@ -24,24 +27,23 @@ const INITIAL_FORM_DATA = {
 export default function ReservationForm({ mode }) {
   const dispatch = useDispatch();
   const { selectedReservation } = useSelector((state) => state.reservation);
-
+  
   const isCreate = mode === 'store';
   const isUpdate = mode === 'update';
+  
+  // 보관일 경우
+  const isStorage = !isCreate && selectedReservation?.code?.startsWith('S');
 
   // 초기 상태 계산
   const getInitialState = () => {
-    if (isCreate) {
+    if (isCreate || !selectedReservation) {
       return { ...INITIAL_FORM_DATA };
     }
-
-    if (!selectedReservation) {
-      return { ...INITIAL_FORM_DATA };
-    }
-
+    
     // 주소 계산
     let address = '';
-    if (selectedReservation.type === 'STORAGE') {
-      const storageInfo = selectedReservation.reservIdStorages?.[0];
+    if (isStorage) {
+      const storageInfo = selectedReservation?.reservIdStorages?.[0];
       const storeInfo = storageInfo?.storageStore;
       address = storeInfo?.storeName || storeInfo?.addr || '';
     } else {
@@ -57,20 +59,13 @@ export default function ReservationForm({ mode }) {
     // 기간 계산
     let startDate = '';
     let endDate = '';
-    if (selectedReservation.type === 'STORAGE') {
+    if (isStorage) {
       const storage = selectedReservation.reservIdStorages?.[0];
       startDate = storage?.startedAt || selectedReservation.createdAt;
       endDate = storage?.endedAt || '';
     } else {
       const delivery = selectedReservation.reservIdDeliveries?.[0];
       startDate = delivery?.startedAt || selectedReservation.createdAt;
-    }
-
-    let period = '';
-    if (startDate && endDate) {
-      period = `${startDate.substring(0, 10)} ~ ${endDate.substring(0, 10)}`;
-    } else if (startDate) {
-      period = startDate.substring(0, 10);
     }
 
     // 기사 정보
@@ -80,12 +75,13 @@ export default function ReservationForm({ mode }) {
     const booker = selectedReservation.reservIdBookers?.[0];
 
     return {
-      type: selectedReservation.type || 'STORAGE',
+      type: isStorage ? 'STORAGE' : 'DELIVERY',
       userName: selectedReservation.reservationUser?.userName || booker?.userName || '',
       phone: selectedReservation.reservationUser?.phone || booker?.phone || '',
       email: selectedReservation.reservationUser?.email || booker?.email || '',
       address,
-      period,
+      startDate,
+      endDate,
       price: selectedReservation.price || 0,
       notes: selectedReservation.notes || '',
       state: selectedReservation.state || 'PENDING_PAYMENT',
@@ -105,7 +101,33 @@ export default function ReservationForm({ mode }) {
   // 입력 핸들러
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // 시작날짜가 변경된 경우
+    if (name === 'startDate_Date') {
+      const currentTime = dayjs(formData.startDate).format('HH:mm'); // 기존 시간 보존
+      const newDateTime = `${value} ${currentTime}`; // 선택한 날짜 + 기존 시간
+      setFormData((prev) => ({ ...prev, startDate: newDateTime }));
+    } 
+    // 시작시간이 변경된 경우
+    else if (name === 'startDate_Time') {
+      const currentDate = dayjs(formData.startDate).format('YYYY-MM-DD'); // 기존 날짜 보존
+      const newDateTime = `${currentDate} ${value}`; // 기존 날짜 + 선택한 시간
+      setFormData((prev) => ({ ...prev, startDate: newDateTime }));
+    }
+    else if (name === 'endDate_Date') {
+      const currentTime = dayjs(formData.endDate).format('HH:mm'); // 기존 시간 보존
+      const newDateTime = `${value} ${currentTime}`; // 선택한 날짜 + 기존 시간
+      setFormData((prev) => ({ ...prev, endDate: newDateTime }));
+    }
+    else if (name === 'endDate_Time') {
+      const currentDate = dayjs(formData.endDate).format('YYYY-MM-DD'); // 기존 날짜 보존
+      const newDateTime = `${currentDate} ${value}`; // 기존 날짜 + 선택한 시간
+      setFormData((prev) => ({ ...prev, endDate: newDateTime }));
+    }
+    // 그 외 일반 입력들
+    else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   // 짐 정보 변경 핸들러
@@ -163,7 +185,6 @@ export default function ReservationForm({ mode }) {
     }
   };
 
-  const isStorage = formData.type === 'STORAGE';
   const isRegisteredUser = isUpdate && selectedReservation?.reservationUser;
 
   return (
@@ -215,12 +236,12 @@ export default function ReservationForm({ mode }) {
         <div className="reservation-detail-row">
           <span className="reservation-detail-label">연락처</span>
           <span className="reservation-detail-value">
-            <input
-              className="detail-input"
-              type="text"
+            <PatternFormat
               name="phone"
+              className='detail-input'
               value={formData.phone}
               onChange={handleChange}
+              format="###-####-####"
               placeholder="연락처 입력"
             />
           </span>
@@ -284,16 +305,45 @@ export default function ReservationForm({ mode }) {
             </div>
             <div className="reservation-detail-row">
               <span className="reservation-detail-label">보관 기간</span>
-              <span className="reservation-detail-value">
-                <input
-                  className="detail-input"
-                  type="text"
-                  name="period"
-                  value={formData.period}
-                  onChange={handleChange}
-                  placeholder="YYYY-MM-DD ~ YYYY-MM-DD"
-                />
-              </span>
+              <div>
+                <div>
+                  <span className="reservation-edit-detail-value">
+                    <input
+                      type="date"
+                      className="detail-input"
+                      name="startDate_Date"
+                      value={dayjs(formData.startDate).format('YYYY-MM-DD')}
+                      onChange={handleChange}
+                      />
+                    <input
+                      type="time"
+                      className="detail-input"
+                      name="startDate_Time"
+                      value={dayjs(formData.startDate).format('HH:mm')}
+                      onChange={handleChange}
+                    />
+                  </span>
+                </div>
+                <ArrowDown className='reservation-edit-detail-value-arrow' size={18} color='#6B7280' />
+                <div>
+                  <span className="reservation-edit-detail-value">
+                    <input
+                      type="date"
+                      className="detail-input"
+                      name="endDate_Date"
+                      value={dayjs(formData.endDate).format('YYYY-MM-DD')}
+                      onChange={handleChange}
+                      />
+                    <input
+                      type="time"
+                      className="detail-input"
+                      name="endDate_Time"
+                      value={dayjs(formData.endDate).format('HH:mm')}
+                      onChange={handleChange}
+                    />
+                  </span>
+                </div>
+              </div>
             </div>
           </>
         )}
@@ -316,16 +366,24 @@ export default function ReservationForm({ mode }) {
             </div>
             <div className="reservation-detail-row">
               <span className="reservation-detail-label">픽업 요청일</span>
-              <span className="reservation-detail-value">
-                <input
-                  className="detail-input"
-                  type="text"
-                  name="period"
-                  value={formData.period}
-                  onChange={handleChange}
-                  placeholder="YYYY-MM-DD"
-                />
-              </span>
+              <div>
+                <span className="reservation-edit-detail-value">
+                  <input
+                    type="date"
+                    className="detail-input"
+                    name="startDate_Date"
+                    value={dayjs(formData.startDate).format('YYYY-MM-DD')}
+                    onChange={handleChange}
+                    />
+                  <input
+                    type="time"
+                    className="detail-input"
+                    name="startDate_Time"
+                    value={dayjs(formData.startDate).format('HH:mm')}
+                    onChange={handleChange}
+                  />
+                </span>
+              </div>
             </div>
           </>
         )}
@@ -353,22 +411,26 @@ export default function ReservationForm({ mode }) {
         </div>
 
         {/* 담당 기사 */}
-        <div className="reservation-detail-row">
-          <span className="reservation-detail-label">담당기사</span>
-          <span className="reservation-detail-value">
-            <input
-              className="detail-input"
-              type="text"
-              name="driver"
-              value={formData.driver}
-              onChange={handleChange}
-              placeholder="기사 배정"
-            />
-          </span>
-        </div>
+        {
+          !isStorage && (
+            <div className="reservation-detail-row">
+              <span className="reservation-detail-label">담당기사</span>
+              <span className="reservation-detail-value">
+                <input
+                  className="detail-input"
+                  type="text"
+                  name="driver"
+                  value={formData.driver}
+                  onChange={handleChange}
+                  placeholder="기사 배정"
+                />
+              </span>
+            </div>
+          )
+        }
 
         {/* 요청사항 */}
-        <div className="reservation-detail-row" style={{ flexDirection: 'column', gap: '8px', borderBottom: 'none' }}>
+        <div className="reservation-detail-row" style={{ flexDirection: 'column', gap: '8px' }}>
           <span className="reservation-detail-label">요청사항</span>
           <div className="reservation-detail-value" style={{ width: '100%', maxWidth: '100%' }}>
             <textarea

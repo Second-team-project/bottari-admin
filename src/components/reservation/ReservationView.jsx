@@ -39,8 +39,6 @@ export default function ReservationView() {
     return labels[state] || state;
   };
 
-  console.log(selectedReservation);
-
   return (
     <div className="reservation-detail-panel">
       <div className="reservation-detail-header">
