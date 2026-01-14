@@ -11,7 +11,6 @@ import { PatternFormat } from 'react-number-format';
 export default function ReservationList() {
   const dispatch = useDispatch();
   const { reservations, loading, panel, totalCount } = useSelector((state) => state.reservation);
-
   
   // 기간 설정 함수
   function defaultPeriod() {
@@ -218,7 +217,12 @@ export default function ReservationList() {
                   </span>
                 </div>
                 <div className='reservation-list-col-driver' style={{ fontWeight: item.driverName !== '미배정' ? 'bold' : 'normal' }}>
-                  {item.reservationsDrivers?.[0]?.driverName || '미배정'}
+                  {/* 코드가 'S'로 시작하면(보관) 기사 표시 안 함 (- 처리), 아니면 기사명 or 미배정 */}
+                  {item.code?.startsWith('S') ? (
+                    <span style={{ color: '#ccc' }}></span> 
+                  ) : (
+                    item.reservIdDriverAssignments[0]?.driverAssignmentDriver?.driverName || '미배정'
+                  )}
                 </div>
                 <div className='reservation-list-col-actions'>
                   <button 

@@ -21,6 +21,9 @@ const slice = createSlice({
   name: 'reservation',
   initialState,
   reducers: {
+    setReservations(state, action) {
+      state.reservations = action.payload;
+    },
     // 패널 열기(어떤 모드로 열 건지, 어떤 데이터를 보여줄 건지)
     openPanel: (state, action) => {
       const { mode } = action.payload; // payload: { mode: 'edit', data: object }
@@ -103,8 +106,9 @@ const slice = createSlice({
 });
 
 export const {
+  setReservations,
   openPanel,
   closePanel,
-  clearError
+  clearError,
 } = slice.actions;
 export default slice.reducer;

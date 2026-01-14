@@ -1,9 +1,9 @@
 import { ArrowDown, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { closePanel, openPanel } from '../../store/slices/reservationSlice.js';
+import { closePanel, openPanel, setReservations } from '../../store/slices/reservationSlice.js';
 import { reservationStoreThunk, reservationUpdateThunk } from '../../store/thunks/reservationThunk';
-import { driverIndexAllThunk, driverIndexThunk } from '../../store/thunks/driverThunk.js';
+import { driverIndexAllThunk } from '../../store/thunks/driverThunk.js';
 import LuggageEditor from './components/LuggageEditor';
 import './ReservationDetail.css';
 import { getAdditionalPricing, getPricing } from '../../api/pricingApi.js';
@@ -28,9 +28,11 @@ const INITIAL_FORM_DATA = {
 
 export default function ReservationForm({ mode }) {
   const dispatch = useDispatch();
-  const { selectedReservation } = useSelector((state) => state.reservation);
+  const { selectedReservation, reservations } = useSelector((state) => state.reservation);
   const { drivers } = useSelector((state) => state.driver);
   
+  console.log('==== [DEBUG] 리덕스 기사 목록 (drivers):', drivers);
+
   const isCreate = mode === 'store';
   const isUpdate = mode === 'update';
 
@@ -48,6 +50,8 @@ export default function ReservationForm({ mode }) {
       return { ...INITIAL_FORM_DATA };
     }
     
+    console.log('==== [DEBUG] 선택된 예약 정보 (selectedReservation):', selectedReservation);
+
     // 주소 계산
     let address = '';
     if (isStorage) {
@@ -76,8 +80,10 @@ export default function ReservationForm({ mode }) {
       startDate = delivery?.startedAt || selectedReservation.createdAt;
     }
 
-    // 기사 정보
-    const assignedDriverId = selectedReservation.reservationsDrivers?.[0]?.id || '';
+    // 배정된 기사 정보
+    const assignedDriverId = selectedReservation.reservIdDriverAssignments[0]?.driverAssignmentDriver.id || '';
+
+    console.log('==== [DEBUG] 기존 배정된 기사 ID:', assignedDriverId);
 
     // 예약자 정보
     const booker = selectedReservation.reservIdBookers?.[0];
@@ -254,6 +260,10 @@ export default function ReservationForm({ mode }) {
 
   // 저장/등록 핸들러
   const handleSubmit = async () => {
+    const finalDriverId = formData.driverId ? Number(formData.driverId) : null;
+
+    console.log(`==== [DEBUG] 변환된 driverId: ${finalDriverId} (Type: ${typeof finalDriverId})`);
+
     if (isCreate) {
       const payload = {
         type: formData.type,
@@ -280,7 +290,7 @@ export default function ReservationForm({ mode }) {
           type: formData.type,
           address: formData.address,
           period: formData.period,
-          driverId: formData.driverId,
+          driverId: finalDriverId,
           bookerInfo: {
             userName: formData.userName,
             phone: formData.phone,
@@ -289,7 +299,19 @@ export default function ReservationForm({ mode }) {
           },
         },
       };
-      await dispatch(reservationUpdateThunk(payload));
+      console.log('==== [DEBUG] 최종 Payload:', payload);
+      const result = await dispatch(reservationUpdateThunk(payload));
+      const newAssignedDriver = result.payload.reservIdDriverAssignments;
+      if(result.type.endsWith('/fulfilled')) {
+        const copyReservations = JSON.parse(JSON.stringify(reservations));
+        const newReservations = copyReservations.map(reservation => {
+          if(reservation.id === result.payload.id) {
+            reservation.reservIdDriverAssignments = newAssignedDriver;
+          }
+          return reservation;
+        });
+        dispatch(setReservations(newReservations));
+      }
     }
   };
 
