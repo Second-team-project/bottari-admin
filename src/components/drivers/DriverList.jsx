@@ -10,7 +10,7 @@ import DirverPanel from './DirverPanel.jsx';
 
 export default function DriverList() {
   const dispatch = useDispatch();
-  const { drivers, totalCount, currentPage, loading, panel } = useSelector((state) => state.driver);
+  const { drivers, totalCount, currentPage, loading, panel, selectedData } = useSelector((state) => state.driver);
   const [searchTerm, setSearchTerm] = useState(''); // 검색창 입력값
 
   // 검색 핸들러
@@ -121,7 +121,7 @@ export default function DriverList() {
                 <div
                   key={driver.id}
                   // 현재 선택된 데이터와 ID가 같으면 selected 클래스 추가
-                  className={`driver-list-row ${panel.selectedData?.id === driver.id ? 'selected' : ''}`}
+                  className={`driver-list-row ${selectedData?.id === driver.id ? 'selected' : ''}`}
                   onClick={() => handleRowClick(driver)}
                 >
                   <div className='driver-list-col-no'>{(currentPage - 1) * 20 + index + 1}</div>
