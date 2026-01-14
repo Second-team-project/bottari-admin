@@ -10,7 +10,8 @@ import { PatternFormat } from 'react-number-format';
 
 export default function ReservationList() {
   const dispatch = useDispatch();
-  const { reservations, loading, panel, totalCount } = useSelector((state) => state.reservation);
+  const { reservations, loading, panel, totalCount, selectedReservation } = useSelector((state) => state.reservation);
+
   
   // 기간 설정 함수
   function defaultPeriod() {
@@ -185,7 +186,7 @@ export default function ReservationList() {
             reservations.map((item, index) => (
               <div
                 key={item.id}
-                className={`reservation-list-row ${panel.selectedReservation?.id === item.id ? 'selected' : ''}`}
+                className={`reservation-list-row ${selectedReservation?.id === item.id ? 'selected' : ''}`}
                 onClick={() => handleOpenPanelShowData('show', item.id)} // 행 클릭 시 상세 모드
               >
                 <div className='reservation-list-col-no'>{(filters.page - 1) * filters.limit + index + 1}</div>
@@ -273,7 +274,7 @@ export default function ReservationList() {
       </div>
       {panel.isOpen && (
         <ReservationPanel
-          key={panel.mode + (panel.selectedReservation?.id || '')}
+          key={panel.mode + (selectedReservation?.id || '')}
         />
       )}
     </div>
